@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_coach"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical"
+    android:transitionName="head">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.sunfusheng.GlideImageView
+            android:id="@+id/item_coach_img"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_size_105"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_logo" />
+
+        <ImageView
+            android:id="@+id/item_coach_gender"
+            android:layout_width="@dimen/dimen_size_16"
+            android:layout_height="@dimen/dimen_size_16"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/dimen_size_5"
+            android:src="@mipmap/video_icon07"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dimen_size_10"
+        android:paddingBottom="@dimen/dimen_size_10">
+
+        <TextView
+            android:id="@+id/item_coach_name"
+            style="@style/Font15_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="名称" />
+
+        <TextView
+            android:id="@+id/item_coach_jian"
+            style="@style/Font12_white"
+            android:layout_width="@dimen/dimen_size_45"
+            android:layout_height="@dimen/dimen_size_16"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:background="@color/navigationBarColor"
+            android:gravity="center"
+            android:text="推荐" />
+
+        <TextView
+            android:id="@+id/item_coach_year"
+            style="@style/Font12_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:text="教龄：0年" />
+
+        <TextView
+            android:id="@+id/item_coach_adress"
+            style="@style/Font12_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:text="地区：" />
+
+    </LinearLayout>
+
+</LinearLayout>

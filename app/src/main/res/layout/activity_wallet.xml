@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/wallet_num"
+            style="@style/Font15_white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_size_160"
+            android:layout_margin="@dimen/dimen_size_15"
+            android:background="@mipmap/bj03"
+            android:gravity="center"
+            android:text="￥ 1000"
+            android:textSize="@dimen/sp_size_20" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            android:layout_marginBottom="@dimen/dimen_size_5">
+
+            <Button
+                android:id="@+id/wallet_charge"
+                style="@style/Font16_white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_size_44"
+                android:layout_marginEnd="@dimen/dimen_size_10"
+                android:layout_weight="1"
+                android:background="@mipmap/bj09"
+                android:onClick="doClick"
+                android:text="充值" />
+
+            <Button
+                android:id="@+id/wallet_withdraw"
+                style="@style/Font16_gray"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_size_44"
+                android:layout_marginStart="@dimen/dimen_size_10"
+                android:layout_weight="1"
+                android:background="@mipmap/bj10"
+                android:onClick="doClick"
+                android:text="提现" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/wallet_tab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            app:tabIndicatorColor="@color/red"
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="fixed"
+            app:tabRippleColor="@color/transparent"
+            app:tabSelectedTextColor="@color/red"
+            app:tabTextAppearance="@style/Font15_black"
+            app:tabTextColor="@color/colorAccent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider" />
+
+    </LinearLayout>
+
+    <include layout="@layout/layout_list" />
+
+</LinearLayout>

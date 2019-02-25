@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/item_cash_divider1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_8" />
+
+    <com.loopeer.shadow.ShadowView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/dimen_size_8"
+        android:layout_marginEnd="@dimen/dimen_size_8"
+        app:shadowMargin="@dimen/dimen_size_7"
+        app:shadowRadius="@dimen/dimen_size_5">
+
+        <LinearLayout
+            android:id="@+id/item_cash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/dimen_size_15"
+                android:paddingEnd="@dimen/dimen_size_15">
+
+                <TextView
+                    android:id="@+id/item_cash_type"
+                    style="@style/Font14_gray"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="审核中"
+                    android:textColor="@color/red" />
+
+                <TextView
+                    android:id="@+id/item_cash_num"
+                    style="@style/Font15_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-0" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginStart="@dimen/dimen_size_15"
+                android:layout_marginEnd="@dimen/dimen_size_15"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen_size_15">
+
+                <TextView
+                    android:id="@+id/item_cash_name"
+                    style="@style/Font14_black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="账户名：" />
+
+                <TextView
+                    android:id="@+id/item_cash_card"
+                    style="@style/Font14_black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_5"
+                    android:text="账户号：" />
+
+                <TextView
+                    android:id="@+id/item_cash_time"
+                    style="@style/Font13_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_10"
+                    android:text="时间" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.loopeer.shadow.ShadowView>
+
+    <View
+        android:id="@+id/item_cash_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_8" />
+
+</LinearLayout>

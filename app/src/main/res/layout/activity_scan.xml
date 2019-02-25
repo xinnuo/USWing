@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cn.bingoogolapple.qrcode.zxing.ZXingView
+        android:id="@+id/scan_zxing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qrcv_animTime="1000"
+        app:qrcv_borderColor="@color/gray"
+        app:qrcv_borderSize="@dimen/dimen_size_1"
+        app:qrcv_cornerColor="@color/colorAccent"
+        app:qrcv_cornerLength="@dimen/dimen_size_10"
+        app:qrcv_cornerSize="@dimen/dimen_size_3"
+        app:qrcv_maskColor="#88000000"
+        app:qrcv_rectWidth="@dimen/dimen_size_250"
+        app:qrcv_scanLineColor="@color/white"
+        app:qrcv_scanLineSize="1dp"
+        app:qrcv_topOffset="@dimen/dimen_size_100" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_size_390">
+
+        <ImageView
+            android:id="@+id/scan_light"
+            android:layout_width="@dimen/dimen_size_50"
+            android:layout_height="@dimen/dimen_size_50"
+            android:onClick="doClick"
+            android:src="@mipmap/index_icon13"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/scan_img"
+            android:layout_width="@dimen/dimen_size_50"
+            android:layout_height="@dimen/dimen_size_50"
+            android:layout_marginStart="@dimen/dimen_size_50"
+            android:onClick="doClick"
+            android:src="@mipmap/index_icon14"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+</FrameLayout>

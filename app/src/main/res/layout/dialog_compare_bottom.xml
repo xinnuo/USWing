@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dimen_size_10"
+        android:paddingEnd="@dimen/dimen_size_10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dimen_size_15"
+            android:paddingBottom="@dimen/dimen_size_15">
+
+            <ImageView
+                android:id="@+id/dialog_compare_coach"
+                android:layout_width="@dimen/dimen_size_70"
+                android:layout_height="@dimen/dimen_size_70"
+                android:src="@mipmap/video_icon03"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/Font15_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_size_5"
+                android:text="教练魔频" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dimen_size_15"
+            android:paddingBottom="@dimen/dimen_size_15">
+
+            <ImageView
+                android:id="@+id/dialog_compare_mine"
+                android:layout_width="@dimen/dimen_size_70"
+                android:layout_height="@dimen/dimen_size_70"
+                android:src="@mipmap/video_icon04"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/Font15_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_size_5"
+                android:text="我的魔频" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dimen_size_15"
+            android:paddingBottom="@dimen/dimen_size_15">
+
+            <ImageView
+                android:id="@+id/dialog_compare_collect"
+                android:layout_width="@dimen/dimen_size_70"
+                android:layout_height="@dimen/dimen_size_70"
+                android:src="@mipmap/video_icon05"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/Font15_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_size_5"
+                android:text="我的收藏" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/dialog_compare_close"
+        android:layout_width="@dimen/dimen_size_45"
+        android:layout_height="@dimen/dimen_size_45"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_size_10"
+        android:layout_marginBottom="@dimen/dimen_size_20"
+        android:src="@mipmap/video_icon06"
+        tools:ignore="ContentDescription" />
+
+</LinearLayout>

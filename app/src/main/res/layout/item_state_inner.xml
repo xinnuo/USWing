@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_inner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_size_8"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/item_inner_title1"
+            style="@style/Font14_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tv_bg_selector"
+            android:gravity="center_vertical"
+            android:text="名称"
+            android:textColor="@color/colorAccent" />
+
+        <LinearLayout
+            android:id="@+id/item_inner_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/Font14_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="回复" />
+
+            <TextView
+                android:id="@+id/item_inner_title2"
+                style="@style/Font14_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tv_bg_selector"
+                android:text="名称"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/Font14_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="："
+            android:textColor="@color/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_inner_content"
+                style="@style/Font14_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/dimen_size_3"
+                android:minHeight="@dimen/dimen_size_20"
+                android:text="内容" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

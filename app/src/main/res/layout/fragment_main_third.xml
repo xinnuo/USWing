@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.meida.fragment.MainThirdFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_45"
+        android:background="@color/white">
+
+        <TextView
+            style="@style/Font18_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dimen_size_60"
+            android:layout_marginEnd="@dimen/dimen_size_60"
+            android:gravity="center"
+            android:text="圈子" />
+
+        <TextView
+            android:id="@+id/third_issue"
+            style="@style/Font15_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:padding="@dimen/dimen_size_10"
+            android:text="发布" />
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/third_tab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_size_50"
+            app:tabIndicatorColor="@color/red"
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/Font15_black"
+            app:tabRippleColor="@color/transparent"
+            app:tabSelectedTextColor="@color/red"
+            app:tabTextColor="@color/colorAccent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider" />
+
+    </LinearLayout>
+
+    <include layout="@layout/layout_list" />
+
+</LinearLayout>

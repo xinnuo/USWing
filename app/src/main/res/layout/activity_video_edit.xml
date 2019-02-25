@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_size_50"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dimen_size_15"
+            android:paddingEnd="@dimen/dimen_size_15">
+
+            <TextView
+                style="@style/Font15_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="主题名称" />
+
+            <EditText
+                android:id="@+id/edit_name"
+                style="@style/Font15_black"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:hint="请输入主题名称"
+                android:paddingStart="@dimen/dimen_size_20"
+                android:paddingEnd="@dimen/dimen_size_0"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            android:background="@color/divider" />
+
+        <com.allen.library.SuperTextView
+            android:id="@+id/edit_add"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_size_50"
+            app:sBottomLineMargin="@dimen/dimen_size_15"
+            app:sLeftTextColor="@color/black"
+            app:sLeftTextMarginLeft="@dimen/dimen_size_15"
+            app:sLeftTextSize="@dimen/sp_size_15"
+            app:sLeftTextString="动作标签"
+            app:sLineShow="bottom"
+            app:sRightIconMarginRight="@dimen/dimen_size_15"
+            app:sRightIconRes="@mipmap/index_icon16"
+            app:sRightIconSize="@dimen/dimen_size_16"
+            app:sRightTextColor="@color/gray"
+            app:sRightTextMarginRight="@dimen/dimen_size_35"
+            app:sRightTextString="添加" />
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/edit_mark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_size_15"
+            app:max_select="0" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="@dimen/dimen_size_10"
+        android:background="@color/divider" />
+
+    <EditText
+        android:id="@+id/edit_memo"
+        style="@style/Font15_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="top"
+        android:hint="请输入备注内容"
+        android:lineSpacingExtra="@dimen/dimen_size_5"
+        android:maxLength="150"
+        android:minLines="4"
+        android:padding="@dimen/dimen_size_15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <Button
+        android:id="@+id/bt_save"
+        style="@style/Font16_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_44"
+        android:layout_margin="@dimen/dimen_size_20"
+        android:background="@mipmap/btn01"
+        android:onClick="doClick"
+        android:text="保存" />
+
+</LinearLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        style="@style/Font18_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_size_20"
+        android:gravity="center"
+        android:text="标题" />
+
+    <TextView
+        android:id="@+id/dialog_hint"
+        style="@style/Font15_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_size_20"
+        android:layout_marginTop="@dimen/dimen_size_20"
+        android:layout_marginEnd="@dimen/dimen_size_20"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/dimen_size_5"
+        android:text="内容" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_size_20"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/dialog_sure"
+            style="@style/Font14_white"
+            android:layout_width="@dimen/dimen_size_85"
+            android:layout_height="@dimen/dimen_size_39"
+            android:layout_marginEnd="@dimen/dimen_size_10"
+            android:background="@mipmap/btn06"
+            android:gravity="center"
+            android:onClick="doClick"
+            android:text="确定" />
+
+        <TextView
+            android:id="@+id/dialog_cancel"
+            style="@style/Font14_gray"
+            android:layout_width="@dimen/dimen_size_85"
+            android:layout_height="@dimen/dimen_size_39"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:background="@mipmap/btn02"
+            android:gravity="center"
+            android:onClick="doClick"
+            android:text="取消" />
+
+    </LinearLayout>
+
+</LinearLayout>

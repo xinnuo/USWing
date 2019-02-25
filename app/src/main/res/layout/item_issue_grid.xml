@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_size_5"
+    android:layout_marginEnd="@dimen/dimen_size_5">
+
+    <com.sunfusheng.GlideImageView
+        android:id="@+id/item_issue_img"
+        android:layout_width="@dimen/dimen_size_90"
+        android:layout_height="@dimen/dimen_size_90"
+        android:layout_marginTop="@dimen/dimen_size_7"
+        android:layout_marginEnd="@dimen/dimen_size_7"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/video_icon19"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/item_issue_del"
+        android:layout_width="@dimen/dimen_size_25"
+        android:layout_height="@dimen/dimen_size_25"
+        android:layout_gravity="end"
+        android:paddingStart="@dimen/dimen_size_5"
+        android:paddingEnd="@dimen/dimen_size_0"
+        android:paddingBottom="@dimen/dimen_size_5"
+        android:src="@mipmap/video_icon10"
+        tools:ignore="ContentDescription" />
+
+    <com.meida.view.DrawableCenterTextView
+        android:id="@+id/item_issue_duration"
+        android:layout_width="@dimen/dimen_size_90"
+        android:layout_height="@dimen/dimen_size_30"
+        android:layout_gravity="bottom"
+        android:background="@drawable/buybuybuy"
+        android:drawableStart="@drawable/video_icon"
+        android:drawablePadding="@dimen/dimen_size_8"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dimen_size_0"
+        android:text="00:00"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_size_11" />
+
+</FrameLayout>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/info_img_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:onClick="doClick"
+        android:paddingStart="@dimen/dimen_size_15"
+        android:paddingTop="@dimen/dimen_size_10"
+        android:paddingEnd="@dimen/dimen_size_15"
+        android:paddingBottom="@dimen/dimen_size_10">
+
+        <TextView
+            style="@style/Font15_black"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="头像" />
+
+        <com.sunfusheng.GlideImageView
+            android:id="@+id/info_img"
+            android:layout_width="@dimen/dimen_size_50"
+            android:layout_height="@dimen/dimen_size_50"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_logo" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/info_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_46"
+        android:layout_marginTop="@dimen/dimen_size_10"
+        app:sBottomLineMargin="@dimen/dimen_size_15"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextMarginLeft="@dimen/dimen_size_15"
+        app:sLeftTextSize="@dimen/sp_size_15"
+        app:sLeftTextString="昵称"
+        app:sLineShow="both"
+        app:sRightIconMarginRight="@dimen/dimen_size_15"
+        app:sRightIconRes="@mipmap/index_icon16"
+        app:sRightIconSize="@dimen/dimen_size_16"
+        app:sRightTextColor="@color/black"
+        app:sRightTextMarginRight="@dimen/dimen_size_35"
+        app:sTopLineMargin="@dimen/dimen_size_0" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/info_tel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_45.5"
+        app:sBottomLineMargin="@dimen/dimen_size_15"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextMarginLeft="@dimen/dimen_size_15"
+        app:sLeftTextSize="@dimen/sp_size_15"
+        app:sLeftTextString="手机号"
+        app:sLineShow="bottom"
+        app:sRightIconMarginRight="@dimen/dimen_size_15"
+        app:sRightIconRes="@mipmap/index_icon16"
+        app:sRightIconSize="@dimen/dimen_size_16"
+        app:sRightTextColor="@color/black"
+        app:sRightTextMarginRight="@dimen/dimen_size_35" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/info_gender"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_45.5"
+        app:sBottomLineMargin="@dimen/dimen_size_15"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextMarginLeft="@dimen/dimen_size_15"
+        app:sLeftTextSize="@dimen/sp_size_15"
+        app:sLeftTextString="性别"
+        app:sLineShow="bottom"
+        app:sRightIconMarginRight="@dimen/dimen_size_15"
+        app:sRightIconRes="@mipmap/index_icon16"
+        app:sRightIconSize="@dimen/dimen_size_16"
+        app:sRightTextColor="@color/black"
+        app:sRightTextMarginRight="@dimen/dimen_size_35" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/info_adress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_45.5"
+        app:sBottomLineMargin="@dimen/dimen_size_0"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextMarginLeft="@dimen/dimen_size_15"
+        app:sLeftTextSize="@dimen/sp_size_15"
+        app:sLeftTextString="地址"
+        app:sLineShow="bottom"
+        app:sRightIconMarginRight="@dimen/dimen_size_15"
+        app:sRightIconRes="@mipmap/index_icon16"
+        app:sRightIconSize="@dimen/dimen_size_16"
+        app:sRightTextColor="@color/black"
+        app:sRightTextMarginRight="@dimen/dimen_size_35" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/info_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_46"
+        android:layout_marginTop="@dimen/dimen_size_10"
+        app:sBothLineMargin="@dimen/dimen_size_0"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextMarginLeft="@dimen/dimen_size_15"
+        app:sLeftTextSize="@dimen/sp_size_15"
+        app:sLeftTextString="修改密码"
+        app:sLineShow="both"
+        app:sRightIconMarginRight="@dimen/dimen_size_15"
+        app:sRightIconRes="@mipmap/index_icon16"
+        app:sRightIconSize="@dimen/dimen_size_16"
+        app:sRightTextColor="@color/black"
+        app:sRightTextMarginRight="@dimen/dimen_size_35" />
+
+</LinearLayout>

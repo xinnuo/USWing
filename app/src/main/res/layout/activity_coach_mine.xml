@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bj04"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_45"
+        android:layout_marginTop="@dimen/toolbar_padding_top">
+
+        <TextView
+            style="@style/Font18_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dimen_size_60"
+            android:layout_marginEnd="@dimen/dimen_size_60"
+            android:gravity="center"
+            android:text="我是教练" />
+
+        <ImageView
+            android:id="@id/iv_nav_back"
+            android:layout_width="@dimen/dimen_size_90"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:onClick="doClick"
+            android:paddingStart="@dimen/dimen_size_0"
+            android:paddingTop="@dimen/dimen_size_15"
+            android:paddingEnd="@dimen/dimen_size_45"
+            android:paddingBottom="@dimen/dimen_size_15"
+            android:src="@mipmap/index_icon17"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
+
+    <com.loopeer.shadow.ShadowView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/dimen_size_15"
+        android:layout_marginTop="@dimen/dimen_size_120"
+        android:layout_marginEnd="@dimen/dimen_size_15"
+        android:layout_marginBottom="@dimen/dimen_size_45"
+        android:background="@color/white"
+        app:shadowMargin="@dimen/dimen_size_5"
+        app:shadowRadius="@dimen/dimen_size_5">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/dimen_size_30"
+                android:src="@mipmap/bj05"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/coach_watch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_size_50"
+                    app:sBottomLineMargin="@dimen/dimen_size_15"
+                    app:sLeftIconMarginLeft="@dimen/dimen_size_10"
+                    app:sLeftIconRes="@mipmap/per_icon09"
+                    app:sLeftIconSize="@dimen/dimen_size_30"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextMarginLeft="@dimen/dimen_size_5"
+                    app:sLeftTextSize="@dimen/sp_size_15"
+                    app:sLeftTextString="我的粉丝"
+                    app:sLineShow="bottom"
+                    app:sRightIconMarginRight="@dimen/dimen_size_15"
+                    app:sRightIconRes="@mipmap/index_icon16"
+                    app:sRightIconSize="@dimen/dimen_size_16"
+                    app:sRightTextColor="@color/black"
+                    app:sRightTextMarginRight="@dimen/dimen_size_35"
+                    app:sRightTextString="0" />
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/coach_honor"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_size_50"
+                    app:sBottomLineMargin="@dimen/dimen_size_15"
+                    app:sLeftIconMarginLeft="@dimen/dimen_size_10"
+                    app:sLeftIconRes="@mipmap/per_icon15"
+                    app:sLeftIconSize="@dimen/dimen_size_30"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextMarginLeft="@dimen/dimen_size_5"
+                    app:sLeftTextSize="@dimen/sp_size_15"
+                    app:sLeftTextString="我的荣誉"
+                    app:sLineShow="bottom"
+                    app:sRightIconMarginRight="@dimen/dimen_size_15"
+                    app:sRightIconRes="@mipmap/index_icon16"
+                    app:sRightIconSize="@dimen/dimen_size_16" />
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/coach_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_size_50"
+                    app:sBottomLineMargin="@dimen/dimen_size_15"
+                    app:sLeftIconMarginLeft="@dimen/dimen_size_10"
+                    app:sLeftIconRes="@mipmap/per_icon16"
+                    app:sLeftIconSize="@dimen/dimen_size_30"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextMarginLeft="@dimen/dimen_size_5"
+                    app:sLeftTextSize="@dimen/sp_size_15"
+                    app:sLeftTextString="我的简介"
+                    app:sLineShow="bottom"
+                    app:sRightIconMarginRight="@dimen/dimen_size_15"
+                    app:sRightIconRes="@mipmap/index_icon16"
+                    app:sRightIconSize="@dimen/dimen_size_16" />
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/coach_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_size_50"
+                    app:sBottomLineMargin="@dimen/dimen_size_15"
+                    app:sLeftIconMarginLeft="@dimen/dimen_size_10"
+                    app:sLeftIconRes="@mipmap/per_icon17"
+                    app:sLeftIconSize="@dimen/dimen_size_30"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextMarginLeft="@dimen/dimen_size_5"
+                    app:sLeftTextSize="@dimen/sp_size_15"
+                    app:sLeftTextString="我的魔频"
+                    app:sLineShow="bottom"
+                    app:sRightIconMarginRight="@dimen/dimen_size_15"
+                    app:sRightIconRes="@mipmap/index_icon16"
+                    app:sRightIconSize="@dimen/dimen_size_16"
+                    app:sRightTextColor="@color/black"
+                    app:sRightTextMarginRight="@dimen/dimen_size_35" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_size_50"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_size_30"
+                        android:layout_height="@dimen/dimen_size_30"
+                        android:layout_marginStart="@dimen/dimen_size_10"
+                        android:src="@mipmap/per_icon18"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        style="@style/Font15_black"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_size_5"
+                        android:layout_weight="1"
+                        android:text="我的特长" />
+
+                    <RadioGroup
+                        android:id="@+id/coach_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/dimen_size_20"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/coach_check1"
+                            style="@style/Font14_black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/dimen_size_20"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/rb_charge_selector"
+                            android:drawablePadding="@dimen/dimen_size_5"
+                            android:text="铁杆" />
+
+                        <RadioButton
+                            android:id="@+id/coach_check2"
+                            style="@style/Font14_black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/rb_charge_selector"
+                            android:drawablePadding="@dimen/dimen_size_5"
+                            android:text="木杆" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:layout_marginStart="@dimen/dimen_size_15"
+                    android:layout_marginEnd="@dimen/dimen_size_15"
+                    android:background="#EDEDED" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </com.loopeer.shadow.ShadowView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_size_90"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.loopeer.shadow.ShadowView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shadowMargin="@dimen/dimen_size_5"
+            app:shadowRadius="@dimen/dimen_size_5">
+
+            <com.sunfusheng.GlideImageView
+                android:id="@+id/coach_img"
+                android:layout_width="@dimen/dimen_size_80"
+                android:layout_height="@dimen/dimen_size_80"
+                android:src="@mipmap/default_logo" />
+
+        </com.loopeer.shadow.ShadowView>
+
+        <TextView
+            android:id="@+id/coach_name"
+            style="@style/Font18_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:text="名称"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</FrameLayout>

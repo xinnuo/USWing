@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="@dimen/dimen_size_10"
+        android:background="@color/divider" />
+
+    <EditText
+        android:id="@+id/add_memo"
+        style="@style/Font15_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="top"
+        android:hint="请输入请求备注"
+        android:lineSpacingExtra="@dimen/dimen_size_5"
+        android:maxLength="150"
+        android:padding="@dimen/dimen_size_15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <Button
+        android:id="@+id/bt_add"
+        style="@style/Font16_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_44"
+        android:layout_marginStart="@dimen/dimen_size_20"
+        android:layout_marginTop="@dimen/dimen_size_30"
+        android:layout_marginEnd="@dimen/dimen_size_20"
+        android:background="@mipmap/btn01"
+        android:onClick="doClick"
+        android:text="添加" />
+
+</LinearLayout>

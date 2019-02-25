@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_contact"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/dimen_size_15"
+        android:paddingTop="@dimen/dimen_size_10"
+        android:paddingEnd="@dimen/dimen_size_15"
+        android:paddingBottom="@dimen/dimen_size_10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/item_contact_check"
+                android:layout_width="@dimen/dimen_size_18"
+                android:layout_height="@dimen/dimen_size_18"
+                android:layout_marginEnd="@dimen/dimen_size_15"
+                android:background="@drawable/rb_charge_selector"
+                android:button="@null"
+                android:clickable="false" />
+
+            <com.sunfusheng.GlideImageView
+                android:id="@+id/item_contact_img"
+                android:layout_width="@dimen/dimen_size_50"
+                android:layout_height="@dimen/dimen_size_50"
+                android:src="@mipmap/default_logo" />
+
+            <TextView
+                android:id="@+id/item_contact_name"
+                style="@style/Font15_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_size_15"
+                android:text="名称" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/item_contact_divider1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginStart="@dimen/dimen_size_15"
+        android:layout_marginEnd="@dimen/dimen_size_15"
+        android:background="@color/divider" />
+
+    <View
+        android:id="@+id/item_contact_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider"
+        android:visibility="gone" />
+
+</LinearLayout>

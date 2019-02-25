@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.loopeer.shadow.ShadowView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/dimen_size_10"
+            app:shadowMargin="@dimen/dimen_size_10"
+            app:shadowRadius="@dimen/dimen_size_5">
+
+            <EditText
+                android:id="@+id/charge_num"
+                style="@style/Font15_black"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_size_75"
+                android:background="@color/transparent"
+                android:hint="请输入充值金额"
+                android:inputType="numberDecimal"
+                android:maxLength="12"
+                android:maxLines="1"
+                android:paddingStart="@dimen/dimen_size_15"
+                android:paddingEnd="@dimen/dimen_size_15"
+                android:textSize="@dimen/sp_size_20" />
+
+        </com.loopeer.shadow.ShadowView>
+
+        <TextView
+            style="@style/Font15_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_20"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:text="充值方式：" />
+
+        <RadioGroup
+            android:id="@+id/charge_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/charge_check1"
+                style="@style/Font15_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:button="@null"
+                android:drawableStart="@mipmap/per_icon21"
+                android:drawableEnd="@drawable/rb_charge_selector"
+                android:drawablePadding="@dimen/dimen_size_10"
+                android:gravity="start|center_vertical"
+                android:padding="@dimen/dimen_size_15"
+                android:text="支付宝充值" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginStart="@dimen/dimen_size_15"
+                android:layout_marginEnd="@dimen/dimen_size_15"
+                android:background="@color/divider" />
+
+            <RadioButton
+                android:id="@+id/charge_check2"
+                style="@style/Font15_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:button="@null"
+                android:drawableStart="@mipmap/per_icon22"
+                android:drawableEnd="@drawable/rb_charge_selector"
+                android:drawablePadding="@dimen/dimen_size_10"
+                android:gravity="start|center_vertical"
+                android:padding="@dimen/dimen_size_15"
+                android:text="微信充值" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <Button
+        android:id="@+id/bt_done"
+        style="@style/Font16_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_44"
+        android:layout_margin="@dimen/dimen_size_20"
+        android:background="@mipmap/btn01"
+        android:onClick="doClick"
+        android:text="确认" />
+
+</LinearLayout>

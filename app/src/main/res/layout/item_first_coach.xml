@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_coach"
+    android:layout_width="@dimen/dimen_size_118"
+    android:layout_height="@dimen/dimen_size_250"
+    android:layout_marginEnd="@dimen/dimen_size_10"
+    android:descendantFocusability="blocksDescendants"
+    android:transitionName="head">
+
+    <com.sunfusheng.GlideImageView
+        android:id="@+id/item_first_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/default_coach" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/dimen_size_9"
+        android:layout_marginEnd="@dimen/dimen_size_9"
+        android:layout_marginBottom="@dimen/dimen_size_15"
+        android:background="#CCFFFFFF"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dimen_size_10"
+        android:paddingBottom="@dimen/dimen_size_10">
+
+        <TextView
+            android:id="@+id/item_first_name"
+            style="@style/Font15_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="名称" />
+
+        <TextView
+            android:id="@+id/item_first_jian"
+            style="@style/Font12_white"
+            android:layout_width="@dimen/dimen_size_45"
+            android:layout_height="@dimen/dimen_size_16"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:background="@color/navigationBarColor"
+            android:gravity="center"
+            android:text="推荐" />
+
+        <TextView
+            android:id="@+id/item_first_year"
+            style="@style/Font12_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:text="教龄：0年" />
+
+        <TextView
+            android:id="@+id/item_first_adress"
+            style="@style/Font12_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:text="地区：" />
+
+    </LinearLayout>
+
+</FrameLayout>

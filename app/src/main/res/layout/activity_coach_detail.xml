@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_size_10">
+
+            <com.loopeer.shadow.ShadowView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_size_50"
+                android:layout_marginEnd="@dimen/dimen_size_15"
+                app:shadowMargin="@dimen/dimen_size_10"
+                app:shadowRadius="@dimen/dimen_size_5">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_size_150">
+
+                    <View
+                        android:layout_width="@dimen/dimen_size_90"
+                        android:layout_height="@dimen/dimen_size_150"
+                        android:background="@color/colorAccent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_size_90"
+                        android:layout_marginTop="@dimen/dimen_size_15">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/coach_year"
+                                style="@style/Font18_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dimen_size_35"
+                                android:gravity="center"
+                                android:text="0年"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/sp_size_20" />
+
+                            <TextView
+                                style="@style/Font13_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="教龄" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/coach_area"
+                                style="@style/Font18_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dimen_size_35"
+                                android:gravity="center"
+                                android:textColor="@color/red" />
+
+                            <TextView
+                                style="@style/Font13_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="地区" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/coach_watch"
+                                style="@style/Font18_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dimen_size_35"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/sp_size_20" />
+
+                            <TextView
+                                style="@style/Font13_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="关注量" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="@dimen/dimen_size_46"
+                        android:layout_marginBottom="@dimen/dimen_size_15"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/coach_name"
+                                    style="@style/Font18_black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="名称" />
+
+                                <TextView
+                                    android:id="@+id/coach_name2"
+                                    style="@style/Font18_white"
+                                    android:layout_width="@dimen/dimen_size_50"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:text="名称" />
+
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/coach_tel"
+                                style="@style/Font13_light"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen_size_5"
+                                android:layout_marginTop="@dimen/dimen_size_10"
+                                android:text="电话" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/coach_add"
+                            android:layout_width="@dimen/dimen_size_45"
+                            android:layout_height="@dimen/dimen_size_45"
+                            android:layout_marginEnd="@dimen/dimen_size_10"
+                            android:onClick="doClick"
+                            android:src="@mipmap/video_icon14"
+                            tools:ignore="ContentDescription" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </com.loopeer.shadow.ShadowView>
+
+            <FrameLayout
+                android:layout_width="@dimen/dimen_size_70"
+                android:layout_height="@dimen/dimen_size_70"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/sp_size_20">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/coach_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/default_logo"
+                    android:transitionName="head"
+                    app:riv_border_color="@color/colorAccent"
+                    app:riv_border_width="@dimen/dimen_size_3"
+                    app:riv_oval="true" />
+
+                <ImageView
+                    android:id="@+id/coach_gender"
+                    android:layout_width="@dimen/dimen_size_15"
+                    android:layout_height="@dimen/dimen_size_15"
+                    android:layout_gravity="end|bottom"
+                    android:layout_margin="@dimen/dimen_size_10"
+                    android:src="@mipmap/video_icon07"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginTop="@dimen/dimen_size_10"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            tools:ignore="DisableBaselineAlignment">
+
+            <LinearLayout
+                android:id="@+id/coach_video"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen_size_100"
+                android:layout_weight="1"
+                android:background="@mipmap/bj07"
+                android:gravity="center"
+                android:onClick="doClick"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_size_50"
+                    android:layout_height="@dimen/dimen_size_50"
+                    android:src="@mipmap/video_icon15"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    style="@style/Font15_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="魔频" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/coach_state"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen_size_100"
+                android:layout_weight="1"
+                android:background="@mipmap/bj08"
+                android:gravity="center"
+                android:onClick="doClick"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_size_50"
+                    android:layout_height="@dimen/dimen_size_50"
+                    android:src="@mipmap/video_icon16"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    style="@style/Font15_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="动态" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.loopeer.shadow.ShadowView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginTop="@dimen/dimen_size_10"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            app:shadowMargin="@dimen/dimen_size_10"
+            app:shadowRadius="@dimen/dimen_size_5">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_size_50"
+                    android:layout_height="@dimen/dimen_size_20"
+                    android:layout_gravity="end|bottom"
+                    android:layout_margin="@dimen/dimen_size_20"
+                    android:src="@mipmap/video_bj01"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_size_15">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="@dimen/dimen_size_70"
+                            android:layout_height="@dimen/dimen_size_4"
+                            android:layout_gravity="bottom"
+                            android:layout_marginBottom="@dimen/dimen_size_3"
+                            android:background="#CCDA382A" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                style="@style/Font15_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="荣誉" />
+
+                            <TextView
+                                style="@style/Font12_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen_size_5"
+                                android:text="honor" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/coach_honor"
+                        style="@style/Font14_black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_size_10"
+                        android:lineSpacingExtra="@dimen/dimen_size_8" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </com.loopeer.shadow.ShadowView>
+
+        <com.loopeer.shadow.ShadowView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginTop="@dimen/dimen_size_5"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            app:shadowMargin="@dimen/dimen_size_10"
+            app:shadowRadius="@dimen/dimen_size_5">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_size_50"
+                    android:layout_height="@dimen/dimen_size_20"
+                    android:layout_gravity="end|bottom"
+                    android:layout_margin="@dimen/dimen_size_20"
+                    android:src="@mipmap/video_bj01"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_size_15">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="@dimen/dimen_size_100"
+                            android:layout_height="@dimen/dimen_size_4"
+                            android:layout_gravity="bottom"
+                            android:layout_marginBottom="@dimen/dimen_size_3"
+                            android:background="#CCDA382A" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                style="@style/Font15_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="简介" />
+
+                            <TextView
+                                style="@style/Font12_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen_size_5"
+                                android:text="Introduction" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/coach_info"
+                        style="@style/Font14_black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_size_10"
+                        android:lineSpacingExtra="@dimen/dimen_size_8" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </com.loopeer.shadow.ShadowView>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

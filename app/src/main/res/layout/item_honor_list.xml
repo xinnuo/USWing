@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_honor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/dimen_size_60"
+            android:paddingStart="@dimen/dimen_size_15"
+            android:paddingTop="@dimen/dimen_size_15"
+            android:paddingEnd="@dimen/dimen_size_10"
+            android:paddingBottom="@dimen/dimen_size_15">
+
+            <TextView
+                android:id="@+id/item_honor_title"
+                style="@style/Font14_black"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_size_10"
+                android:layout_weight="1"
+                android:lineSpacingExtra="@dimen/dimen_size_5"
+                android:text="描述" />
+
+            <ImageView
+                android:id="@+id/item_honor_del"
+                android:layout_width="@dimen/dimen_size_21"
+                android:layout_height="@dimen/dimen_size_21"
+                android:padding="@dimen/dimen_size_5"
+                android:src="@mipmap/per_icon19"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/item_honor_divider1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            android:background="@color/divider" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/item_honor_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider"
+        android:visibility="gone" />
+
+</LinearLayout>

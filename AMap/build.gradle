@@ -1,0 +1,33 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdkVersion
+    defaultConfig {
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionName "6.5.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //设置支持的SO库架构 CPU
+        //处理.so文件时的重要法则:要么全部支持，要么都不支持
+        ndk { abiFilters "armeabi-v7a", "x86" }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+
+    //高德地图
+    // api 'com.amap.api:location:' + versions.amapLocationVersion //定位
+    // api 'com.amap.api:search:' + versions.amapSearch            //搜索
+    // api 'com.amap.api:3dmap:' + versions.amap3DVersion          //3D地图
+    // api 'com.amap.api:navi-3dmap:' + versions.amapNavi3DVersion //导航(含3D地图)
+}

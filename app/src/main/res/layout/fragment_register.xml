@@ -1,0 +1,201 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    tools:context="com.meida.fragment.RegisterFragment">
+
+    <com.loopeer.shadow.ShadowView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/dimen_size_30"
+        android:layout_marginEnd="@dimen/dimen_size_30"
+        app:cornerRadiusBL="@dimen/dimen_size_10"
+        app:cornerRadiusBR="@dimen/dimen_size_10"
+        app:shadowMargin="@dimen/dimen_size_10"
+        app:shadowRadius="@dimen/dimen_size_20">
+
+        <TextView
+            android:id="@+id/register_login"
+            style="@style/Font18_black"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_size_55"
+            android:gravity="center"
+            android:onClick="doClick"
+            android:text="登录"
+            android:textColor="@color/red"
+            tools:ignore="OnClick" />
+
+    </com.loopeer.shadow.ShadowView>
+
+    <com.loopeer.shadow.ShadowView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_size_10"
+        android:layout_marginEnd="@dimen/dimen_size_10"
+        android:layout_marginBottom="@dimen/dimen_size_55"
+        app:cornerRadius="@dimen/dimen_size_10"
+        app:shadowMargin="@dimen/dimen_size_10"
+        app:shadowRadius="@dimen/dimen_size_20">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/Font15_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_size_20"
+                android:layout_marginTop="@dimen/dimen_size_20"
+                android:text="注册"
+                android:textSize="@dimen/sp_size_25" />
+
+            <TextView
+                style="@style/Font15_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_size_20"
+                android:text="sign up"
+                android:textSize="@dimen/sp_size_18" />
+
+            <EditText
+                android:id="@+id/register_tel"
+                style="@style/Font15_black"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_size_45"
+                android:layout_marginStart="@dimen/dimen_size_10"
+                android:layout_marginTop="@dimen/dimen_size_20"
+                android:layout_marginEnd="@dimen/dimen_size_10"
+                android:background="@color/transparent"
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:paddingStart="@dimen/dimen_size_10"
+                android:paddingEnd="@dimen/dimen_size_10"
+                android:textColorHint="@color/light" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginStart="@dimen/dimen_size_20"
+                android:layout_marginEnd="@dimen/dimen_size_20"
+                android:background="@color/divider_dark" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:layout_marginStart="@dimen/dimen_size_10"
+                android:layout_marginTop="@dimen/dimen_size_20"
+                android:layout_marginEnd="@dimen/dimen_size_10"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/register_yzm"
+                    style="@style/Font15_black"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:hint="请输入验证码"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:paddingStart="@dimen/dimen_size_10"
+                    android:paddingEnd="@dimen/dimen_size_10"
+                    android:textColorHint="@color/light" />
+
+                <TextView
+                    android:id="@+id/tv_yzm"
+                    style="@style/Font13_light"
+                    android:layout_width="@dimen/dimen_size_100"
+                    android:layout_height="@dimen/dimen_size_30"
+                    android:layout_marginEnd="@dimen/dimen_size_10"
+                    android:background="@drawable/rec_bg_ova_trans_stroke_black"
+                    android:gravity="center"
+                    android:onClick="doClick"
+                    android:text="获取验证码"
+                    android:textColor="@color/colorAccent"
+                    tools:ignore="OnClick" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginStart="@dimen/dimen_size_20"
+                android:layout_marginEnd="@dimen/dimen_size_20"
+                android:background="@color/divider_dark" />
+
+            <EditText
+                android:id="@+id/register_pwd"
+                style="@style/Font15_black"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_size_45"
+                android:layout_marginStart="@dimen/dimen_size_10"
+                android:layout_marginTop="@dimen/dimen_size_20"
+                android:layout_marginEnd="@dimen/dimen_size_10"
+                android:background="@color/transparent"
+                android:hint="请输入6~20位登录密码"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:paddingStart="@dimen/dimen_size_10"
+                android:paddingEnd="@dimen/dimen_size_10"
+                android:textColorHint="@color/light" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginStart="@dimen/dimen_size_20"
+                android:layout_marginEnd="@dimen/dimen_size_20"
+                android:background="@color/divider_dark" />
+
+            <Button
+                android:id="@+id/bt_register"
+                style="@style/Font16_white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_size_44"
+                android:layout_marginStart="@dimen/dimen_size_20"
+                android:layout_marginTop="@dimen/dimen_size_20"
+                android:layout_marginEnd="@dimen/dimen_size_20"
+                android:layout_marginBottom="@dimen/dimen_size_10"
+                android:background="@mipmap/btn05"
+                android:onClick="doClick"
+                android:text="注册"
+                tools:ignore="OnClick" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_size_20"
+                android:layout_marginBottom="@dimen/dimen_size_10">
+
+                <CheckBox
+                    android:id="@+id/register_check"
+                    style="@style/Font14_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8" />
+
+                <TextView
+                    android:id="@+id/register_deal"
+                    style="@style/Font14_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="doClick"
+                    android:paddingTop="@dimen/dimen_size_5"
+                    android:paddingBottom="@dimen/dimen_size_5"
+                    android:text="同意高球魔镜《用户注册协议》"
+                    tools:ignore="OnClick" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.loopeer.shadow.ShadowView>
+
+</FrameLayout>

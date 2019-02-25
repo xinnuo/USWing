@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_title"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_size_45"
+    android:background="?attr/colorPrimary">
+
+    <ImageView
+        android:id="@id/iv_nav_back"
+        android:layout_width="@dimen/dimen_size_45"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:onClick="doClick"
+        android:paddingStart="@dimen/dimen_size_0"
+        android:paddingTop="@dimen/dimen_size_15"
+        android:paddingEnd="@dimen/dimen_size_0"
+        android:paddingBottom="@dimen/dimen_size_15"
+        android:src="@mipmap/index_icon17"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dimen_size_30"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:background="#EEEEEE"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dimen_size_15"
+            android:layout_height="@dimen/dimen_size_15"
+            android:layout_marginStart="@dimen/dimen_size_10"
+            android:src="@mipmap/search_icon01"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/search_edit"
+            style="@style/Font14_black"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:hint="请输入关键字"
+            android:imeOptions="actionSearch"
+            android:layout_weight="1"
+            android:paddingStart="@dimen/dimen_size_10"
+            android:paddingEnd="@dimen/dimen_size_10"
+            android:singleLine="true" />
+
+        <ImageView
+            android:id="@+id/search_close"
+            android:layout_width="@dimen/dimen_size_23"
+            android:layout_height="match_parent"
+            android:onClick="doClick"
+            android:paddingStart="@dimen/dimen_size_0"
+            android:paddingEnd="@dimen/dimen_size_10"
+            android:src="@mipmap/per_icon13"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/search_location"
+        style="@style/Font15_black"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawableStart="@mipmap/video_icon12"
+        android:drawablePadding="@dimen/dimen_size_3"
+        android:gravity="center"
+        android:onClick="doClick"
+        android:paddingStart="@dimen/dimen_size_15"
+        android:paddingEnd="@dimen/dimen_size_15"
+        android:text="筛选" />
+
+</LinearLayout>

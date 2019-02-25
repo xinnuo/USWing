@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginTop="@dimen/dimen_size_10"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen_size_15">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.sunfusheng.GlideImageView
+                        android:id="@+id/state_img"
+                        android:layout_width="@dimen/dimen_size_50"
+                        android:layout_height="@dimen/dimen_size_50"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/default_logo" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_size_15"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/state_name"
+                                style="@style/Font15_black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="名称" />
+
+                            <ImageView
+                                android:id="@+id/state_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="17dp"
+                                android:layout_marginStart="@dimen/dimen_size_10"
+                                android:adjustViewBounds="true"
+                                android:src="@mipmap/mes_icon10"
+                                tools:ignore="ContentDescription" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/state_time"
+                            style="@style/Font13_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_size_10"
+                            android:text="时间" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/state_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dimen_size_25"
+                        android:adjustViewBounds="true"
+                        android:onClick="doClick"
+                        android:paddingStart="@dimen/dimen_size_5"
+                        android:paddingTop="@dimen/dimen_size_5"
+                        android:paddingEnd="@dimen/dimen_size_0"
+                        android:paddingBottom="@dimen/dimen_size_4"
+                        android:src="@mipmap/mes_icon11"
+                        tools:ignore="ContentDescription" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/state_title"
+                    style="@style/Font15_black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_10"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="@dimen/dimen_size_5"
+                    android:text="标题" />
+
+                <com.meida.view.NineGridLayout
+                    android:id="@+id/state_nine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_10" />
+
+                <FrameLayout
+                    android:id="@+id/state_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_10">
+
+                    <com.sunfusheng.GlideImageView
+                        android:id="@+id/state_fram"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_size_190"
+                        android:onClick="doClick"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/default_img"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_size_50"
+                        android:layout_height="@dimen/dimen_size_50"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/mes_icon16"
+                        tools:ignore="ContentDescription" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:layout_marginTop="@dimen/dimen_size_10"
+                    android:background="@color/background">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_size_45"
+                        android:layout_height="@dimen/dimen_size_45"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/dimen_size_12"
+                        android:src="@mipmap/mes_icon14"
+                        tools:ignore="ContentDescription" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/state_people"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/state_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginBottom="@dimen/dimen_size_10"
+                android:background="@color/divider" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/state_num1"
+            style="@style/Font13_black"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_size_50"
+            android:layout_weight="1"
+            android:drawableStart="@mipmap/mes_icon12"
+            android:drawablePadding="@dimen/dimen_size_10"
+            android:gravity="center_vertical"
+            android:onClick="doClick"
+            android:paddingStart="@dimen/dimen_size_20"
+            android:paddingEnd="@dimen/dimen_size_0"
+            android:text="评价0" />
+
+        <View
+            android:layout_width="@dimen/divider_height"
+            android:layout_height="@dimen/dimen_size_15"
+            android:background="@color/divider" />
+
+        <FrameLayout
+            android:id="@+id/state_click2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_size_30"
+            android:layout_weight="1"
+            android:onClick="doClick">
+
+            <CheckBox
+                android:id="@+id/state_num2"
+                style="@style/Font13_black"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_size_30"
+                android:button="@null"
+                android:clickable="false"
+                android:drawableStart="@drawable/cb_state_selector"
+                android:drawablePadding="@dimen/dimen_size_10"
+                android:paddingStart="@dimen/dimen_size_20"
+                android:paddingEnd="@dimen/dimen_size_0"
+                android:text="点赞0"
+                android:textColor="@color/cb_news_selector_color" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="@dimen/divider_height"
+            android:layout_height="@dimen/dimen_size_15"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/state_num3"
+            style="@style/Font13_black"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_size_50"
+            android:layout_weight="1"
+            android:drawableStart="@mipmap/mes_icon15"
+            android:drawablePadding="@dimen/dimen_size_10"
+            android:gravity="center_vertical"
+            android:onClick="doClick"
+            android:paddingStart="@dimen/dimen_size_20"
+            android:paddingEnd="@dimen/dimen_size_0"
+            android:text="打赏0" />
+
+    </LinearLayout>
+
+</LinearLayout>

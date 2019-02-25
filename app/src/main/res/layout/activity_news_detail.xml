@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/news_title"
+            style="@style/Font18_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginTop="@dimen/dimen_size_15"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            android:lineSpacingExtra="@dimen/dimen_size_5"
+            android:text="标题" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginEnd="@dimen/dimen_size_15">
+
+            <TextView
+                android:id="@+id/news_time"
+                style="@style/Font13_gray"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="时间" />
+
+            <CheckBox
+                android:id="@+id/news_collect"
+                style="@style/Font14_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:clickable="false"
+                android:drawableStart="@drawable/cb_news_selector"
+                android:drawablePadding="@dimen/dimen_size_5"
+                android:paddingTop="@dimen/dimen_size_15"
+                android:paddingBottom="@dimen/dimen_size_15"
+                android:text="收藏"
+                android:textColor="@color/cb_news_selector_color" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            android:background="@color/divider" />
+
+        <WebView
+            android:id="@+id/news_web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            tools:ignore="WebViewLayout" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

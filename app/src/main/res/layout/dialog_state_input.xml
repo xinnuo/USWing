@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/input_hint"
+            style="@style/Font14_black"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginTop="@dimen/dimen_size_10"
+            android:layout_marginBottom="@dimen/dimen_size_10"
+            android:layout_weight="1"
+            android:background="#EEEEEE"
+            android:hint="请输入评论内容"
+            android:lineSpacingExtra="@dimen/dimen_size_3"
+            android:minHeight="@dimen/dimen_size_30"
+            android:paddingStart="@dimen/dimen_size_10"
+            android:paddingTop="@dimen/dimen_size_5"
+            android:paddingEnd="@dimen/dimen_size_10"
+            android:paddingBottom="@dimen/dimen_size_5" />
+
+        <TextView
+            android:id="@+id/input_send"
+            style="@style/Font15_black"
+            android:layout_width="@dimen/dimen_size_60"
+            android:layout_height="@dimen/dimen_size_30"
+            android:gravity="center"
+            android:text="发送" />
+
+    </LinearLayout>
+
+</LinearLayout>

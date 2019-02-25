@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/item_video_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_10" />
+
+    <com.loopeer.shadow.ShadowView
+        android:id="@+id/item_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_size_5"
+        android:layout_marginEnd="@dimen/dimen_size_5"
+        app:shadowMargin="@dimen/dimen_size_5"
+        app:shadowRadius="@dimen/dimen_size_5">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_size_160">
+
+            <com.sunfusheng.GlideImageView
+                android:id="@+id/item_video_img"
+                android:layout_width="@dimen/dimen_size_150"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/default_video" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/dimen_size_125"
+                android:background="@mipmap/bj12">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_size_38"
+                    android:layout_gravity="end"
+                    android:adjustViewBounds="true"
+                    android:src="@mipmap/search_bj"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/item_video_desc"
+                style="@style/Font12_white"
+                android:layout_width="@dimen/dimen_size_145"
+                android:layout_height="@dimen/dimen_size_23"
+                android:layout_marginStart="@dimen/dimen_size_115"
+                android:background="@mipmap/list_01"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingStart="@dimen/dimen_size_5"
+                android:paddingEnd="@dimen/dimen_size_5"
+                android:paddingBottom="@dimen/dimen_size_3"
+                android:text="描述"
+                android:textSize="@dimen/sp_size_10" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_size_30"
+                android:layout_gravity="end|bottom"
+                android:layout_marginStart="@dimen/dimen_size_144">
+
+                <TextView
+                    android:id="@+id/item_video_del"
+                    style="@style/Font13_gray"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen_size_30"
+                    android:layout_marginEnd="-3dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/search_btn01"
+                    android:gravity="center"
+                    android:text="删除" />
+
+                <TextView
+                    android:id="@+id/item_video_edit"
+                    style="@style/Font13_white"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen_size_30"
+                    android:layout_marginStart="-3dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/search_btn02"
+                    android:gravity="center"
+                    android:text="编辑" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dimen_size_150"
+                android:layout_marginTop="@dimen/dimen_size_25"
+                android:layout_marginEnd="@dimen/dimen_size_10"
+                android:layout_marginBottom="@dimen/dimen_size_30"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_video_name"
+                    style="@style/Font15_black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="名称" />
+
+                <TextView
+                    android:id="@+id/item_video_adress"
+                    style="@style/Font13_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_10"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="地址：" />
+
+                <TextView
+                    android:id="@+id/item_video_time"
+                    style="@style/Font13_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_5"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="时间：" />
+
+                <TextView
+                    android:id="@+id/item_video_memo"
+                    style="@style/Font13_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_5"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="备注：" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </com.loopeer.shadow.ShadowView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_5" />
+
+</LinearLayout>
