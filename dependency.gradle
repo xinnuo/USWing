@@ -27,8 +27,8 @@ ext.versions = [
         umengSocialVersion: '6.9.1',
 
         /*极光推送*/
-        jpushSdkVersion: '3.1.7',
-        jpushCoreVersion: '1.2.6',
+        jpushSdkVersion: '3.1.8',
+        jpushCoreVersion: '1.2.7',
 
         /*高德地图*/
         amapLocationVersion: '4.5.0',

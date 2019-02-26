@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AMap" />
+            <option value="$PROJECT_DIR$/RongCloudIMkit" />
             <option value="$PROJECT_DIR$/WeChatVideoView" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/okgo" />

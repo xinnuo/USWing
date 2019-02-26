@@ -39,9 +39,14 @@ android {
         //处理.so文件时的重要法则:要么全部支持，要么都不支持
         ndk { abiFilters "armeabi-v7a", "x86" }
 
-        //高德地图的apikey，友盟分享QQ的appid，极光推送的pkgname、key、channel
+        //高德地图的apikey，融云的pkgname、key，极光推送的pkgname、key、channel
         manifestPlaceholders = [
                 amap_apikey: "2de5633cf3ebd2fddd17bd122a75ef6b",
+                RONG_PKGNAME: applicationId,
+                RONG_APPKEY : "0vnjpoad03goz",
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "c4c51995512953459514bd4e",
+                JPUSH_CHANNEL: "developer-default"
         ]
     }
 
@@ -114,6 +119,7 @@ dependencies {
 
     implementation project(':AMap')
     implementation project(':okgo')
+    implementation project(':RongCloudIMkit')
     implementation project(':WeChatVideoView')
     def aar = ['FlycoDialog-1.3.2',
                'RollViewPager',
@@ -137,6 +143,10 @@ dependencies {
     implementation('com.github.LuckSiege.PictureSelector:picture_library:v2.2.3') {
         exclude group: 'com.github.bumptech.glide', module: 'glide'
     }
+
+    //极光推送
+    implementation 'cn.jiguang.sdk:jpush:' + versions.jpushSdkVersion
+    implementation 'cn.jiguang.sdk:jcore:' + versions.jpushCoreVersion
 
     //二维码扫描和生成
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.6'
