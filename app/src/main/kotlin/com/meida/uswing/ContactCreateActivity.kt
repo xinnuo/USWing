@@ -142,6 +142,7 @@ class ContactCreateActivity : BaseActivity() {
                     /* 创建群组 */
                     OkGo.post<String>(BaseHttp.add_groupchat)
                         .tag(this@ContactCreateActivity)
+                        .isMultipart(true)
                         .headers("token", getString("token"))
                         .params("users", items.joinToString(","))
                         .params("groupchatName", str)

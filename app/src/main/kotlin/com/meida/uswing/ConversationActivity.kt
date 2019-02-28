@@ -5,9 +5,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import com.lzg.extend.StringDialogCallback
+import com.lzy.okgo.OkGo
+import com.lzy.okgo.model.Response
 import com.lzy.okgo.utils.OkLogger
 import com.meida.RongCloudContext
 import com.meida.base.*
+import com.meida.share.BaseHttp
+import com.meida.utils.DialogHelper.showRewardDialog
+import com.meida.utils.toTextInt
+import com.ruanmeng.utils.KeyboardHelper
 import io.rong.imkit.RongIM
 import io.rong.imkit.fragment.ConversationFragment
 import io.rong.imlib.MessageTag
@@ -16,6 +23,8 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.typingmessage.TypingStatus
 import io.rong.message.TextMessage
 import io.rong.message.VoiceMessage
+import org.jetbrains.anko.toast
+import org.json.JSONObject
 import java.util.*
 
 class ConversationActivity : BaseActivity() {
@@ -23,6 +32,7 @@ class ConversationActivity : BaseActivity() {
     private lateinit var mConversationType: Conversation.ConversationType
     private var mTargetId = ""
     private var mTitle = ""
+    private var mIntegral = 0
 
     private val TextTypingTitle = "对方正在输入..."
     private val VoiceTypingTitle = "对方正在讲话..."
@@ -57,6 +67,11 @@ class ConversationActivity : BaseActivity() {
         isPushMessage()
     }
 
+    override fun onStart() {
+        super.onStart()
+        getData()
+    }
+
     override fun init_title() {
         super.init_title()
         when (mConversationType) {
@@ -77,11 +92,13 @@ class ConversationActivity : BaseActivity() {
                     val status = iterator.next() as TypingStatus
                     val objectName = status.typingContentType
 
-                    val textTag = TextMessage::class.java.getAnnotation(MessageTag::class.java)?.value ?: ""
-                    val voiceTag = VoiceMessage::class.java.getAnnotation(MessageTag::class.java)?.value ?: ""
+                    val textTag =
+                        TextMessage::class.java.getAnnotation(MessageTag::class.java)?.value ?: ""
+                    val voiceTag =
+                        VoiceMessage::class.java.getAnnotation(MessageTag::class.java)?.value ?: ""
 
                     //匹配对方正在输入的是文本消息还是语音消息
-                    when(objectName) {
+                    when (objectName) {
                         textTag -> handler.sendEmptyMessage(SET_TEXT_TYPING_TITLE)
                         voiceTag -> handler.sendEmptyMessage(SET_VOICE_TYPING_TITLE)
                     }
@@ -92,8 +109,42 @@ class ConversationActivity : BaseActivity() {
             }
         }
 
-        tvRight.oneClick {
+        RongCloudContext.getInstance().setOnMessageExtraListener {
+            when (mConversationType) {
+                Conversation.ConversationType.GROUP -> it.extra = mTitle
+                Conversation.ConversationType.PRIVATE -> it.extra = getString("nickName")
+                else -> it.extra = getString("nickName")
+            }
+        }
 
+        tvRight.oneClick {
+            showRewardDialog(mIntegral) {
+                if (it.isEmpty() || it.toTextInt() <= 0) {
+                    toast("请输入打赏积分数")
+                    return@showRewardDialog
+                }
+
+                if (it.toTextInt() > mIntegral) {
+                    toast("当前积分不足")
+                    return@showRewardDialog
+                }
+
+                /* 打赏用户 */
+                OkGo.post<String>(BaseHttp.add_reward_user)
+                    .tag(this@ConversationActivity)
+                    .headers("token", getString("token"))
+                    .params("rewardSum", it)
+                    .params("rewardUser", mTargetId)
+                    .execute(object : StringDialogCallback(baseContext) {
+
+                        override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                            toast(msg)
+                            mIntegral -= it.toTextInt()
+                            KeyboardHelper.hideSoftInput(baseContext)
+                        }
+
+                    })
+            }
         }
     }
 
@@ -158,4 +209,32 @@ class ConversationActivity : BaseActivity() {
 
         fragment.uri = uri
     }
+
+    /* 积分查询 */
+    override fun getData() {
+        OkGo.post<String>(BaseHttp.find_user_details)
+            .tag(this@ConversationActivity)
+            .headers("token", getString("token"))
+            .execute(object : StringDialogCallback(baseContext, false) {
+
+                override fun onSuccessResponse(
+                    response: Response<String>,
+                    msg: String,
+                    msgCode: String
+                ) {
+
+                    val obj = JSONObject(response.body())
+                        .optJSONObject("object") ?: JSONObject()
+
+                    mIntegral = obj.optString("integral", "0").toInt()
+                }
+
+            })
+    }
+
+    override fun finish() {
+        super.finish()
+        RongCloudContext.getInstance().setOnMessageExtraListener(null)
+    }
+
 }

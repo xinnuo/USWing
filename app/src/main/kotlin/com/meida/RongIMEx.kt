@@ -33,6 +33,7 @@ import android.net.Uri
 import io.rong.imkit.RongContext
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Message
 
 fun RongIM.startChatRoomChat(context: Context, chatRoomId: String, chatRoomName: String, createIfNotExist: Boolean) =
         if (chatRoomId.isNotEmpty()) {
@@ -53,3 +54,27 @@ fun RongIM.startChatRoomChat(context: Context, chatRoomId: String, chatRoomName:
         } else {
             throw IllegalArgumentException("chatRoomId can not be empty!")
         }
+
+open class _OnSendMessageListener : RongIM.OnSendMessageListener {
+
+    private var _onSend: ((Message) -> Message)? = null
+
+    override fun onSend(message: Message): Message? {
+        return _onSend?.invoke(message)
+    }
+
+    fun onSend(listener: (Message) -> Message) {
+        _onSend = listener
+    }
+
+    private var _onSent: ((Message, RongIM.SentMessageErrorCode?) -> Boolean)? = null
+
+    override fun onSent(message: Message, sentMessageErrorCode: RongIM.SentMessageErrorCode?): Boolean {
+        return _onSent?.invoke(message, sentMessageErrorCode) ?: false
+    }
+
+    fun onSent(listener: (Message, sentMessageErrorCode: RongIM.SentMessageErrorCode?) -> Boolean) {
+        _onSent = listener
+    }
+
+}

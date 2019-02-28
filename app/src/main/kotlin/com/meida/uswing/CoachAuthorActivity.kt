@@ -276,7 +276,7 @@ class CoachAuthorActivity : BaseActivity() {
             }
             R.id.author_age_ll -> {
                 showSchoolDialog(
-                    "选择教练(年)",
+                    "选择教龄(年)",
                     mAge,
                     listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
                 ) { index, str ->

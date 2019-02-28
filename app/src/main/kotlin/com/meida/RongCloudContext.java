@@ -2,13 +2,16 @@ package com.meida;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -43,6 +46,9 @@ import io.rong.message.RichContentMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
 
+import static android.app.NotificationManager.IMPORTANCE_HIGH;
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 /**
  * 描述：融云相关监听 事件集合类
  */
@@ -62,8 +68,12 @@ public class RongCloudContext implements
     @SuppressLint("StaticFieldLeak")
     private static RongCloudContext mRongCloudInstance;
     private Context mContext;
+    private OnMessageExtraListener listener;
 
     private NotificationManager manager;
+    private static final int NOTIFICATION_REQUEST = 130;
+    private static final String CHANNEL_ONE_ID = "com.meida.rong";
+    private static final String CHANNEL_ONE_NAME = "RongMessageForengound";
 
     private RongCloudContext(Context mContext) {
         this.mContext = mContext;
@@ -99,7 +109,7 @@ public class RongCloudContext implements
      */
     private void initListener() {
         RongIM.setConversationListBehaviorListener(this);  //设置会话列表界面操作的监听器
-        RongIM.setConversationClickListener(this);      //设置会话界面操作的监听器
+        RongIM.setConversationClickListener(this);         //设置会话界面操作的监听器
         RongIM.setOnReceiveMessageListener(this);          //设置接收消息的监听器
         RongIM.getInstance().setSendMessageListener(this); //设置发送消息的监听
         RongIM.setConnectionStatusListener(this);          //设置连接状态变化的监听器
@@ -410,13 +420,31 @@ public class RongCloudContext implements
             Log.i(TAG, "onReceived-其他消息，自己来判断处理");
         }
 
-        String contentTitle = messageContent.getUserInfo() == null ? "对方消息" : messageContent.getUserInfo().getName();
+        String contentTitle;
+        String extra = message.getExtra();
+        if (extra != null && !TextUtils.isEmpty(extra)) contentTitle = extra;
+        else {
+            if (messageContent.getUserInfo() == null) contentTitle = "对方消息";
+            else contentTitle = messageContent.getUserInfo().getName();
+        }
 
         //在Android进行通知处理，首先需要重系统哪里获得通知管理器NotificationManager，它是一个系统Service
         if (manager == null)
-            manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
+
+        //Android O设置channelId.
+        NotificationChannel notificationChannel;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel(CHANNEL_ONE_ID, CHANNEL_ONE_NAME, IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setShowBadge(true);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            manager.createNotificationChannel(notificationChannel);
+        }
+
         //通过Notification.Builder来创建通知
-        NotificationCompat.Builder notify = new NotificationCompat.Builder(mContext)
+        NotificationCompat.Builder notify = new NotificationCompat.Builder(mContext, CHANNEL_ONE_ID)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher))
                 //设置状态栏中的小图片，这个图片同样也是在下拉状态栏中所显示，需要更换更大的图片，可以使用setLargeIcon(Bitmap icon)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -437,7 +465,7 @@ public class RongCloudContext implements
                     .buildUpon()
                     .appendPath("conversation")
                     .appendPath(message.getConversationType().getName().toLowerCase())
-                    .appendQueryParameter("targetId", messageContent.getUserInfo() == null ? tagetId : messageContent.getUserInfo().getUserId())
+                    .appendQueryParameter("targetId", tagetId)
                     .appendQueryParameter("title", contentTitle)
                     .build();
             intent.setData(uri);
@@ -446,7 +474,7 @@ public class RongCloudContext implements
 
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 200, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, NOTIFICATION_REQUEST, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notify.setContentIntent(pendingIntent);
         manager.notify(Math.abs(messageContent.getUserInfo() == null ?
@@ -465,6 +493,7 @@ public class RongCloudContext implements
      */
     @Override
     public Message onSend(Message message) {
+        if (listener != null) listener.onExtra(message);
         return message;
     }
 
@@ -565,6 +594,14 @@ public class RongCloudContext implements
         event.setName(groupId);
         EventBus.getDefault().post(event);
         return null;
+    }
+
+    public void setOnMessageExtraListener(OnMessageExtraListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnMessageExtraListener {
+        void onExtra(Message message);
     }
 
 }

@@ -132,8 +132,8 @@ class MainActivity : BaseActivity() {
 
             /**
              * Token 错误。可以从下面两点检查
-             * 1.  Token 是否过期，如果过期您需要向 App Server 重新请求一个新的 Token
-             * 2.  token 对应的 appKey 和工程里设置的 appKey 是否一致
+             * 1.Token 是否过期，如果过期您需要向 App Server 重新请求一个新的 Token
+             * 2.token 对应的 appKey 和工程里设置的 appKey 是否一致
              */
             override fun onTokenIncorrect() {
                 OkLogger.e("融云token错误！！！")
