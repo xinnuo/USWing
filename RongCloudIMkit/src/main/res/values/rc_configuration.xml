@@ -12,9 +12,9 @@
     <integer name="rc_max_original_image_size">200</integer>
 
     <!-- 设置发送输入状态 -->
-    <bool name="rc_typing_status">false</bool>
+    <bool name="rc_typing_status">true</bool>
     <!-- 下载文件默认存储路径 -->
-    <string name="rc_media_message_default_save_path">/RongCloud/Media/</string>
+    <string name="rc_media_message_default_save_path">/USWing/Media/</string>
     <!-- 是否开启 Extension 记忆功能 -->
     <bool name="rc_extension_history">false</bool>
     <!-- 设置心跳包的timer, 默认2分半（150000） , 最小值为10秒（10000）建议不要超过3分钟-->

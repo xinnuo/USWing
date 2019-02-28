@@ -51,6 +51,7 @@
             android:layout_height="@dimen/dimen_size_39"
             android:layout_margin="@dimen/dimen_size_20"
             android:background="@mipmap/btn08"
+            android:gravity="center"
             android:onClick="doClick"
             android:text="确认" />
 

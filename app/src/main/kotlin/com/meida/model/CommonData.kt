@@ -43,6 +43,8 @@ data class CommonData(
     //群组列表
     var groupchat_id: String = "",
     var groupchat_name: String = "",
+    var groupchatId: String = "",
+    var groupchatName: String = "",
     var ls: ArrayList<String>? = ArrayList(),
 
     //区域列表
@@ -132,7 +134,7 @@ data class CommonData(
     var follow_id: String = "",
     var recommend: String? = "",
     var teach_age: String = "",
-    var gender: String = "",
+    var gender: String? = "",
     var ucity: String = "",
     var uprovince: String = "",
     var follow_ctn: String = "",

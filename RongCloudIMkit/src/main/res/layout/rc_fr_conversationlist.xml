@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@id/rc_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/rc_status_bar"
         android:layout_width="match_parent"
@@ -11,22 +12,26 @@
         android:background="#ffdfdf"
         android:orientation="horizontal"
         android:visibility="gone">
+
         <ImageView
             android:id="@+id/rc_status_bar_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="27dp"
             android:layout_gravity="center_vertical"
-            android:indeterminateDrawable="@drawable/rc_notification_network_available"/>
+            android:indeterminateDrawable="@drawable/rc_notification_network_available"
+            android:paddingLeft="27dp"
+            tools:ignore="ContentDescription" />
+
         <TextView
             android:id="@+id/rc_status_bar_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="25dp"
             android:layout_gravity="center_vertical"
+            android:paddingLeft="25dp"
             android:text="@string/rc_notice_network_unavailable"
             android:textColor="#776868"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
+
     </LinearLayout>
 
     <ListView
@@ -35,30 +40,32 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/rc_status_bar"
         android:background="@color/rc_text_color_primary_inverse"
-        android:divider="@null"/>
-
+        android:divider="@null" />
 
     <LinearLayout
         android:id="@+id/rc_conversation_list_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="127dp"
         android:gravity="center"
-        android:visibility="gone"
         android:orientation="vertical"
-        android:layout_marginTop="127dp">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/rc_conversation_list_empty"/>
+            android:src="@drawable/rc_conversation_list_empty"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/rc_empty_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#999999"
+            android:layout_marginTop="@dimen/rc_dimen_size_9"
             android:text="@string/rc_conversation_list_empty_prompt"
-            android:textSize="14sp" />
+            android:textColor="#999999"
+            android:textSize="15sp" />
+
     </LinearLayout>
 
 </RelativeLayout>

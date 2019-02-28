@@ -531,7 +531,7 @@ object DialogHelper {
         val dialog = object : BaseDialog(this, true) {
 
             override fun onCreateView(): View {
-                val view = inflate<View>(R.layout.dialog_reward_center)
+                val view = inflate<View>(R.layout.dialog_group_center)
 
                 val ivClose = view.findViewById<ImageView>(R.id.dialog_close)
                 val etInput = view.findViewById<EditText>(R.id.dialog_input)

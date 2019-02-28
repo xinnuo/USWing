@@ -31,7 +31,7 @@
     <color name="rc_voice_cancel"> #CC933432</color>
 
     <color name="rc_input_gap_color">#dbdbdd</color>
-    <color name="rc_conversation_list_divider_color">#dfdfdd</color>
+    <color name="rc_conversation_list_divider_color">#e8e8e8</color>
 
     <color name="rc_ad_file_list_no_select_file_text_state">#9fcdfd</color>
     <color name="rc_ad_file_list_select_file_text_state">#ffffff</color>

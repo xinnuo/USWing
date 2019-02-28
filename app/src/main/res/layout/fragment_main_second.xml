@@ -107,9 +107,9 @@
         android:layout_marginTop="@dimen/dimen_size_10"
         android:background="@color/divider" />
 
-    <!--<fragment
-        android:id="@+id/second_list"
+    <FrameLayout
+        android:id="@+id/second_message"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

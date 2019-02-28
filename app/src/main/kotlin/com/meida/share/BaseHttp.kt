@@ -80,12 +80,14 @@ object BaseHttp {
     val add_coach_follow = "$baseIp/add_coach_follow.rm"         //关注
     val delete_follow = "$baseIp/delete_follow.rm"               //取消关注
 
-    val msg_list_data = "$baseIp/msg_list_data.rm"             //消息列表
-    val find_friend_list = "$baseIp/find_friend_list.rm"       //好友列表
-    val find_groupchat_list = "$baseIp/find_groupchat_list.rm" //群组列表
-    val update_application = "$baseIp/update_application.rm"   //处理申请
-    val add_apply_friend = "$baseIp/add_apply_friend.rm"       //好友申请
-    val add_groupchat = "$baseIp/add_groupchat.rm"             //创建群组
+    val msg_list_data = "$baseIp/msg_list_data.rm"               //消息列表
+    val find_friend_list = "$baseIp/find_friend_list.rm"         //好友列表
+    val find_groupchat_list = "$baseIp/find_groupchat_list.rm"   //群组列表
+    val update_application = "$baseIp/update_application.rm"     //处理申请
+    val add_apply_friend = "$baseIp/add_apply_friend.rm"         //好友申请
+    val add_groupchat = "$baseIp/add_groupchat.rm"               //创建群组
+    val find_groupchat_users = "$baseIp/find_groupchat_users.rm" //群成员
+    val find_user_heads = "$baseIp/find_user_heads.rm"           //成员头像
 
     val index_data = "$baseIp/index_data.rm"                 //首页
     val find_court_list = "$baseIp/find_court_list.rm"       //试炼场列表

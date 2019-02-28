@@ -68,14 +68,6 @@ public abstract class JacksonDialogCallback<T> extends JacksonCallback<T> {
         if (isVisible) mProgressManager.show();
     }
 
-    /**
-     * 当缓存读取成功后，回调该方法
-     */
-    @Override
-    public void onCacheSuccess(Response<T> response) {
-        onSuccess(response);
-    }
-
     @Override
     public void onFinish() {
         //网络请求结束后关闭对话框

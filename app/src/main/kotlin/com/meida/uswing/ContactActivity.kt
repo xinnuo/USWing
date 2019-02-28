@@ -1,5 +1,6 @@
 package com.meida.uswing
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -16,6 +17,10 @@ import com.meida.sort.PinyinComparator
 import com.meida.utils.dp2px
 import com.meida.utils.sp2px
 import com.sunfusheng.GlideImageView
+import io.rong.imkit.RongIM
+import io.rong.imkit.manager.IUnReadMessageObserver
+import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_contact.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import net.idik.lib.slimadapter.SlimAdapter
@@ -33,6 +38,11 @@ class ContactActivity : BaseActivity() {
         )
     }
     private val list = ArrayList<CommonData>()
+    private val observer by lazy {
+        IUnReadMessageObserver {
+            contact_dot.visibility = if (it > 0) View.VISIBLE else View.GONE
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +57,8 @@ class ContactActivity : BaseActivity() {
         super.init_title()
         empty_hint.text = "暂无相关好友信息！"
         contact_dot.gone()
+        RongIM.getInstance()
+            .addUnReadMessageCountChangedObserver(observer, Conversation.ConversationType.GROUP)
 
         contact_list.apply {
             linearLayoutManager = LinearLayoutManager(baseContext)
@@ -79,6 +91,20 @@ class ContactActivity : BaseActivity() {
                         R.id.item_contact_divider1,
                         if ((!isLast && data.letter != list[index + 1].letter) || isLast) View.GONE else View.VISIBLE
                     )
+
+                    .clicked(R.id.item_contact) {
+                        //融云刷新用户信息
+                        RongIM.getInstance().refreshUserInfoCache(
+                            UserInfo(
+                                data.fuser_id,
+                                data.nick_name,
+                                Uri.parse(BaseHttp.baseImg + data.user_head)
+                            )
+                        )
+                        //融云单聊
+                        RongIM.getInstance()
+                            .startPrivateChat(baseContext, data.fuser_id, data.nick_name)
+                    }
             }
             .attachTo(contact_list)
 
@@ -137,6 +163,11 @@ class ContactActivity : BaseActivity() {
             }
             Collections.sort(list, PinyinComparator())
         }
+    }
+
+    override fun finish() {
+        super.finish()
+        RongIM.getInstance().removeUnReadMessageCountChangedObserver(observer)
     }
 
 }

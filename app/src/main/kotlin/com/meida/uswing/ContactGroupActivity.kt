@@ -1,5 +1,6 @@
 package com.meida.uswing
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -10,6 +11,7 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.meida.base.*
 import com.meida.model.CommonData
+import com.meida.model.GroupModel
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.sort.CharacterParser
@@ -18,6 +20,9 @@ import com.meida.sort.PinyinComparator
 import com.meida.utils.dp2px
 import com.meida.utils.setAdapter
 import com.meida.utils.sp2px
+import io.rong.imkit.RongIM
+import io.rong.imkit.model.GroupUserInfo
+import io.rong.imlib.model.Group
 import kotlinx.android.synthetic.main.activity_contact_group.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import net.idik.lib.slimadapter.SlimAdapter
@@ -25,6 +30,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ContactGroupActivity : BaseActivity() {
 
@@ -87,6 +93,13 @@ class ContactGroupActivity : BaseActivity() {
 
                         if (!data.ls.isNullOrEmpty()) it.setImagesData(data.ls)
                     }
+
+                    .clicked(R.id.item_group) {
+                        getMemberData(data.groupchat_id, data.groupchat_name) {
+                            RongIM.getInstance()
+                                .startGroupChat(baseContext, data.groupchat_id, data.groupchat_name)
+                        }
+                    }
             }
             .attachTo(group_list)
 
@@ -101,6 +114,7 @@ class ContactGroupActivity : BaseActivity() {
                 }
             }
         }
+
     }
 
     override fun doClick(v: View) {
@@ -108,6 +122,44 @@ class ContactGroupActivity : BaseActivity() {
         when (v.id) {
             R.id.tv_nav_right -> startActivity<ContactCreateActivity>()
         }
+    }
+
+    private fun getMemberData(groupId: String, groupName: String, listener: () -> Unit) {
+        OkGo.post<BaseResponse<GroupModel>>(BaseHttp.find_groupchat_users)
+            .tag(this@ContactGroupActivity)
+            .headers("token", getString("token"))
+            .params("groupchatId", groupId)
+            .execute(object : JacksonDialogCallback<BaseResponse<GroupModel>>(baseContext, true) {
+
+                override fun onSuccess(response: Response<BaseResponse<GroupModel>>) {
+
+                    val items = ArrayList<CommonData>()
+                    items.addItems(response.body().`object`.ls)
+
+                    val imgs = ArrayList<String>()
+                    items.mapTo(imgs) { BaseHttp.baseImg + it.user_head }
+                    RongIM.getInstance().refreshGroupInfoCache(
+                        Group(
+                            groupId,
+                            groupName,
+                            Uri.parse(imgs.joinToString(","))
+                        )
+                    )
+
+                    items.forEach {
+                        RongIM.getInstance().refreshGroupUserInfoCache(
+                            GroupUserInfo(
+                                groupId,
+                                it.user_info_id,
+                                it.nick_name
+                            )
+                        )
+                    }
+
+                    listener.invoke()
+                }
+
+            })
     }
 
     override fun getData() {
