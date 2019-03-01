@@ -424,6 +424,7 @@ public class RongCloudContext implements
         String extra = message.getExtra();
         if (extra != null && !TextUtils.isEmpty(extra)) contentTitle = extra;
         else {
+            //判断是否携带用户信息
             if (messageContent.getUserInfo() == null) contentTitle = "对方消息";
             else contentTitle = messageContent.getUserInfo().getName();
         }

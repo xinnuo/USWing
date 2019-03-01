@@ -141,6 +141,7 @@ class MainActivity : BaseActivity() {
         })
     }
 
+    /* 更新用户信息 */
     private fun getUserData(userId: String, groupId: String = "") {
         OkGo.post<BaseResponse<ArrayList<CommonData>>>(BaseHttp.find_user_heads)
             .tag(this@MainActivity)
@@ -178,6 +179,7 @@ class MainActivity : BaseActivity() {
             })
     }
 
+    /* 更新群组及成员信息 */
     private fun getGroupData(groupId: String) {
         OkGo.post<BaseResponse<GroupModel>>(BaseHttp.find_groupchat_users)
             .tag(this@MainActivity)

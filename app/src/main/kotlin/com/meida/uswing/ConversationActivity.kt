@@ -5,21 +5,28 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import com.lzg.extend.BaseResponse
 import com.lzg.extend.StringDialogCallback
+import com.lzg.extend.jackson.JacksonDialogCallback
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.utils.OkLogger
 import com.meida.RongCloudContext
 import com.meida.base.*
+import com.meida.model.CommonData
+import com.meida.model.GroupModel
 import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showRewardDialog
 import com.meida.utils.toTextInt
 import com.ruanmeng.utils.KeyboardHelper
 import io.rong.imkit.RongIM
 import io.rong.imkit.fragment.ConversationFragment
+import io.rong.imkit.model.GroupUserInfo
 import io.rong.imlib.MessageTag
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Group
+import io.rong.imlib.model.UserInfo
 import io.rong.imlib.typingmessage.TypingStatus
 import io.rong.message.TextMessage
 import io.rong.message.VoiceMessage
@@ -65,6 +72,12 @@ class ConversationActivity : BaseActivity() {
 
         init_title(mTitle)
         isPushMessage()
+
+        when (mConversationType) {
+            Conversation.ConversationType.PRIVATE -> getUserData(mTargetId)
+            Conversation.ConversationType.GROUP -> getGroupData(mTargetId)
+            else -> getUserData(mTargetId)
+        }
     }
 
     override fun onStart() {
@@ -109,13 +122,14 @@ class ConversationActivity : BaseActivity() {
             }
         }
 
-        RongCloudContext.getInstance().setOnMessageExtraListener {
+        // 发送消息监听，结束activity时要设置监听器null，防止内存泄漏
+        /*RongCloudContext.getInstance().setOnMessageExtraListener {
             when (mConversationType) {
                 Conversation.ConversationType.GROUP -> it.extra = mTitle
                 Conversation.ConversationType.PRIVATE -> it.extra = getString("nickName")
                 else -> it.extra = getString("nickName")
             }
-        }
+        }*/
 
         tvRight.oneClick {
             showRewardDialog(mIntegral) {
@@ -217,11 +231,7 @@ class ConversationActivity : BaseActivity() {
             .headers("token", getString("token"))
             .execute(object : StringDialogCallback(baseContext, false) {
 
-                override fun onSuccessResponse(
-                    response: Response<String>,
-                    msg: String,
-                    msgCode: String
-                ) {
+                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
 
                     val obj = JSONObject(response.body())
                         .optJSONObject("object") ?: JSONObject()
@@ -232,9 +242,77 @@ class ConversationActivity : BaseActivity() {
             })
     }
 
-    override fun finish() {
-        super.finish()
-        RongCloudContext.getInstance().setOnMessageExtraListener(null)
+    /* 获取用户信息 */
+    private fun getUserData(userId: String) {
+        OkGo.post<BaseResponse<ArrayList<CommonData>>>(BaseHttp.find_user_heads)
+            .tag(this@ConversationActivity)
+            .headers("token", getString("token"))
+            .params("userInfoids", userId)
+            .execute(object : JacksonDialogCallback<BaseResponse<ArrayList<CommonData>>>(baseContext) {
+
+                override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
+
+                    val items = ArrayList<CommonData>()
+                    items.addItems(response.body().`object`)
+
+                    if (items.isNotEmpty()) {
+                        mTitle = items[0].nick_name
+                        tvTitle.text = mTitle
+
+                        RongIM.getInstance().refreshUserInfoCache(
+                            UserInfo(
+                                userId,
+                                items[0].nick_name,
+                                Uri.parse(BaseHttp.baseImg + items[0].user_head)
+                            )
+                        )
+                    }
+
+                }
+
+            })
+    }
+
+    /* 获取群组信息 */
+    private fun getGroupData(groupId: String) {
+        OkGo.post<BaseResponse<GroupModel>>(BaseHttp.find_groupchat_users)
+            .tag(this@ConversationActivity)
+            .headers("token", getString("token"))
+            .params("groupchatId", groupId)
+            .execute(object : JacksonDialogCallback<BaseResponse<GroupModel>>(baseContext) {
+
+                override fun onSuccess(response: Response<BaseResponse<GroupModel>>) {
+
+                    val items = ArrayList<CommonData>()
+                    val imgs = ArrayList<String>()
+                    val groupData = response.body().`object`.groupchat ?: CommonData()
+                    mTitle = groupData.groupchatName
+                    tvTitle.text = mTitle
+
+                    items.addItems(response.body().`object`.ls)
+                    items.mapTo(imgs) { BaseHttp.baseImg + it.user_head }
+
+                    RongIM.getInstance().refreshGroupInfoCache(
+                        Group(
+                            groupId,
+                            groupData.groupchatName,
+                            Uri.parse(imgs.joinToString(","))
+                        )
+                    )
+
+                    items.forEach {
+                        RongIM.getInstance().refreshGroupUserInfoCache(
+                            GroupUserInfo(
+                                groupId,
+                                it.user_info_id,
+                                it.nick_name
+                            )
+                        )
+                    }
+
+                }
+
+            })
     }
 
 }

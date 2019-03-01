@@ -1,5 +1,6 @@
 package com.meida.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import com.meida.base.*
 import com.meida.share.BaseHttp
 import com.meida.uswing.*
 import com.meida.utils.phoneReplaceWithStar
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.fragment_main_fourth.*
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -45,14 +48,14 @@ class MainFourthFragment : BaseFragment() {
 
     override fun init_title() {
         fourth_setting.oneClick { startActivity<SettingActivity>() }
-        fourth_img.oneClick     { startActivity<InfoActivity>() }
-        fourth_sign.oneClick    { startActivity<IntegralActivity>() }
-        fourth_wallet.oneClick  { startActivity<WalletActivity>() }
+        fourth_img.oneClick { startActivity<InfoActivity>() }
+        fourth_sign.oneClick { startActivity<IntegralActivity>() }
+        fourth_wallet.oneClick { startActivity<WalletActivity>() }
         fourth_collect.oneClick { startActivity<CollectActivity>() }
-        fourth_watch.oneClick   { startActivity<WatchActivity>() }
-        fourth_state.oneClick   { startActivity<StateActivity>() }
-        fourth_code.oneClick    { startActivity<CodeActivity>() }
-        fourth_coach.oneClick   {
+        fourth_watch.oneClick { startActivity<WatchActivity>() }
+        fourth_state.oneClick { startActivity<StateActivity>() }
+        fourth_code.oneClick { startActivity<CodeActivity>() }
+        fourth_coach.oneClick {
             when (getString("auth")) {
                 "1" -> startActivity<CoachMineActivity>()
                 "0" -> {
@@ -71,14 +74,11 @@ class MainFourthFragment : BaseFragment() {
             .headers("token", getString("token"))
             .execute(object : StringDialogCallback(activity, false) {
 
-                override fun onSuccessResponse(
-                    response: Response<String>,
-                    msg: String,
-                    msgCode: String
-                ) {
+                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
 
                     val obj = JSONObject(response.body())
                         .optJSONObject("object") ?: JSONObject()
+
                     putString("nickName", obj.optString("nick_name"))
                     putString("userHead", obj.optString("user_head"))
                     putString("mobile", obj.optString("telephone"))
@@ -113,6 +113,14 @@ class MainFourthFragment : BaseFragment() {
                             fourth_img.setTag(R.id.image_tag, getString("userHead"))
                         }
                     }
+
+                    RongIM.getInstance().setCurrentUserInfo(
+                        UserInfo(
+                            getString("token"),
+                            getString("nickName"),
+                            Uri.parse(BaseHttp.baseImg + getString("userHead"))
+                        )
+                    )
                 }
 
             })

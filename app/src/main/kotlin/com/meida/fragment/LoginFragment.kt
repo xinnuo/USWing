@@ -81,6 +81,8 @@ class LoginFragment : BaseFragment() {
                         putString("token", obj.optString("token"))
                         putString("rongToken", obj.optString("rongtoken"))
                         putString("mobile", obj.optString("mobile"))
+                        putString("nickName", obj.optString("nick_name"))
+                        putString("userHead", obj.optString("user_head"))
                         putString("loginType", "mobile")
 
                         (activity as OnFragmentListener).onViewClick("登录成功")

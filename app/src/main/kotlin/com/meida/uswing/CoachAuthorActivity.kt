@@ -105,6 +105,7 @@ class CoachAuthorActivity : BaseActivity() {
         }
 
         author_honor_list.apply {
+            isNestedScrollingEnabled = false
             layoutManager = FullyLinearLayoutManager(baseContext)
             adapter = SlimAdapter.create()
                 .register<CommonData>(R.layout.item_honor_list) { data, injector ->
@@ -132,6 +133,7 @@ class CoachAuthorActivity : BaseActivity() {
         }
 
         author_video_list.apply {
+            isNestedScrollingEnabled = false
             layoutManager = FullyLinearLayoutManager(baseContext)
             adapter = SlimAdapter.create()
                 .register<CommonData>(R.layout.item_honor_list) { data, injector ->
