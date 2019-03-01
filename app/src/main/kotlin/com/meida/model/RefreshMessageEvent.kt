@@ -30,4 +30,7 @@ package com.meida.model
 data class RefreshMessageEvent(
         var type: String = "",
         var id: String = "",
-        var name: String = "")
+        var name: String = "",
+        var checkId: String = "",
+        var title: String = "",
+        var memo: String = "")

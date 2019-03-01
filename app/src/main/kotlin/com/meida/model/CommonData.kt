@@ -156,12 +156,17 @@ data class CommonData(
     //魔频列表
     var magicvoide_id: String = "",
     var theme_title: String = "",
+    var labels_id: String? = "",
     var labels_name: String = "",
     var positive_voide: String = "",
     var positive_img: String = "",
     var negative_voide: String = "",
     var negative_img: String = "",
     var address: String = "",
+
+    //标签列表
+    var labelsId: String = "",
+    var labelsName: String = "",
 
     var isChecked: Boolean = false
 ) : Serializable

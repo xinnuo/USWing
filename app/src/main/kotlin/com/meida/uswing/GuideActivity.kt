@@ -51,9 +51,12 @@ class GuideActivity : AppCompatActivity() {
         AndPermission.with(this@GuideActivity)
             .runtime()
             .permission(
-                Permission.Group.LOCATION,
-                Permission.Group.CAMERA,
-                Permission.Group.STORAGE
+                Permission.ACCESS_FINE_LOCATION,
+                Permission.ACCESS_COARSE_LOCATION,
+                Permission.CALL_PHONE,
+                Permission.CAMERA,
+                Permission.READ_EXTERNAL_STORAGE,
+                Permission.WRITE_EXTERNAL_STORAGE
             )
             .onGranted { handler.sendEmptyMessage(0) }
             .onDenied {

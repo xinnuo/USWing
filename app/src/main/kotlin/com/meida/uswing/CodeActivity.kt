@@ -30,7 +30,7 @@ class CodeActivity : BaseActivity() {
         code_img.loadRectImage(BaseHttp.baseImg + getString("userHead"))
         code_name.text = getString("nickName")
 
-        Flowable.just(getString("token"))
+        Flowable.just("token:${getString("token")}")
             .map {
                 return@map QRCodeEncoder.syncEncodeQRCode(
                     it,

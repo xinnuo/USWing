@@ -42,7 +42,7 @@ class CoachVideoActivity : BaseActivity() {
         super.init_title()
         mType = intent.getStringExtra("type")
 
-        empty_hint.text = "暂无相关收藏信息！"
+        empty_hint.text = "暂无相关魔频信息！"
         swipe_refresh.refresh { getData(1) }
         recycle_list.load_Linear(baseContext, swipe_refresh) {
             if (!isLoadingMore) {

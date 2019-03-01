@@ -172,8 +172,8 @@ class CoachActivity : BaseActivity() {
                     adapter = SlimAdapter.create()
                         .register<CommonData>(R.layout.item_report_list) { data, injector ->
 
-                            val index = list.indexOf(data)
-                            val isLast = index == list.size - 1
+                            val index = items.indexOf(data)
+                            val isLast = index == items.size - 1
 
                             @Suppress("DEPRECATION")
                             injector.text(R.id.item_report_title, data.letter)

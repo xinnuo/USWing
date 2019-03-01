@@ -1,1 +1,1 @@
-include ':app', ':okgo', ':WeChatVideoView', ':AMap', ':RongCloudIMkit'
+include ':app', ':okgo', ':WeChatVideoView', ':AMap', ':RongCloudIMkit', ':artplayer'

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <View
-        android:id="@+id/item_video_divider"
+        android:id="@+id/item_video_divider1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_size_10" />
 
@@ -58,8 +58,8 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:paddingStart="@dimen/dimen_size_5"
-                android:paddingEnd="@dimen/dimen_size_5"
+                android:paddingStart="@dimen/dimen_size_10"
+                android:paddingEnd="@dimen/dimen_size_10"
                 android:paddingBottom="@dimen/dimen_size_3"
                 android:text="描述"
                 android:textSize="@dimen/sp_size_10" />
@@ -152,5 +152,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_size_5" />
+
+    <View
+        android:id="@+id/item_video_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_5"
+        android:visibility="gone" />
 
 </LinearLayout>

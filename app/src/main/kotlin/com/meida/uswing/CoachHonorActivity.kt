@@ -42,7 +42,7 @@ class CoachHonorActivity : BaseActivity() {
 
     override fun init_title() {
         super.init_title()
-        empty_hint.text = "暂无相关充值记录！"
+        empty_hint.text = "暂无相关荣誉记录！"
         swipe_refresh.refresh {
             Completable.timer(300, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
@@ -78,6 +78,7 @@ class CoachHonorActivity : BaseActivity() {
                                             toast(msg)
                                             list.remove(data)
                                             mAdapter.notifyDataSetChanged()
+                                            empty_view.apply { if (list.isEmpty()) visible() else gone() }
                                             EventBus.getDefault().post(RefreshMessageEvent("删除荣誉", index.toString()))
                                         }
 
@@ -100,6 +101,8 @@ class CoachHonorActivity : BaseActivity() {
     fun onMessageEvent(event: RefreshMessageEvent) {
         when (event.type) {
             "添加荣誉" -> {
+                empty_view.gone()
+
                 list.add(CommonData().apply {
                     honorId = event.id
                     honorInfo = event.name

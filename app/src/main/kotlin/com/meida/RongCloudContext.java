@@ -148,6 +148,8 @@ public class RongCloudContext implements
          * 需要使用这个方法设置当前用户的信息， 然后在init(Context)之后调用setMessageAttachedUserInfo(boolean)，
          * 这样可以在每条消息中携带当前用户的信息，IMKit会在接收到消息的时候取出用户信息并刷新到界面上。
          *
+         * 注：设置当前用户信息时，登录需返回用户信息，且更改名称和头像时重新调用该方法。
+         *
          * @param userInfo 当前用户信息。
          */
         RongIM.getInstance().setCurrentUserInfo(

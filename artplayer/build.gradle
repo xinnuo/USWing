@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdkVersion
+    defaultConfig {
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionName "0.7.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'junit:junit:4.12'
+
+    // required
+    api 'org.salient.artvideoplayer:artplayer-java:' + versions.artplayerVersion
+
+    // Default control panel: optional
+    api 'org.salient.artvideoplayer:artplayer-ui:' + versions.artplayerVersion
+
+    // ijkPlayer: optional
+    api 'org.salient.artvideoplayer:artplayer-ijk:' + versions.artplayerVersion
+    api "org.salient.artvideoplayer:artplayer-armv7a:" + versions.artplayerVersion
+}

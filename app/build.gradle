@@ -118,6 +118,7 @@ dependencies {
     anko.each { implementation 'org.jetbrains.anko:anko-' + it + versions.ankoVersion }
 
     implementation project(':AMap')
+    implementation project(':artplayer')
     implementation project(':okgo')
     implementation project(':RongCloudIMkit')
     implementation project(':WeChatVideoView')

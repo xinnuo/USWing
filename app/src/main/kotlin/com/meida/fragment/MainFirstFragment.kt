@@ -16,6 +16,7 @@ import com.allen.library.SuperTextView
 import com.amap.api.AMapLocationHelper
 import com.jude.rollviewpager.RollPagerView
 import com.lzg.extend.BaseResponse
+import com.lzg.extend.StringDialogCallback
 import com.lzg.extend.jackson.JacksonDialogCallback
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
@@ -33,6 +34,7 @@ import net.idik.lib.slimadapter.SlimAdapter
 import net.idik.lib.slimadapter.SlimAdapterEx
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
+import org.json.JSONObject
 import java.text.DecimalFormat
 import java.util.*
 
@@ -162,7 +164,7 @@ class MainFirstFragment : BaseFragment() {
 
                                     .with<GlideImageView>(R.id.item_first_img) { img ->
                                         img.load(
-                                            BaseHttp.baseImg + data.certification_img,
+                                            BaseHttp.baseImg + data.user_head,
                                             R.mipmap.default_coach
                                         )
                                     }
@@ -204,16 +206,7 @@ class MainFirstFragment : BaseFragment() {
         mVideo.oneClick { startActivity<VideoActivity>() }
         mCompare.oneClick { startActivity<CompareActivity>() }
         first_scan.oneClick { startActivity<ScanActivity>() }
-        first_service.oneClick {
-            showHintDialog(
-                "拨打电话",
-                "400-800-9999",
-                "取消",
-                "拨打"
-            ) {
-
-            }
-        }
+        first_service.oneClick { getServiceData() }
     }
 
     private fun getLocationData() {
@@ -234,6 +227,26 @@ class MainFirstFragment : BaseFragment() {
                     }
                 }
             }
+    }
+
+    private fun getServiceData() {
+        OkGo.post<String>(BaseHttp.find_html_info)
+            .tag(this@MainFirstFragment)
+            .params("htmlKey", "lxwm")
+            .execute(object : StringDialogCallback(activity) {
+
+                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                    val obj = JSONObject(response.body()).optString("object")
+                    showHintDialog(
+                        "拨打电话",
+                        obj,
+                        "取消",
+                        "拨打"
+                    ) { if (it == "确定") makeCall(obj) }
+                }
+
+            })
     }
 
     override fun getData() {

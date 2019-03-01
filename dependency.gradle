@@ -35,4 +35,7 @@ ext.versions = [
         amapSearch: '6.5.0.1',
         amap3DVersion: '6.7.0',
         amapNavi3DVersion: '6.6.0_3dmap6.7.0',
+
+        /*ArtPlayer*/
+        artplayerVersion: '0.7.0',
 ]

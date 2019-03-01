@@ -109,8 +109,12 @@ object BaseHttp {
     val add_startboot = "$baseIp/add_startboot.rm"               //开机
     val add_magicvoide = "$baseIp/add_magicvoide.rm"             //获取魔频
     val find_magicvoide_list = "$baseIp/find_magicvoide_list.rm" //魔频列表
+    val delete_magicvoide = "$baseIp/delete_magicvoide.rm"       //删除魔频
+    val labels_all = "$baseIp/labels_all.rm"                     //标签
+    val edit_magicvoide = "$baseIp/edit_magicvoide.rm"           //编辑魔频
 
     val leave_message_sub = "$baseIp/leave_message_sub.rm" //意见反馈
     val find_area_parent = "$baseIp/find_area_parent.rm"   //父级区域
     val find_area_level = "$baseIp/find_area_level.rm"     //级别区域
+    val find_html_info = "$baseIp/find_html_info.rm"       //字典详情
 }
