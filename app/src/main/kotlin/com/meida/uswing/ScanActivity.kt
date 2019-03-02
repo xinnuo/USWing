@@ -91,6 +91,9 @@ class ScanActivity : BaseActivity() {
                             }
                         }
                     }
+                    else -> {
+                        resetZxing("无效的二维码！")
+                    }
                 }
             }
         }

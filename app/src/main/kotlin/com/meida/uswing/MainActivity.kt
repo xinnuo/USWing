@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.widget.CompoundButton
+import cn.jpush.android.api.JPushInterface
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.jackson.JacksonDialogCallback
 import com.lzy.okgo.OkGo
@@ -23,6 +24,7 @@ import com.meida.model.CommonData
 import com.meida.model.GroupModel
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
+import com.meida.share.Const
 import io.rong.imkit.RongIM
 import io.rong.imkit.model.GroupUserInfo
 import io.rong.imlib.RongIMClient
@@ -42,6 +44,15 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         setToolbarVisibility(false)
         init_title()
+
+        if (!getBoolean("isTS")) {
+            JPushInterface.resumePush(applicationContext)
+            //设置别名（先初始化）
+            JPushInterface.setAlias(
+                applicationContext,
+                Const.JPUSH_SEQUENCE,
+                getString("token"))
+        }
 
         EventBus.getDefault().register(this@MainActivity)
 

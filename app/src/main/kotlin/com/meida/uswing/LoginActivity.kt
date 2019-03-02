@@ -1,6 +1,7 @@
 package com.meida.uswing
 
 import android.os.Bundle
+import cn.jpush.android.api.JPushInterface
 import com.meida.RongCloudContext
 import com.meida.base.*
 import com.meida.fragment.LoginFragment
@@ -63,7 +64,7 @@ class LoginActivity : BaseActivity(), OnFragmentListener {
     }
 
     private fun clearData() {
-        clearBoolean("isLogin")
+        clearBoolean("isLogin", "isTS")
 
         clearString(
             "token",
@@ -80,7 +81,11 @@ class LoginActivity : BaseActivity(), OnFragmentListener {
             "city"
         )
 
-        //清除通知栏消息
+        //停止及清除极光推送
+        JPushInterface.stopPush(applicationContext)
+        JPushInterface.clearAllNotifications(applicationContext)
+
+        //清除及退出融云
         RongCloudContext.getInstance().clearNotificationMessage()
         RongPushClient.clearAllPushNotifications(applicationContext)
         RongIM.getInstance().logout()

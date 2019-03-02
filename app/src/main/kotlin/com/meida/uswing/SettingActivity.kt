@@ -1,8 +1,13 @@
 package com.meida.uswing
 
 import android.os.Bundle
-import com.meida.base.BaseActivity
-import com.meida.base.oneClick
+import cn.jpush.android.api.JPushInterface
+import com.luck.picture.lib.tools.PictureFileUtils
+import com.meida.base.*
+import com.meida.share.Const
+import com.meida.utils.DialogHelper.showHintDialog
+import com.meida.utils.GlideCacheUtil
+import com.meida.utils.Tools
 import kotlinx.android.synthetic.main.activity_setting.*
 import org.jetbrains.anko.startActivity
 
@@ -16,12 +21,46 @@ class SettingActivity : BaseActivity() {
 
     override fun init_title() {
         super.init_title()
+        setting_version.setRightString("v${Tools.getVersion(baseContext)}")
+        setting_cache.setRightString(
+            GlideCacheUtil.getInstance().getCacheSize(baseContext)
+        )
+        setting_switch.isChecked = !getBoolean("isTS")
 
-        setting_switch.setOnCheckedChangeListener { _, isChecked ->  }
-        setting_deal.oneClick     { startActivity<WebActivity>("title" to "使用协议") }
-        setting_private.oneClick  { startActivity<WebActivity>("title" to "隐私说明") }
-        setting_about.oneClick    { startActivity<WebActivity>("title" to "关于我们") }
+        setting_switch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                JPushInterface.resumePush(applicationContext)
+                JPushInterface.setAlias(
+                    applicationContext,
+                    Const.JPUSH_SEQUENCE,
+                    getString("token")
+                )
+                putBoolean("isTS", false)
+            } else {
+                JPushInterface.stopPush(applicationContext)
+                putBoolean("isTS", true)
+            }
+        }
+
+        setting_deal.oneClick { startActivity<WebActivity>("title" to "使用协议") }
+        setting_private.oneClick { startActivity<WebActivity>("title" to "隐私说明") }
+        setting_about.oneClick { startActivity<WebActivity>("title" to "关于我们") }
         setting_feedback.oneClick { startActivity<FeedbackActivity>() }
-        bt_quit.oneClick          { startActivity<LoginActivity>("offLine" to true) }
+        setting_cache.oneClick {
+            showHintDialog("清空缓存", "确定要清空缓存吗？") {
+                if (it == "确定") {
+                    GlideCacheUtil.getInstance().clearImageAllCache(baseContext)
+                    PictureFileUtils.deleteCacheDirFile(baseContext)
+                    setting_cache.setRightString("0B")
+                }
+            }
+        }
+        bt_quit.oneClick {
+            showHintDialog("退出登录", "确定要退出当前账号吗？") {
+                if (it == "确定") {
+                    startActivity<LoginActivity>("offLine" to true)
+                }
+            }
+        }
     }
 }

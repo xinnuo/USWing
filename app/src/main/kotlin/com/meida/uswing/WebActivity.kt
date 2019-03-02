@@ -8,13 +8,18 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.lzg.extend.StringDialogCallback
+import com.lzy.okgo.OkGo
+import com.lzy.okgo.model.Response
 import com.meida.base.BaseActivity
 import com.meida.base.cancelLoadingDialog
 import com.meida.base.showLoadingDialog
+import com.meida.share.BaseHttp
 import com.meida.utils.isWeb
 import org.jetbrains.anko.backgroundColorResource
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.webView
+import org.json.JSONObject
 
 class WebActivity : BaseActivity() {
 
@@ -86,5 +91,129 @@ class WebActivity : BaseActivity() {
         }
 
         init_title(intent.getStringExtra("title"))
+
+        when (intent.getStringExtra("title")) {
+            "积分规则" -> {
+                OkGo.post<String>(BaseHttp.find_html_info)
+                    .tag(this@WebActivity)
+                    .params("htmlKey", "gfgz")
+                    .execute(object : StringDialogCallback(baseContext) {
+
+                        override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                            val obj = JSONObject(response.body())
+                            val str = "<!doctype html><html>\n" +
+                                    "<meta charset=\"utf-8\">" +
+                                    "<style type=\"text/css\">" +
+                                    "body{ padding:0; margin:0; }\n" +
+                                    ".con{ width:95%; margin:0 auto; color:#666; padding:0.5em 0; overflow:hidden; display:block; font-size:0.92em; line-height:1.8em; }\n" +
+                                    ".con h1,h2,h3,h4,h5,h6{ font-size:1em; }\n " +
+                                    "img{ width:auto; max-width: 100% !important; height:auto !important; margin:0 auto; display:block; }\n" +
+                                    "*{ max-width:100% !important; }\n" +
+                                    "</style>\n" +
+                                    "<body style=\"padding:0; margin:0; \">" +
+                                    "<div class=\"con\">" +
+                                    obj.optString("object") +
+                                    "</div>" +
+                                    "</body>" +
+                                    "</html>"
+
+                            webView.loadDataWithBaseURL(BaseHttp.baseImg, str, "text/html", "utf-8", "")
+                        }
+
+                    })
+            }
+            "注册协议", "使用协议" -> {
+                OkGo.post<String>(BaseHttp.find_html_info)
+                    .tag(this@WebActivity)
+                    .params("htmlKey", "syxy")
+                    .execute(object : StringDialogCallback(baseContext) {
+
+                        override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                            val obj = JSONObject(response.body())
+                            val str = "<!doctype html><html>\n" +
+                                    "<meta charset=\"utf-8\">" +
+                                    "<style type=\"text/css\">" +
+                                    "body{ padding:0; margin:0; }\n" +
+                                    ".con{ width:95%; margin:0 auto; color:#666; padding:0.5em 0; overflow:hidden; display:block; font-size:0.92em; line-height:1.8em; }\n" +
+                                    ".con h1,h2,h3,h4,h5,h6{ font-size:1em; }\n " +
+                                    "img{ width:auto; max-width: 100% !important; height:auto !important; margin:0 auto; display:block; }\n" +
+                                    "*{ max-width:100% !important; }\n" +
+                                    "</style>\n" +
+                                    "<body style=\"padding:0; margin:0; \">" +
+                                    "<div class=\"con\">" +
+                                    obj.optString("object") +
+                                    "</div>" +
+                                    "</body>" +
+                                    "</html>"
+
+                            webView.loadDataWithBaseURL(BaseHttp.baseImg, str, "text/html", "utf-8", "")
+                        }
+
+                    })
+            }
+            "隐私说明" -> {
+                OkGo.post<String>(BaseHttp.find_html_info)
+                    .tag(this@WebActivity)
+                    .params("htmlKey", "yssm")
+                    .execute(object : StringDialogCallback(baseContext) {
+
+                        override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                            val obj = JSONObject(response.body())
+                            val str = "<!doctype html><html>\n" +
+                                    "<meta charset=\"utf-8\">" +
+                                    "<style type=\"text/css\">" +
+                                    "body{ padding:0; margin:0; }\n" +
+                                    ".con{ width:95%; margin:0 auto; color:#666; padding:0.5em 0; overflow:hidden; display:block; font-size:0.92em; line-height:1.8em; }\n" +
+                                    ".con h1,h2,h3,h4,h5,h6{ font-size:1em; }\n " +
+                                    "img{ width:auto; max-width: 100% !important; height:auto !important; margin:0 auto; display:block; }\n" +
+                                    "*{ max-width:100% !important; }\n" +
+                                    "</style>\n" +
+                                    "<body style=\"padding:0; margin:0; \">" +
+                                    "<div class=\"con\">" +
+                                    obj.optString("object") +
+                                    "</div>" +
+                                    "</body>" +
+                                    "</html>"
+
+                            webView.loadDataWithBaseURL(BaseHttp.baseImg, str, "text/html", "utf-8", "")
+                        }
+
+                    })
+            }
+            "关于我们" -> {
+                OkGo.post<String>(BaseHttp.find_html_info)
+                    .tag(this@WebActivity)
+                    .params("htmlKey", "gywm")
+                    .execute(object : StringDialogCallback(baseContext) {
+
+                        override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                            val obj = JSONObject(response.body())
+                            val str = "<!doctype html><html>\n" +
+                                    "<meta charset=\"utf-8\">" +
+                                    "<style type=\"text/css\">" +
+                                    "body{ padding:0; margin:0; }\n" +
+                                    ".con{ width:95%; margin:0 auto; color:#666; padding:0.5em 0; overflow:hidden; display:block; font-size:0.92em; line-height:1.8em; }\n" +
+                                    ".con h1,h2,h3,h4,h5,h6{ font-size:1em; }\n " +
+                                    "img{ width:auto; max-width: 100% !important; height:auto !important; margin:0 auto; display:block; }\n" +
+                                    "*{ max-width:100% !important; }\n" +
+                                    "</style>\n" +
+                                    "<body style=\"padding:0; margin:0; \">" +
+                                    "<div class=\"con\">" +
+                                    obj.optString("object") +
+                                    "</div>" +
+                                    "</body>" +
+                                    "</html>"
+
+                            webView.loadDataWithBaseURL(BaseHttp.baseImg, str, "text/html", "utf-8", "")
+                        }
+
+                    })
+            }
+            "详情" -> { }
+        }
     }
 }
