@@ -107,6 +107,7 @@ object BaseHttp {
     val add_certification = "$baseIp/add_certification.rm"       //认证教练
 
     val add_startboot = "$baseIp/add_startboot.rm"               //开机
+    val find_startboot_price = "$baseIp/find_startboot_price.rm" //开机价格
     val add_magicvoide = "$baseIp/add_magicvoide.rm"             //获取魔频
     val find_magicvoide_list = "$baseIp/find_magicvoide_list.rm" //魔频列表
     val delete_magicvoide = "$baseIp/delete_magicvoide.rm"       //删除魔频

@@ -19,6 +19,7 @@ import com.meida.base.BottomDialog
 import com.meida.base.inflate
 import com.meida.uswing.IntegralChargeActivity
 import com.meida.uswing.R
+import com.meida.uswing.WalletChargeActivity
 import com.ruanmeng.utils.KeyboardHelper
 import com.weigan.loopview.LoopView
 import io.reactivex.Completable
@@ -27,6 +28,7 @@ import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 
 object DialogHelper {
@@ -580,7 +582,7 @@ object DialogHelper {
 
                 tvOk.onClick {
                     dismiss()
-                    listener.invoke(loopView.getSelectedItem(), items[loopView.getSelectedItem()])
+                    listener.invoke(loopView.selectedItem, items[loopView.selectedItem])
                 }
 
                 return view
@@ -593,6 +595,55 @@ object DialogHelper {
 
         }
 
+        dialog.show()
+    }
+
+    fun Context.showPayDialog(price: String, remain: String, listener: (String) -> Unit) {
+
+        val dialog = object : BaseDialog(this, true) {
+
+            @SuppressLint("SetTextI18n")
+            override fun onCreateView(): View {
+                val view = inflate<View>(R.layout.dialog_scan_center)
+
+                val ivClose = view.findViewById<ImageView>(R.id.dialog_close)
+                val tvHint = view.findViewById<TextView>(R.id.dialog_price)
+                val tvNum = view.findViewById<TextView>(R.id.dialog_num)
+                val charge = view.findViewById<LinearLayout>(R.id.dialog_charge)
+                val btSure = view.findViewById<Button>(R.id.dialog_sure)
+
+                tvHint.text = price
+                tvNum.text = "${remain}元"
+
+                charge.onClick {
+                    dismiss()
+                    listener.invoke("取消")
+                    startActivity<WalletChargeActivity>()
+                }
+
+                btSure.onClick {
+                    val mPrice = price.toNotDouble()
+                    val mRemain = remain.toNotDouble()
+
+                    if (mPrice > mRemain) {
+                        toast("余额不足，请充值！")
+                        return@onClick
+                    }
+
+                    dismiss()
+                    listener.invoke("确定")
+                }
+
+                ivClose.onClick {
+                    dismiss()
+                    listener.invoke("取消")
+                }
+
+                return view
+            }
+        }
+
+        dialog.setCanceledOnTouchOutside(false)
         dialog.show()
     }
 

@@ -20,6 +20,7 @@
         android:layout_marginStart="@dimen/dimen_size_45"
         android:layout_marginTop="@dimen/dimen_size_10"
         android:layout_marginEnd="@dimen/dimen_size_45"
+        android:layout_marginBottom="@dimen/dimen_size_60"
         android:background="@color/white"
         android:orientation="vertical">
 

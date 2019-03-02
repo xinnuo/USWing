@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <!--<android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,7 +17,7 @@
             app:layout_constraintDimensionRatio="16:9"
             tools:ignore="MissingConstraints" />
 
-    </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>-->
 
     <TextView
         android:id="@+id/compare_compare"
