@@ -1,32 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dimen_size_15"
+        android:layout_marginTop="@dimen/dimen_size_15"
+        android:layout_marginEnd="@dimen/dimen_size_15"
+        android:layout_weight="1">
 
-        <org.salient.artplayer.VideoView
-            android:id="@+id/compare_video"
+        <com.meida.view.CustomVideoPlayer
+            android:id="@+id/compare_first"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_size_0"
-            app:layout_constraintDimensionRatio="16:9"
-            tools:ignore="MissingConstraints" />
+            android:layout_height="match_parent" />
 
-    </android.support.constraint.ConstraintLayout>-->
+    </FrameLayout>
 
-    <TextView
-        android:id="@+id/compare_compare"
-        style="@style/Font14_white"
-        android:layout_width="@dimen/dimen_size_65"
-        android:layout_height="@dimen/dimen_size_25"
-        android:background="@mipmap/btn07"
-        android:gravity="center"
-        android:onClick="doClick"
-        android:text="对比" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_45"
+        android:layout_marginStart="@dimen/dimen_size_15"
+        android:layout_marginEnd="@dimen/dimen_size_15"
+        android:gravity="center_vertical|end">
+
+        <TextView
+            android:id="@+id/compare_speed"
+            style="@style/Font13_white"
+            android:layout_width="@dimen/dimen_size_65"
+            android:layout_height="@dimen/dimen_size_25"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            android:background="@mipmap/btn07"
+            android:gravity="center"
+            android:onClick="doClick" />
+
+        <TextView
+            android:id="@+id/compare_left"
+            style="@style/Font13_white"
+            android:layout_width="@dimen/dimen_size_62"
+            android:layout_height="@dimen/dimen_size_25"
+            android:background="@mipmap/btn03"
+            android:gravity="center"
+            android:onClick="doClick"
+            android:text="正面" />
+
+        <TextView
+            android:id="@+id/compare_right"
+            style="@style/Font14_black"
+            android:layout_width="@dimen/dimen_size_62"
+            android:layout_height="@dimen/dimen_size_25"
+            android:background="@mipmap/btn04"
+            android:gravity="center"
+            android:onClick="doClick"
+            android:text="侧面" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dimen_size_15"
+        android:layout_marginEnd="@dimen/dimen_size_15"
+        android:layout_marginBottom="@dimen/dimen_size_15"
+        android:layout_weight="1">
+
+        <com.meida.view.CustomVideoPlayer
+            android:id="@+id/compare_second"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
 </LinearLayout>

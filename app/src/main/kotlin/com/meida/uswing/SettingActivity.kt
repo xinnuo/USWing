@@ -10,6 +10,8 @@ import com.meida.utils.GlideCacheUtil
 import com.meida.utils.Tools
 import kotlinx.android.synthetic.main.activity_setting.*
 import org.jetbrains.anko.startActivity
+import tv.danmaku.ijk.media.MultiVideoManager
+import java.io.File
 
 class SettingActivity : BaseActivity() {
 
@@ -22,10 +24,11 @@ class SettingActivity : BaseActivity() {
     override fun init_title() {
         super.init_title()
         setting_version.setRightString("v${Tools.getVersion(baseContext)}")
-        setting_cache.setRightString(
-            GlideCacheUtil.getInstance().getCacheSize(baseContext)
-        )
         setting_switch.isChecked = !getBoolean("isTS")
+
+        setting_cache.setRightString(
+            GlideCacheUtil.getInstance().getAllCacheSize(baseContext)
+        )
 
         setting_switch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -47,10 +50,11 @@ class SettingActivity : BaseActivity() {
         setting_about.oneClick { startActivity<WebActivity>("title" to "关于我们") }
         setting_feedback.oneClick { startActivity<FeedbackActivity>() }
         setting_cache.oneClick {
-            showHintDialog("清空缓存", "确定要清空缓存吗？") {
-                if (it == "确定") {
+            showHintDialog("清空缓存", "确定要清空缓存吗？") { result ->
+                if (result == "确定") {
                     GlideCacheUtil.getInstance().clearImageAllCache(baseContext)
                     PictureFileUtils.deleteCacheDirFile(baseContext)
+                    MultiVideoManager.instance().values.forEach { it.clearAllDefaultCache(baseContext) }
                     setting_cache.setRightString("0B")
                 }
             }

@@ -222,6 +222,7 @@
                 android:id="@+id/coach_img"
                 android:layout_width="@dimen/dimen_size_80"
                 android:layout_height="@dimen/dimen_size_80"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/default_logo" />
 
         </com.loopeer.shadow.ShadowView>

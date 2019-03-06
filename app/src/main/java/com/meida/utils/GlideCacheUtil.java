@@ -82,13 +82,25 @@ public class GlideCacheUtil {
         return "";
     }
 
+    public String getAllCacheSize(Context context) {
+        try {
+            long cacheSize = getFolderSize(new File(context.getCacheDir() + "/"));
+            long cacheExternalSize = getFolderSize(new File(context.getExternalCacheDir() + "/"));
+
+            return getFormatSize(cacheSize + cacheExternalSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     /**
      * 获取指定文件夹内所有文件大小的和
      *
      * @param file file
      * @return size
      */
-    private long getFolderSize(File file) {
+    public long getFolderSize(File file) {
         long size = 0;
         try {
             File[] fileList = file.listFiles();
@@ -142,7 +154,7 @@ public class GlideCacheUtil {
      * @param size size
      * @return size
      */
-    private static String getFormatSize(double size) {
+    public static String getFormatSize(double size) {
 
         double kiloByte = size / 1024;
         if (kiloByte < 1) {

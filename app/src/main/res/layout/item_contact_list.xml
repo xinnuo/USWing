@@ -32,6 +32,7 @@
                 android:id="@+id/item_contact_img"
                 android:layout_width="@dimen/dimen_size_50"
                 android:layout_height="@dimen/dimen_size_50"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/default_logo" />
 
             <TextView

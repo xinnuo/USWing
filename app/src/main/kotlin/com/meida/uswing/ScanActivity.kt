@@ -123,8 +123,10 @@ class ScanActivity : BaseActivity() {
                     msg: String,
                     msgCode: String
                 ) {
+                    val obj = JSONObject(response.body())
+                        .optJSONObject("object") ?: JSONObject()
 
-                    mPrice = JSONObject(response.body()).optString("object")
+                    mPrice = obj.optString("startSum")
                 }
 
             })
