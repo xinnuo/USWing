@@ -18,10 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:paddingBottom="19dp"
             android:paddingLeft="9dp"
-            android:paddingRight="19dp"
             android:paddingTop="10dp"
+            android:paddingRight="19dp"
+            android:paddingBottom="19dp"
             android:src="@drawable/rc_real_time_location_exit" />
 
         <HorizontalScrollView
@@ -29,8 +29,8 @@
             android:layout_height="45dp"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_marginTop="4dp"
+            android:layout_marginRight="40dp"
             android:scrollbars="none">
 
             <LinearLayout
@@ -45,10 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:paddingBottom="19dp"
             android:paddingLeft="19dp"
-            android:paddingRight="9dp"
             android:paddingTop="10dp"
+            android:paddingRight="9dp"
+            android:paddingBottom="19dp"
             android:src="@drawable/rc_real_time_location_hide" />
 
         <TextView

@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- PictureSelectorActivity -->
+    <style name="PicselAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Status bar color 状态栏背景色 -->
+        <item name="colorPrimaryDark">#393A3E</item>
+    </style>
+
+    <!-- PicturePreviewActivity -->
+    <style name="PicprevAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Status bar color 状态栏背景色 -->
+        <item name="colorPrimaryDark">#F0393A3E</item>
+    </style>
+
+</resources>

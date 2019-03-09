@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="#0195ff">
+
     <ImageView
         android:id="@+id/rc_iv_press_back"
         android:layout_width="wrap_content"
@@ -36,4 +37,5 @@
         android:inputType="textNoSuggestions"
         android:imeActionLabel=""
         android:background="@drawable/rc_ext_bg_edit_text_white"/>
+
 </LinearLayout>

@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.meida.uswing.MessageActivity;
+import com.meida.uswing.VideoActivity;
+import com.meida.uswing.WalletCashListActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,12 +55,23 @@ public class JPushReceiver extends BroadcastReceiver {
                 if (!json.isNull("type")) {
                     String push_type = json.optString("type");
                     switch (push_type) {
-                        case "SYS":
-                        case "MSG":
-                        case "ORDER":
-                            /*intent = new Intent(context, MessageActivity.class);
+                        case "SYS":    //系统
+                        case "friend": //好友
+                            intent = new Intent(context, MessageActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);*/
+                            context.startActivity(intent);
+                            break;
+                        case "video": //魔频
+                            intent = new Intent(context, VideoActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        case "withdraw": //提现
+                            intent = new Intent(context, WalletCashListActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        case "start": //开机
                             break;
                     }
                 }

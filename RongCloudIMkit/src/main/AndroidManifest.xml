@@ -49,17 +49,20 @@
 
         <activity
             android:name="io.rong.imkit.plugin.image.PictureSelectorActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/PicselAppTheme" />
 
         <activity
             android:name="io.rong.imkit.plugin.image.PicturePreviewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/PicprevAppTheme" />
 
         <!-- 开发者可以修改 RongBaseActivity 的 rc_base_activity_layout 布局文件调整 actionbar-->
         <activity
             android:name="io.rong.imkit.tools.RongWebviewActivity"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="io.rong.imkit.intent.action.webview" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -85,12 +88,17 @@
             android:name="io.rong.imkit.mention.MemberMentionedActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name="io.rong.imkit.activity.FileManagerActivity" />
-        <activity android:name="io.rong.imkit.activity.FileListActivity" />
+        <activity
+            android:name="io.rong.imkit.activity.FileManagerActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name="io.rong.imkit.activity.FileListActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name="io.rong.imkit.activity.FilePreviewActivity"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="io.rong.imkit.intent.action.openfile" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -158,8 +166,6 @@
             </intent-filter>
         </receiver>
         <!--必选： SDK 核心功能-->
-
-        <!-- end -->
 
     </application>
 

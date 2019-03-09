@@ -110,7 +110,7 @@ class MainFirstFragment : BaseFragment() {
                         when {
                             length == 0.0 -> it.text = "0m"
                             length < 1000 -> it.text = "${DecimalFormat("0.00").format(length)}m"
-                            else -> it.text = "${DecimalFormat("0.00").format(length / 1000)}m"
+                            else -> it.text = "${DecimalFormat("0.00").format(length / 1000)}km"
                         }
                     }
 

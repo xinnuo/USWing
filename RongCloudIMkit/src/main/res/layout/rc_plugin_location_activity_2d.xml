@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -35,9 +34,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right|bottom"
-            android:layout_marginBottom="24dp"
             android:layout_marginRight="5dp"
+            android:layout_marginBottom="24dp"
             android:src="@drawable/rc_ext_locator" />
+
     </FrameLayout>
 
     <FrameLayout
@@ -52,7 +52,7 @@
             android:background="@android:color/white"
             android:divider="@color/rc_map_list_divider_color"
             android:dividerHeight="1dp"
-            android:paddingLeft="14dp"></ListView>
+            android:paddingLeft="14dp" />
 
         <ProgressBar
             android:id="@+id/rc_ext_loading"
@@ -61,5 +61,7 @@
             android:layout_gravity="center"
             android:indeterminateDrawable="@drawable/rc_progress_sending_style"
             android:visibility="gone" />
+
     </FrameLayout>
+
 </LinearLayout>

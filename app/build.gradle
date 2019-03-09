@@ -121,7 +121,6 @@ dependencies {
     implementation project(':ijkplayer')
     implementation project(':okgo')
     implementation project(':RongCloudIMkit')
-    implementation project(':WeChatVideoView')
     def aar = ['FlycoDialog-1.3.2',
                'RollViewPager',
                'SuperText-1.1.1',

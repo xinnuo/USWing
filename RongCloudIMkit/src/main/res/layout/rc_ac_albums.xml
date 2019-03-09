@@ -12,11 +12,9 @@
         android:horizontalSpacing="2dp"
         android:numColumns="3"
         android:scrollbars="none"
-        android:verticalSpacing="2dp"></GridView>
-
+        android:verticalSpacing="2dp" />
 
     <FrameLayout
-
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="bottom"
@@ -49,7 +47,7 @@
             android:text="预览"
             android:textColor="#fff"
             android:textSize="14sp" />
-    </FrameLayout>
 
+    </FrameLayout>
 
 </FrameLayout>

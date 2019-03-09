@@ -118,6 +118,9 @@
             android:name=".CompareCollectActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".CompareContactActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".VideoDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -162,9 +165,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".StateActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".VideoViewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CodeActivity"

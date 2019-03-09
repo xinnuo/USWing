@@ -86,8 +86,10 @@ class WalletActivity : BaseActivity() {
                         R.id.item_wallet_title, when (data.amount_type) {
                             "1" -> "充值"
                             "2" -> "提现失败"
+                            "3" -> "开机失败"
                             "5" -> "提现"
                             "6" -> "积分充值"
+                            "7" -> "开机"
                             else -> "其他"
                         }
                     )

@@ -145,4 +145,24 @@ class NewsDetailActivity : BaseActivity() {
             })
     }
 
+    override fun onResume() {
+        super.onResume()
+        news_web.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        news_web.onPause()
+    }
+
+    override fun onBackPressed() {
+        if (news_web.canGoBack()) news_web.goBack()
+        else super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        news_web.destroy()
+    }
+
 }

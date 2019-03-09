@@ -48,15 +48,15 @@ class NewsActivity : BaseActivity() {
                             mType = ""
                         }
                         1 -> {
-                            mRecommend = "0"
+                            mRecommend = ""
                             mType = "0"
                         }
                         2 -> {
-                            mRecommend = "0"
+                            mRecommend = ""
                             mType = "1"
                         }
                         3 -> {
-                            mRecommend = "0"
+                            mRecommend = ""
                             mType = "2"
                         }
                     }

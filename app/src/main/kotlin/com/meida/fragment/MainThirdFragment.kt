@@ -1,7 +1,5 @@
 package com.meida.fragment
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -13,9 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomViewTarget
-import com.bumptech.glide.request.transition.Transition
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.StringDialogCallback
 import com.lzg.extend.jackson.JacksonDialogCallback
@@ -25,15 +20,17 @@ import com.meida.base.*
 import com.meida.model.CommonData
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
-import com.meida.uswing.*
+import com.meida.uswing.R
+import com.meida.uswing.ReportActivity
+import com.meida.uswing.StateDetailActivity
+import com.meida.uswing.StateIssueActivity
+import com.meida.utils.*
 import com.meida.utils.DialogHelper.showCommentDialog
 import com.meida.utils.DialogHelper.showItemDialog
 import com.meida.utils.DialogHelper.showRewardDialog
 import com.meida.utils.DialogHelper.showRightPopup
-import com.meida.utils.TimeHelper
-import com.meida.utils.dp2px
-import com.meida.utils.toTextInt
 import com.meida.view.CenterImageSpan
+import com.meida.view.EmptyControlVideo
 import com.meida.view.NineGridLayout
 import com.ruanmeng.view.FullyLinearLayoutManager
 import com.sunfusheng.GlideImageView
@@ -55,7 +52,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
-import kotlin.collections.ArrayList
 
 class MainThirdFragment : BaseFragment() {
 
@@ -229,30 +225,10 @@ class MainThirdFragment : BaseFragment() {
                         if (data.vtype != "1") return@with
 
                         if (imgArr.length() > 0) {
-                            Glide.with(activity!!)
-                                .asBitmap()
-                                .load(BaseHttp.circleImg + imgArr.optJSONObject(0).optString("imgurl"))
-                                .into(object : CustomViewTarget<GlideImageView, Bitmap>(it) {
-
-                                    override fun onResourceReady(
-                                        bitmap: Bitmap,
-                                        transition: Transition<in Bitmap>?
-                                    ) {
-                                        data.width = bitmap.width.toString()
-                                        data.height = bitmap.height.toString()
-
-                                        it.setImageBitmap(bitmap)
-                                    }
-
-                                    override fun onLoadFailed(errorDrawable: Drawable?) {
-                                        it.setImageResource(R.mipmap.default_img)
-                                    }
-
-                                    override fun onResourceCleared(placeholder: Drawable?) {
-                                        it.setImageResource(R.mipmap.default_img)
-                                    }
-
-                                })
+                            it.load(
+                                BaseHttp.circleImg + imgArr.optJSONObject(0).optString("imgurl"),
+                                R.mipmap.default_img
+                            )
                         }
                     }
 
@@ -462,14 +438,27 @@ class MainThirdFragment : BaseFragment() {
                             val videoPath = imgArr.optJSONObject(0).optString("fPath")
                             val imgVideoPath = imgArr.optJSONObject(0).optString("imgurl")
 
-                            VideoViewActivity.startVieoView(
-                                activity!!,
-                                v,
-                                data.width,
-                                data.height,
-                                BaseHttp.circleImg + imgVideoPath,
-                                BaseHttp.circleImg + videoPath
-                            )
+                            Diooto(activity)
+                                .immersive(true)
+                                .urls(BaseHttp.circleImg + imgVideoPath)
+                                .views(v)
+                                .type(DiootoConfig.VIDEO)
+                                .onProvideVideoView { EmptyControlVideo(activity) }
+                                .onVideoLoadEnd { dragView, _, progressView ->
+                                    progressView.gone()
+
+                                    (dragView.contentView as EmptyControlVideo).apply {
+                                        loadCoverImage(BaseHttp.circleImg + imgVideoPath)
+                                        isLooping = true
+                                        setUp(BaseHttp.circleImg + videoPath, true, "")
+                                        startPlayLogic()
+                                        front.onClick { dragView.backToMin() }
+                                    }
+
+                                    dragView.notifySize(activity!!.getScreenWidth(), activity!!.getScreenHeight())
+                                }
+                                .onFinish { (it.contentView as EmptyControlVideo).release() }
+                                .start()
                         }
                     }
 

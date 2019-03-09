@@ -118,6 +118,8 @@ class CoachVideoActivity : BaseActivity() {
                                 )
                             }
                             else -> {
+                                val userInfoId = intent.getStringExtra("userInfoId") ?: ""
+
                                 startActivity<CompareActivity>(
                                     "title" to "我的魔频",
                                     "magicvoideId" to data.magicvoide_id,
@@ -125,7 +127,7 @@ class CoachVideoActivity : BaseActivity() {
                                     "video2" to BaseHttp.circleImg + data.negative_voide,
                                     "videoImg1" to BaseHttp.circleImg + data.positive_img,
                                     "videoImg2" to BaseHttp.circleImg + data.negative_img,
-                                    "share" to true
+                                    "share" to (userInfoId == getString("token"))
                                 )
                             }
                         }

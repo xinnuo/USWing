@@ -528,16 +528,24 @@ object DialogHelper {
         }
     }
 
-    fun Context.showGroupDialog(listener: (String) -> Unit) {
+    fun Context.showGroupDialog(
+        title: String = "群聊名称",
+        hint: String = "请输入群聊名称",
+        listener: (String) -> Unit
+    ) {
 
         val dialog = object : BaseDialog(this, true) {
 
             override fun onCreateView(): View {
                 val view = inflate<View>(R.layout.dialog_group_center)
 
+                val tvTitle = view.findViewById<TextView>(R.id.dialog_title)
                 val ivClose = view.findViewById<ImageView>(R.id.dialog_close)
                 val etInput = view.findViewById<EditText>(R.id.dialog_input)
                 val btSure = view.findViewById<Button>(R.id.dialog_sure)
+
+                tvTitle.text = title
+                etInput.hint = hint
 
                 btSure.onClick {
                     dismiss()

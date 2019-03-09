@@ -1,7 +1,5 @@
 package com.meida.uswing
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -9,9 +7,6 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.view.View
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomViewTarget
-import com.bumptech.glide.request.transition.Transition
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.StringDialogCallback
 import com.lzg.extend.jackson.JacksonDialogCallback
@@ -21,14 +16,12 @@ import com.meida.base.*
 import com.meida.model.CommonData
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
+import com.meida.utils.*
 import com.meida.utils.DialogHelper.showCommentDialog
 import com.meida.utils.DialogHelper.showRewardDialog
 import com.meida.utils.DialogHelper.showRightPopup
-import com.meida.utils.StatusUtil
-import com.meida.utils.TimeHelper
-import com.meida.utils.dp2px
-import com.meida.utils.toTextInt
 import com.meida.view.CenterImageSpan
+import com.meida.view.EmptyControlVideo
 import com.meida.view.NineGridLayout
 import com.ruanmeng.view.FullyLinearLayoutManager
 import com.sunfusheng.GlideImageView
@@ -40,6 +33,7 @@ import net.moyokoo.diooto.config.DiootoConfig
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.include
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONArray
@@ -168,30 +162,10 @@ class CoachStateActivity : BaseActivity() {
                         if (data.vtype != "1") return@with
 
                         if (imgArr.length() > 0) {
-                            Glide.with(baseContext)
-                                .asBitmap()
-                                .load(BaseHttp.circleImg + imgArr.optJSONObject(0).optString("imgurl"))
-                                .into(object : CustomViewTarget<GlideImageView, Bitmap>(it) {
-
-                                    override fun onResourceReady(
-                                        bitmap: Bitmap,
-                                        transition: Transition<in Bitmap>?
-                                    ) {
-                                        data.width = bitmap.width.toString()
-                                        data.height = bitmap.height.toString()
-
-                                        it.setImageBitmap(bitmap)
-                                    }
-
-                                    override fun onLoadFailed(errorDrawable: Drawable?) {
-                                        it.setImageResource(R.mipmap.default_img)
-                                    }
-
-                                    override fun onResourceCleared(placeholder: Drawable?) {
-                                        it.setImageResource(R.mipmap.default_img)
-                                    }
-
-                                })
+                            it.load(
+                                BaseHttp.circleImg + imgArr.optJSONObject(0).optString("imgurl"),
+                                R.mipmap.default_img
+                            )
                         }
                     }
 
@@ -401,14 +375,27 @@ class CoachStateActivity : BaseActivity() {
                             val videoPath = imgArr.optJSONObject(0).optString("fPath")
                             val imgVideoPath = imgArr.optJSONObject(0).optString("imgurl")
 
-                            VideoViewActivity.startVieoView(
-                                baseContext,
-                                v,
-                                data.width,
-                                data.height,
-                                BaseHttp.circleImg + imgVideoPath,
-                                BaseHttp.circleImg + videoPath
-                            )
+                            Diooto(baseContext)
+                                .immersive(true)
+                                .urls(BaseHttp.circleImg + imgVideoPath)
+                                .views(v)
+                                .type(DiootoConfig.VIDEO)
+                                .onProvideVideoView { EmptyControlVideo(baseContext) }
+                                .onVideoLoadEnd { dragView, _, progressView ->
+                                    progressView.gone()
+
+                                    (dragView.contentView as EmptyControlVideo).apply {
+                                        loadCoverImage(BaseHttp.circleImg + imgVideoPath)
+                                        isLooping = true
+                                        setUp(BaseHttp.circleImg + videoPath, true, "")
+                                        startPlayLogic()
+                                        front.onClick { dragView.backToMin() }
+                                    }
+
+                                    dragView.notifySize(getScreenWidth(), getScreenHeight())
+                                }
+                                .onFinish { (it.contentView as EmptyControlVideo).release() }
+                                .start()
                         }
                     }
 

@@ -3,12 +3,14 @@ package com.meida.uswing
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import com.meida.base.BaseActivity
-import com.meida.base.gone
-import com.meida.base.oneClick
-import com.meida.base.visible
+import com.lzg.extend.StringDialogCallback
+import com.lzy.okgo.OkGo
+import com.lzy.okgo.model.Response
+import com.meida.base.*
 import com.meida.model.RefreshMessageEvent
+import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showCompareDialog
+import com.meida.utils.DialogHelper.showGroupDialog
 import com.meida.utils.DialogHelper.showShareDialog
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_compare.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import tv.danmaku.ijk.media.MultiVideoManager
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
@@ -66,7 +69,59 @@ class CompareActivity : BaseActivity() {
         if (videoPositive.isNotEmpty()) initVideoFirst()
 
         ivRight.oneClick {
-            showShareDialog { }
+            showShareDialog {
+                when (it) {
+                    "QQ" -> {
+                    }
+                    "微信" -> {
+                    }
+                    "朋友圈" -> {
+                    }
+                    "新浪" -> {
+                    }
+                    "问答" -> {
+                        if (videoFirstId.isEmpty()) {
+                            toast("视频信息获取失败")
+                            return@showShareDialog
+                        }
+
+                        showGroupDialog("问答内容", "请输入问答内容") { str ->
+                            if (str.isEmpty()) {
+                                toast("请输入问答内容")
+                                return@showGroupDialog
+                            }
+
+                            /* 分享问答 */
+                            OkGo.post<String>(BaseHttp.add_circle_share)
+                                .tag(this@CompareActivity)
+                                .isMultipart(true)
+                                .headers("token", getString("token"))
+                                .params("circleTitle", str)
+                                .params("magicvoideId", videoFirstId)
+                                .execute(object : StringDialogCallback(baseContext) {
+
+                                    override fun onSuccessResponse(
+                                        response: Response<String>,
+                                        msg: String,
+                                        msgCode: String
+                                    ) {
+                                        toast(msg)
+                                    }
+
+                                })
+                        }
+                    }
+                    "点评" -> {
+                        if (isFront && videoPositive.isEmpty()) return@showShareDialog
+                        if (!isFront && videoNegative.isEmpty()) return@showShareDialog
+
+                        startActivity<CompareContactActivity>(
+                            "video" to if (isFront) videoPositive else videoNegative,
+                            "videoImg" to if (isFront) videoPositiveImg else videoNegativeImg
+                        )
+                    }
+                }
+            }
         }
     }
 
