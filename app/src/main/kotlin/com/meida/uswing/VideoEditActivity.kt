@@ -44,10 +44,10 @@ class VideoEditActivity : BaseActivity() {
         val memo = intent.getStringExtra("memo") ?: ""
 
         edit_name.setText(title)
-        edit_name.setSelection(edit_name.text.lastIndex)
+        edit_name.setSelection(edit_name.text.length)
+        edit_memo.setText(memo)
         itemIds.addAll(lableIds.split(","))
         itemNames.addAll(lableNames.split(","))
-        edit_memo.setText(memo)
         setTagData()
 
         edit_add.oneClick {
@@ -104,25 +104,27 @@ class VideoEditActivity : BaseActivity() {
     }
 
     private fun setTagData() {
-        edit_mark.adapter = object : TagAdapter<String>(itemNames) {
+        if (itemNames.isNotEmpty()) {
+            edit_mark.adapter = object : TagAdapter<String>(itemNames) {
 
-            override fun getView(parent: FlowLayout, position: Int, item: String): View {
-                val itemView = View.inflate(baseContext, R.layout.item_edit_flow, null)
-                val itemName = itemView.findViewById<TextView>(R.id.item_flow_title)
-                val ivDel = itemView.findViewById<ImageView>(R.id.item_flow_del)
+                override fun getView(parent: FlowLayout, position: Int, item: String): View {
+                    val itemView = View.inflate(baseContext, R.layout.item_edit_flow, null)
+                    val itemName = itemView.findViewById<TextView>(R.id.item_flow_title)
+                    val ivDel = itemView.findViewById<ImageView>(R.id.item_flow_del)
 
-                itemName.text = item
-                ivDel.onClick {
-                    val index = itemNames.indexOf(item)
-                    itemIds.removeAt(index)
-                    itemNames.removeAt(index)
+                    itemName.text = item
+                    ivDel.onClick {
+                        val index = itemNames.indexOf(item)
+                        itemIds.removeAt(index)
+                        itemNames.removeAt(index)
 
-                    notifyDataChanged()
+                        notifyDataChanged()
+                    }
+
+                    return itemView
                 }
 
-                return itemView
             }
-
         }
     }
 

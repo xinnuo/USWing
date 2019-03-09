@@ -66,7 +66,7 @@ public interface VideoViewBridge {
     int getBufferedPercentage();
 
     /**
-     * 是否播放器
+     * 释放播放器
      */
     void releaseMediaPlayer();
 

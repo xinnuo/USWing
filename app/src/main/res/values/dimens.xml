@@ -13,6 +13,8 @@
     <dimen name="btn_height">35dp</dimen>
 
     <dimen name="dimen_size_390">390dp</dimen>
+    <dimen name="dimen_size_280">280dp</dimen>
+    <dimen name="dimen_size_270">270dp</dimen>
     <dimen name="dimen_size_250">250dp</dimen>
     <dimen name="dimen_size_240">240dp</dimen>
     <dimen name="dimen_size_230">230dp</dimen>
@@ -23,6 +25,7 @@
     <dimen name="dimen_size_192">192dp</dimen>
     <dimen name="dimen_size_190">190dp</dimen>
     <dimen name="dimen_size_180">180dp</dimen>
+    <dimen name="dimen_size_175">175dp</dimen>
     <dimen name="dimen_size_170">170dp</dimen>
     <dimen name="dimen_size_160">160dp</dimen>
     <dimen name="dimen_size_150">150dp</dimen>

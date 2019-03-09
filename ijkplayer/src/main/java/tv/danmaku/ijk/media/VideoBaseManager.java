@@ -202,8 +202,7 @@ public abstract class VideoBaseManager implements
         if (TextUtils.isEmpty(url)) return;
         Message msg = new Message();
         msg.what = HANDLER_PREPARE;
-        VideoModel fb = new VideoModel(url, mapHeadData, loop, speed, cache, cachePath, overrideExtension);
-        msg.obj = fb;
+        msg.obj = new VideoModel(url, mapHeadData, loop, speed, cache, cachePath, overrideExtension);
         sendMessage(msg);
         if (needTimeOutOther) {
             startTimeOutBuffer();

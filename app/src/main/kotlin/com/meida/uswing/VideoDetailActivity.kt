@@ -8,37 +8,40 @@ import com.meida.base.oneClick
 import com.meida.base.visible
 import com.meida.utils.DialogHelper.showCompareDialog
 import com.meida.utils.DialogHelper.showShareDialog
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_video_detail.*
 import tv.danmaku.ijk.media.MultiVideoManager
 import java.text.DecimalFormat
+import java.util.concurrent.TimeUnit
 
 class VideoDetailActivity : BaseActivity() {
 
     private var mSpeed = 1f
+    private var video1 = ""
+    private var video2 = ""
+    private var videoImg1 = ""
+    private var videoImg2 = ""
 
     val url1 = "http://bmob-cdn-982.b0.upaiyun.com/2017/02/23/266454624066f2b680707492a0664a97.mp4"
-    val url2 = "http://jzvd.nathen.cn/63f3f73712544394be981d9e4f56b612/69c5767bb9e54156b5b60a1b6edeb3b5-5287d2089db37e62345123a1be272f8b.mp4"
+    val url2 = "http://jzvd.nathen.cn/35b3dc97fbc240219961bd1fccc6400b/8d9b76ab5a584bce84a8afce012b72d3-5287d2089db37e62345123a1be272f8b.mp4"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_detail)
         init_title("我的魔频")
-    }
 
-    @SuppressLint("SetTextI18n")
-    override fun init_title() {
-        super.init_title()
-        ivRight.visible()
-        compare_speed.text = "< ${DecimalFormat("0.#").format(mSpeed)}/2 >"
-
-        val video = intent.getStringExtra("video")
-        val videoImg = intent.getStringExtra("videoImg")
+        video1 = intent.getStringExtra("video1")
+        video2 = intent.getStringExtra("video2")
+        videoImg1 = intent.getStringExtra("videoImg1")
+        videoImg2 = intent.getStringExtra("videoImg2")
 
         compare_first.apply {
             playTag = "compare"
             playPosition = 1
-            loadCoverImage(videoImg)
-            setUp(url1, true, "")
+            loadCoverImage(videoImg1)
+            setUp(video1, true, "")
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
             setLinkedPlayer(compare_second)
@@ -52,8 +55,8 @@ class VideoDetailActivity : BaseActivity() {
         compare_second.apply {
             playTag = "compare"
             playPosition = 2
-            loadCoverImage(videoImg)
-            setUp(url1, true, "")
+            loadCoverImage(videoImg1)
+            setUp(video1, true, "")
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
             setLinkedPlayer(compare_first)
@@ -63,6 +66,13 @@ class VideoDetailActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun init_title() {
+        super.init_title()
+        ivRight.visible()
+        compare_speed.text = "< ${DecimalFormat("0.#").format(mSpeed)}/2 >"
 
         ivRight.oneClick {
             showShareDialog { }
@@ -98,19 +108,25 @@ class VideoDetailActivity : BaseActivity() {
                 }
                 compare_speed.text = "< ${DecimalFormat("0.#").format(mSpeed)}/2 >"
             }
-            R.id.compare_left -> {
-                compare_first.setUp(url1, true, "")
-                compare_second.setUp(url1, true, "")
-                compare_first.startPlayLogic()
-                compare_second.startPlayLogic()
-            }
-            R.id.compare_right -> {
-                compare_first.setUp(url2, true, "")
-                compare_second.setUp(url2, true, "")
-                compare_first.startPlayLogic()
-                compare_second.startPlayLogic()
-            }
+            R.id.compare_left -> { switchVideoSource(video1, videoImg1) }
+            R.id.compare_right -> { switchVideoSource(video2, videoImg2) }
         }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun switchVideoSource(url: String, img: String) {
+        MultiVideoManager.onPauseAll()
+
+        Completable.timer(300, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                compare_first.setUp(url, true, "")
+                compare_first.loadCoverImage(img)
+
+                compare_second.setUp(url, true, "")
+                compare_second.loadCoverImage(img)
+            }
     }
 
     override fun onPause() {

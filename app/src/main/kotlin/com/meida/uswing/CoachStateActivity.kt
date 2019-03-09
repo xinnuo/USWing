@@ -151,6 +151,7 @@ class CoachStateActivity : BaseActivity() {
                         it.setOnClickImageListener { position, _, _, urlList ->
 
                             Diooto(baseContext)
+                                .immersive(true)
                                 .urls(urlList.toArray(arrayOfNulls(urlList.size)))
                                 .type(DiootoConfig.PHOTO)
                                 .position(position)
@@ -158,7 +159,7 @@ class CoachStateActivity : BaseActivity() {
                                 .loadPhotoBeforeShowBigImage { imageview, pos ->
                                     imageview.displayImage(urlList[pos])
                                 }
-                                .onFinish { StatusUtil.setSystemStatus(this, false, true) }
+                                .onFinish { }
                                 .start()
                         }
                     }

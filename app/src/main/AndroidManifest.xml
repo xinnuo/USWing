@@ -112,6 +112,12 @@
             android:name=".CompareActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".CompareCoachActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CompareCollectActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".VideoDetailActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -24,7 +24,6 @@ import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showCommentDialog
 import com.meida.utils.DialogHelper.showRewardDialog
 import com.meida.utils.DialogHelper.showRightPopup
-import com.meida.utils.StatusUtil
 import com.meida.utils.TimeHelper
 import com.meida.utils.dp2px
 import com.meida.utils.toTextInt
@@ -585,6 +584,7 @@ class StateDetailActivity : BaseActivity() {
                             state_nine.setOnClickImageListener { position, _, _, urlList ->
 
                                 Diooto(baseContext)
+                                    .immersive(true)
                                     .urls(urlList.toArray(arrayOfNulls(urlList.size)))
                                     .type(DiootoConfig.PHOTO)
                                     .position(position)
@@ -592,13 +592,7 @@ class StateDetailActivity : BaseActivity() {
                                     .loadPhotoBeforeShowBigImage { imageview, pos ->
                                         imageview.displayImage(urlList[pos])
                                     }
-                                    .onFinish {
-                                        StatusUtil.setSystemStatus(
-                                            baseContext,
-                                            false,
-                                            true
-                                        )
-                                    }
+                                    .onFinish { }
                                     .start()
                             }
                         }

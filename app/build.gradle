@@ -103,7 +103,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //单引号''中的内容严格对应Java中的String，不会对$符号进行转义
-    def support = ['appcompat-v7:', 'recyclerview-v7:', 'design:', 'support-v4:']
+    def support = ['appcompat-v7:', 'recyclerview-v7:', 'design:', 'support-v4:', 'exifinterface:']
     support.each { implementation 'com.android.support:' + it + versions.supportLibraryVersion }
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + versions.kotlinPlugin
@@ -129,7 +129,7 @@ dependencies {
     aar.each { implementation(name: it, ext: 'aar') }
 
     //图片浏览
-    implementation 'com.github.moyokoo:Diooto:1.21'
+    implementation 'com.github.moyokoo:Diooto:1.23'
     //noinspection GradleDependency
     implementation 'me.panpf:sketch:2.6.2'
     //noinspection GradleDependency

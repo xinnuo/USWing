@@ -109,9 +109,14 @@ class VideoActivity : BaseActivity() {
                     }
 
                     .clicked(R.id.item_video) {
-                        startActivity<VideoDetailActivity>(
-                            "video" to BaseHttp.circleImg + data.positive_voide,
-                            "videoImg" to BaseHttp.circleImg + data.positive_img
+                        startActivity<CompareActivity>(
+                            "title" to "我的魔频",
+                            "magicvoideId" to data.magicvoide_id,
+                            "video1" to BaseHttp.circleImg + data.positive_voide,
+                            "video2" to BaseHttp.circleImg + data.negative_voide,
+                            "videoImg1" to BaseHttp.circleImg + data.positive_img,
+                            "videoImg2" to BaseHttp.circleImg + data.negative_img,
+                            "share" to true
                         )
                     }
             }

@@ -23,6 +23,7 @@ public class CustomVideoPlayer extends StandardVideoPlayer {
     private CustomVideoPlayer linkedPlayer;
     private GlideImageView mCoverImage;
     private GlideImageView mAdd;
+    private boolean isGone;
 
     public CustomVideoPlayer(Context context, Boolean fullFlag) {
         super(context, fullFlag);
@@ -83,7 +84,12 @@ public class CustomVideoPlayer extends StandardVideoPlayer {
     }
 
     public void loadCoverImage(String url) {
-        mCoverImage.load(url, R.mipmap.default_compare);
+        mCoverImage.load(url);
+    }
+
+    public void setGone(boolean enable) {
+        isGone = enable;
+        mAdd.setVisibility(isGone ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -121,7 +127,8 @@ public class CustomVideoPlayer extends StandardVideoPlayer {
     protected void updateStartImage() {
         GlideImageView imageView = (GlideImageView) mStartButton;
         imageView.setImageResource(mCurrentState == CURRENT_STATE_PLAYING ? R.mipmap.mes_icon17 : R.mipmap.mes_icon16);
-        mAdd.setVisibility(mCurrentState == CURRENT_STATE_PLAYING ? View.GONE : View.VISIBLE);
+        if (!isGone)
+            mAdd.setVisibility(mCurrentState == CURRENT_STATE_PLAYING ? View.GONE : View.VISIBLE);
     }
 
     @Override

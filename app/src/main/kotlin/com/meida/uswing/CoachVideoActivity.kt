@@ -9,6 +9,7 @@ import com.lzy.okgo.model.Response
 import com.meida.base.*
 import com.meida.model.CommonData
 import com.meida.model.LocationMessageEvent
+import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.ActivityStack
 import com.sunfusheng.GlideImageView
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.layout_list.*
 import net.idik.lib.slimadapter.SlimAdapter
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.include
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.util.ArrayList
 
@@ -31,7 +33,7 @@ class CoachVideoActivity : BaseActivity() {
         init_title("我的魔频")
 
         when (mType) {
-            "详情魔频" -> tvTitle.text = "教练魔频"
+            "详情魔频", "魔频对比" -> tvTitle.text = "教练魔频"
         }
 
         swipe_refresh.isRefreshing = true
@@ -40,7 +42,7 @@ class CoachVideoActivity : BaseActivity() {
 
     override fun init_title() {
         super.init_title()
-        mType = intent.getStringExtra("type")
+        mType = intent.getStringExtra("type") ?: ""
 
         empty_hint.text = "暂无相关魔频信息！"
         swipe_refresh.refresh { getData(1) }
@@ -91,6 +93,41 @@ class CoachVideoActivity : BaseActivity() {
 
                                 ActivityStack.screenManager.popActivities(this@CoachVideoActivity::class.java)
                             }
+                            "魔频对比", "我的魔频" -> {
+                                val itemId = intent.getStringExtra("selectId")
+
+                                if (data.magicvoide_id == itemId) {
+                                    toast("您已经选过该魔频")
+                                    return@clicked
+                                }
+
+                                EventBus.getDefault().post(
+                                    RefreshMessageEvent(
+                                        intent.getStringExtra("flag"),
+                                        data.magicvoide_id,
+                                        BaseHttp.circleImg + data.positive_voide,
+                                        BaseHttp.circleImg + data.negative_voide,
+                                        BaseHttp.circleImg + data.positive_img,
+                                        BaseHttp.circleImg + data.negative_img
+                                    )
+                                )
+
+                                ActivityStack.screenManager.popActivities(
+                                    CompareCoachActivity::class.java,
+                                    this@CoachVideoActivity::class.java
+                                )
+                            }
+                            else -> {
+                                startActivity<CompareActivity>(
+                                    "title" to "我的魔频",
+                                    "magicvoideId" to data.magicvoide_id,
+                                    "video1" to BaseHttp.circleImg + data.positive_voide,
+                                    "video2" to BaseHttp.circleImg + data.negative_voide,
+                                    "videoImg1" to BaseHttp.circleImg + data.positive_img,
+                                    "videoImg2" to BaseHttp.circleImg + data.negative_img,
+                                    "share" to true
+                                )
+                            }
                         }
                     }
             }
@@ -104,7 +141,7 @@ class CoachVideoActivity : BaseActivity() {
             .params("page", pindex)
             .apply {
                 when (mType) {
-                    "详情魔频" -> params("userInfoId", intent.getStringExtra("userInfoId"))
+                    "详情魔频", "魔频对比" -> params("userInfoId", intent.getStringExtra("userInfoId"))
                 }
             }
             .execute(object :
