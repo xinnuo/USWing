@@ -109,7 +109,11 @@ class MessageActivity : BaseActivity() {
                             .params("status", "1")
                             .execute(object : StringDialogCallback(baseContext) {
 
-                                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                                override fun onSuccessResponse(
+                                    response: Response<String>,
+                                    msg: String,
+                                    msgCode: String
+                                ) {
 
                                     toast(msg)
                                     data.astatus = "1"
@@ -128,7 +132,11 @@ class MessageActivity : BaseActivity() {
                             .params("status", "-1")
                             .execute(object : StringDialogCallback(baseContext) {
 
-                                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                                override fun onSuccessResponse(
+                                    response: Response<String>,
+                                    msg: String,
+                                    msgCode: String
+                                ) {
 
                                     toast(msg)
                                     data.astatus = "-1"
@@ -172,7 +180,7 @@ class MessageActivity : BaseActivity() {
                                     it.mome,
                                     it.astatus,
                                     it.type,
-                                    it.user_head
+                                    it.user_head ?: ""
                                 )
                             )
                         } else list.add(it)

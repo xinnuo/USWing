@@ -84,7 +84,7 @@ data class CommonData(
     var send_user: String = "",
     var circle_type: String = "",
     var vtype: String = "",
-    var user_head: String = "",
+    var user_head: String? = "",
     var create_date_time: String = "",
     var coach: String = "",
     var circle_title: String = "",
