@@ -34,5 +34,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:support-v4:' + versions.supportLibraryVersion
     api 'com.squareup.okhttp3:okhttp:3.11.0'
-    api 'com.google.code.gson:gson:2.8.2'
+    api 'com.google.code.gson:gson:2.8.5'
 }
