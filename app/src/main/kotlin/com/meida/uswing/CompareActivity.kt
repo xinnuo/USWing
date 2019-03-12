@@ -16,18 +16,22 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_compare.*
+import kotlinx.android.synthetic.main.layout_title.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.json.JSONObject
 import tv.danmaku.ijk.media.MultiVideoManager
-import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
 
 class CompareActivity : BaseActivity() {
 
     private var mSpeed = 0.5f
     private var isFront = true
+    private var hasCollect = ""
+
     private var videoFirstId = ""
     private var videoPositive = ""
     private var videoNegative = ""
@@ -48,6 +52,8 @@ class CompareActivity : BaseActivity() {
 
         val title = intent.getStringExtra("title") ?: "魔镜对比"
         init_title(title)
+
+        if (videoFirstId.isNotEmpty()) getData()
     }
 
     @SuppressLint("SetTextI18n")
@@ -58,18 +64,33 @@ class CompareActivity : BaseActivity() {
         videoNegative = intent.getStringExtra("video2") ?: ""
         videoPositiveImg = intent.getStringExtra("videoImg1") ?: ""
         videoNegativeImg = intent.getStringExtra("videoImg2") ?: ""
-
         val isShare = intent.getBooleanExtra("share", false)
-        if (isShare) ivRight.visible()
 
-        compare_speed.text = "< ${DecimalFormat("0.#").format(mSpeed)}/2 >"
+        if (isShare) ivRight.visible()
+        if (videoFirstId.isNotEmpty() && !isShare) nav_collect.visible()
+
+        compare_speed.text = "< 1/2 >"
         compare_first.setSpeedPlaying(mSpeed, true)
         compare_second.setSpeedPlaying(mSpeed, true)
 
         if (videoPositive.isNotEmpty()) initVideoFirst()
+        if (videoNegative.isNotEmpty()) {
+            videoPositiveCompare = videoNegative
+            videoPositiveImgCompare = videoNegativeImg
+
+            initVideoSecond()
+            compare_both.gone()
+            compare_first.setLinkedPlayer(compare_second)
+            compare_second.setLinkedPlayer(compare_first)
+        }
 
         ivRight.oneClick {
             showShareDialog {
+                if (videoFirstId.isEmpty()) {
+                    toast("视频信息获取失败")
+                    return@showShareDialog
+                }
+
                 when (it) {
                     "QQ" -> {
                     }
@@ -80,11 +101,6 @@ class CompareActivity : BaseActivity() {
                     "新浪" -> {
                     }
                     "问答" -> {
-                        if (videoFirstId.isEmpty()) {
-                            toast("视频信息获取失败")
-                            return@showShareDialog
-                        }
-
                         showGroupDialog("问答内容", "请输入问答内容") { str ->
                             if (str.isEmpty()) {
                                 toast("请输入问答内容")
@@ -123,6 +139,75 @@ class CompareActivity : BaseActivity() {
                 }
             }
         }
+
+        nav_collect.onClick {
+            if (videoFirstId.isNotEmpty()) {
+                when (hasCollect) {
+                    "0" -> OkGo.post<String>(BaseHttp.add_collection)
+                        .tag(this@CompareActivity)
+                        .headers("token", getString("token"))
+                        .params("bussId", videoFirstId)
+                        .params("collectionType", "2")
+                        .execute(object : StringDialogCallback(baseContext) {
+
+                            override fun onSuccessResponse(
+                                response: Response<String>,
+                                msg: String,
+                                msgCode: String
+                            ) {
+
+                                toast(msg)
+                                hasCollect = "1"
+                                nav_collect.setImageResource(R.mipmap.video_icon26)
+                                EventBus.getDefault().post(RefreshMessageEvent("添加收藏"))
+                            }
+
+                        })
+                    "1" -> OkGo.post<String>(BaseHttp.delete_collection)
+                        .tag(this@CompareActivity)
+                        .headers("token", getString("token"))
+                        .params("bussId", videoFirstId)
+                        .params("collectionType", "2")
+                        .execute(object : StringDialogCallback(baseContext) {
+
+                            override fun onSuccessResponse(
+                                response: Response<String>,
+                                msg: String,
+                                msgCode: String
+                            ) {
+
+                                toast(msg)
+                                hasCollect = "0"
+                                nav_collect.setImageResource(R.mipmap.video_icon25)
+                                EventBus.getDefault().post(RefreshMessageEvent("取消收藏"))
+                            }
+
+                        })
+                }
+            }
+        }
+    }
+
+    override fun getData() {
+        OkGo.post<String>(BaseHttp.find_magicvoide_deatls)
+            .tag(this@CompareActivity)
+            .headers("token", getString("token"))
+            .params("magicvoideId", videoFirstId)
+            .execute(object : StringDialogCallback(baseContext, false) {
+
+                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                    val obj = JSONObject(response.body())
+                        .optJSONObject("object") ?: JSONObject()
+
+                    hasCollect = obj.optString("collection")
+                    nav_collect.setImageResource(
+                        if (hasCollect == "1") R.mipmap.video_icon26
+                        else R.mipmap.video_icon25
+                    )
+                }
+
+            })
     }
 
     private fun initVideoFirst(isAdd: Boolean = false) {
@@ -160,7 +245,7 @@ class CompareActivity : BaseActivity() {
         }
     }
 
-    private fun initVideoSecond() {
+    private fun initVideoSecond(isAdd: Boolean = false) {
         compare_second.visible()
         compare_add2.gone()
         compare_control.visible()
@@ -182,6 +267,7 @@ class CompareActivity : BaseActivity() {
             )
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
+            setGone(!isAdd)
             addButton.oneClick {
                 showCompareDialog {
                     when (it) {
@@ -201,27 +287,24 @@ class CompareActivity : BaseActivity() {
             R.id.compare_speed -> {
                 when (mSpeed) {
                     0.5f -> {
-                        mSpeed = 1f
+                        mSpeed = 0.25f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
+                        compare_speed.text = "< 1/4 >"
                     }
-                    1f -> {
-                        mSpeed = 1.5f
+                    0.25f -> {
+                        mSpeed = 0.125f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
+                        compare_speed.text = "< 1/8 >"
                     }
-                    1.5f -> {
-                        mSpeed = 2f
-                        compare_first.setSpeedPlaying(mSpeed, true)
-                        compare_second.setSpeedPlaying(mSpeed, true)
-                    }
-                    2f -> {
+                    0.125f -> {
                         mSpeed = 0.5f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
+                        compare_speed.text = "< 1/2 >"
                     }
                 }
-                compare_speed.text = "< ${DecimalFormat("0.#").format(mSpeed)}/2 >"
             }
             R.id.compare_left -> {
                 isFront = true
@@ -369,7 +452,7 @@ class CompareActivity : BaseActivity() {
                 videoPositiveImgCompare = event.title
                 videoNegativeImgCompare = event.memo
 
-                initVideoSecond()
+                initVideoSecond(true)
                 if (videoFirstId.isNotEmpty()) {
                     switchVideoFirst()
                     compare_first.setLinkedPlayer(compare_second)

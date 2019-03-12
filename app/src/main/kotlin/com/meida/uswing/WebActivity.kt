@@ -13,6 +13,7 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.meida.base.BaseActivity
 import com.meida.base.cancelLoadingDialog
+import com.meida.base.getString
 import com.meida.base.showLoadingDialog
 import com.meida.share.BaseHttp
 import com.meida.utils.isWeb
@@ -213,7 +214,39 @@ class WebActivity : BaseActivity() {
 
                     })
             }
-            "详情" -> { }
+            "详情" -> {
+                OkGo.post<String>(BaseHttp.find_msg_details)
+                    .tag(this@WebActivity)
+                    .headers("token", getString("token"))
+                    .params("msgReceiveId", intent.getStringExtra("msgReceiveId"))
+                    .execute(object : StringDialogCallback(baseContext) {
+
+                        override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                            val obj = JSONObject(response.body())
+                                .optJSONObject("object") ?: JSONObject()
+
+                            val str = "<!doctype html><html>\n" +
+                                    "<meta charset=\"utf-8\">" +
+                                    "<style type=\"text/css\">" +
+                                    "body{ padding:0; margin:0; }\n" +
+                                    ".con{ width:95%; margin:0 auto; color:#666; padding:0.5em 0; overflow:hidden; display:block; font-size:0.92em; line-height:1.8em; }\n" +
+                                    ".con h1,h2,h3,h4,h5,h6{ font-size:1em; }\n " +
+                                    "img{ width:auto; max-width: 100% !important; height:auto !important; margin:0 auto; display:block; }\n" +
+                                    "*{ max-width:100% !important; }\n" +
+                                    "</style>\n" +
+                                    "<body style=\"padding:0; margin:0; \">" +
+                                    "<div class=\"con\">" +
+                                    obj.optString("content") +
+                                    "</div>" +
+                                    "</body>" +
+                                    "</html>"
+
+                            webView.loadDataWithBaseURL(BaseHttp.baseImg, str, "text/html", "utf-8", "")
+                        }
+
+                    })
+            }
         }
     }
 }

@@ -40,15 +40,33 @@
         android:src="@mipmap/index_icon17"
         tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@id/iv_nav_right"
-        android:layout_width="@dimen/dimen_size_45"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|end"
-        android:onClick="doClick"
-        android:visibility="invisible"
-        android:src="@mipmap/share"
-        android:padding="@dimen/dimen_size_13"
-        tools:ignore="ContentDescription" />
+        android:layout_gravity="center_vertical|end">
+
+        <ImageView
+            android:id="@+id/nav_collect"
+            android:layout_width="@dimen/dimen_size_45"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|end"
+            android:onClick="doClick"
+            android:padding="@dimen/dimen_size_11"
+            android:src="@mipmap/video_icon25"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@id/iv_nav_right"
+            android:layout_width="@dimen/dimen_size_45"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|end"
+            android:onClick="doClick"
+            android:padding="@dimen/dimen_size_13"
+            android:src="@mipmap/share"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -42,4 +42,12 @@ dependencies {
     api 'tv.danmaku.ijk.media:ijkplayer-java:' + versions.ijkplayerVersion
     // api 'tv.danmaku.ijk.media:ijkplayer-armv7a:' + versions.ijkplayerVersion
     // api 'tv.danmaku.ijk.media:ijkplayer-x86:' + versions.ijkplayerVersion
+
+    api ('tv.danmaku.ijk.media:ijkplayer-exo:' + versions.ijkplayerVersion) {
+        exclude group: 'com.android.support', module:'support-media-compat'
+    }
+    api ('com.google.android.exoplayer:exoplayer:' + versions.exoplayerVersion) {
+        exclude group: 'com.android.support', module:'support-media-compat'
+    }
+    api 'com.google.android.exoplayer:extension-rtmp:' + versions.exoplayerVersion
 }

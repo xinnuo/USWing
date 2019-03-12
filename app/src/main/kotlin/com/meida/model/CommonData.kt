@@ -140,6 +140,7 @@ data class CommonData(
     var follow_ctn: String = "",
     var follows: String = "",
     var friend: String = "",
+    var collection: String = "",
     var introduction: String = "",
     var telephone: String = "",
     var specialty: String = "",

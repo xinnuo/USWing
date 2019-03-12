@@ -116,16 +116,56 @@ class CollectActivity : BaseActivity() {
                 val index = list.indexOf(data)
                 val isLast = index == list.size - 1
 
-                injector.visibility(
-                    R.id.item_collect_divider1,
-                    if (index == 0) View.VISIBLE else View.GONE
-                )
+                injector.text(R.id.item_collect_desc, data.labels_name)
+                    .text(R.id.item_collect_name, data.theme_title)
+                    .text(R.id.item_collect_time, "时间：${data.create_date}")
+
+                    .with<GlideImageView>(R.id.item_collect_img) {
+                        it.load(BaseHttp.circleImg + data.positive_img, R.mipmap.default_video)
+                    }
+
+                    .visibility(
+                        R.id.item_collect_divider1,
+                        if (index == 0) View.VISIBLE else View.GONE
+                    )
                     .visibility(R.id.item_collect_divider2, if (isLast) View.VISIBLE else View.GONE)
+
+                    .clicked(R.id.item_collect) {
+                        startActivity<CompareActivity>(
+                            "title" to "教练魔频",
+                            "magicvoideId" to data.magicvoide_id,
+                            "video1" to BaseHttp.circleImg + data.positive_voide,
+                            "video2" to BaseHttp.circleImg + data.negative_voide,
+                            "videoImg1" to BaseHttp.circleImg + data.positive_img,
+                            "videoImg2" to BaseHttp.circleImg + data.negative_img,
+                            "share" to false
+                        )
+                    }
             }
 
         mAdapterCoach = SlimAdapter.create()
             .register<CommonData>(R.layout.item_coach_grid) { data, injector ->
-                injector.clicked(R.id.item_coach) { }
+                injector.text(R.id.item_coach_name, data.nick_name)
+                    .text(R.id.item_coach_year, "教龄：${data.teach_age}年")
+                    .text(R.id.item_coach_adress, "地区：${data.ucity}")
+                    .image(
+                        R.id.item_coach_gender,
+                        if (data.gender == "0") R.mipmap.video_icon08 else R.mipmap.video_icon07
+                    )
+                    .visibility(
+                        R.id.item_coach_jian,
+                        if (data.recommend == "1") View.VISIBLE else View.INVISIBLE
+                    )
+
+                    .with<GlideImageView>(R.id.item_coach_img) {
+                        it.loadRectImage(BaseHttp.baseImg + data.user_head)
+                    }
+
+                    .clicked(R.id.item_coach) {
+                        startActivity<CoachDetailActivity>(
+                            "certificationId" to data.certification_id
+                        )
+                    }
             }
 
         mAdapterNews = SlimAdapter.create()

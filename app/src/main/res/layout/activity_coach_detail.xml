@@ -119,6 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginStart="@dimen/dimen_size_46"
+                        android:layout_marginEnd="@dimen/dimen_size_10"
                         android:layout_marginBottom="@dimen/dimen_size_15"
                         android:gravity="center_vertical">
 
@@ -160,11 +161,19 @@
 
                         </LinearLayout>
 
+                        <CheckBox
+                            android:id="@+id/coach_collect"
+                            style="@style/Font14_black"
+                            android:layout_width="@dimen/dimen_size_45"
+                            android:layout_height="@dimen/dimen_size_45"
+                            android:background="@drawable/cb_coach_selector"
+                            android:button="@null"
+                            android:clickable="false" />
+
                         <ImageView
                             android:id="@+id/coach_add"
                             android:layout_width="@dimen/dimen_size_45"
                             android:layout_height="@dimen/dimen_size_45"
-                            android:layout_marginEnd="@dimen/dimen_size_10"
                             android:onClick="doClick"
                             android:src="@mipmap/video_icon14"
                             tools:ignore="ContentDescription" />

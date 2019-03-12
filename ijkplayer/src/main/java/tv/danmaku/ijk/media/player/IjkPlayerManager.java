@@ -38,7 +38,6 @@ public class IjkPlayerManager implements IPlayerManager {
 
     private Surface surface;
 
-
     @Override
     public IMediaPlayer getMediaPlayer() {
         return mediaPlayer;

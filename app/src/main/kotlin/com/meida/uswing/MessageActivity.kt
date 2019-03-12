@@ -58,7 +58,12 @@ class MessageActivity : BaseActivity() {
                     .visibility(R.id.item_msg_divider1, if (isLast) View.GONE else View.VISIBLE)
                     .visibility(R.id.item_msg_divider2, if (!isLast) View.GONE else View.VISIBLE)
 
-                    .clicked(R.id.item_msg) { startActivity<WebActivity>("title" to "详情") }
+                    .clicked(R.id.item_msg) {
+                        startActivity<WebActivity>(
+                            "title" to "详情",
+                            "msgReceiveId" to data.msg_receive_id
+                        )
+                    }
             }
             .register<FriendData>(R.layout.item_msg_list2) { data, injector ->
 

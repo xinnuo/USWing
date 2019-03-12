@@ -2,6 +2,7 @@ package com.meida.uswing
 
 import android.os.Bundle
 import android.text.Html
+import android.view.MotionEvent
 import android.view.View
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.StringDialogCallback
@@ -15,6 +16,7 @@ import com.meida.share.BaseHttp
 import com.meida.utils.toTextInt
 import kotlinx.android.synthetic.main.activity_coach_detail.*
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.sdk25.listeners.onTouch
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -22,6 +24,7 @@ class CoachDetailActivity : BaseActivity() {
 
     private var certificationId = ""
     private var hasFollow = ""
+    private var hasCollect = ""
     private var followSum = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +38,61 @@ class CoachDetailActivity : BaseActivity() {
     override fun init_title() {
         super.init_title()
         certificationId = intent.getStringExtra("certificationId")
+
+        coach_collect.visibility =
+            if (certificationId == getString("token")) View.GONE
+            else View.VISIBLE
+        coach_add.visibility =
+            if (certificationId == getString("token")) View.GONE
+            else View.VISIBLE
+
         tvRight.oneClick {
             startActivity<CoachAddActivity>(
                 "toUserId" to certificationId
             )
+        }
+
+        coach_collect.onTouch { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_UP -> {
+                    when (hasCollect) {
+                        "0" -> OkGo.post<String>(BaseHttp.add_collection)
+                            .tag(this@CoachDetailActivity)
+                            .headers("token", getString("token"))
+                            .params("bussId", certificationId)
+                            .params("collectionType", "3")
+                            .execute(object : StringDialogCallback(baseContext) {
+
+                                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                                    toast(msg)
+                                    hasCollect = "1"
+                                    coach_collect.isChecked = true
+                                    EventBus.getDefault().post(RefreshMessageEvent("添加收藏"))
+                                }
+
+                            })
+                        "1" -> OkGo.post<String>(BaseHttp.delete_collection)
+                            .tag(this@CoachDetailActivity)
+                            .headers("token", getString("token"))
+                            .params("bussId", certificationId)
+                            .params("collectionType", "3")
+                            .execute(object : StringDialogCallback(baseContext) {
+
+                                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                                    toast(msg)
+                                    hasCollect = "0"
+                                    coach_collect.isChecked = false
+                                    EventBus.getDefault().post(RefreshMessageEvent("取消收藏"))
+                                }
+
+                            })
+                    }
+                }
+            }
+
+            return@onTouch true
         }
     }
 
@@ -63,14 +117,9 @@ class CoachDetailActivity : BaseActivity() {
                         .tag(this@CoachDetailActivity)
                         .headers("token", getString("token"))
                         .params("certificationId", certificationId)
-                        .execute(object :
-                            StringDialogCallback(baseContext) {
+                        .execute(object : StringDialogCallback(baseContext) {
 
-                            override fun onSuccessResponse(
-                                response: Response<String>,
-                                msg: String,
-                                msgCode: String
-                            ) {
+                            override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
                                 toast(msg)
                                 hasFollow = "1"
                                 followSum += 1
@@ -84,14 +133,9 @@ class CoachDetailActivity : BaseActivity() {
                         .tag(this@CoachDetailActivity)
                         .headers("token", getString("token"))
                         .params("certificationId", certificationId)
-                        .execute(object :
-                            StringDialogCallback(baseContext) {
+                        .execute(object : StringDialogCallback(baseContext) {
 
-                            override fun onSuccessResponse(
-                                response: Response<String>,
-                                msg: String,
-                                msgCode: String
-                            ) {
+                            override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
                                 toast(msg)
                                 hasFollow = "0"
                                 followSum -= 1
@@ -119,6 +163,7 @@ class CoachDetailActivity : BaseActivity() {
                     if (response.body().`object` != null) {
                         val data = response.body().`object`
 
+                        hasCollect = data.collection
                         hasFollow = data.follows
                         followSum = data.follow_ctn.toTextInt()
 
@@ -136,10 +181,7 @@ class CoachDetailActivity : BaseActivity() {
                         coach_name.text = data.nick_name
                         coach_name2.text = data.nick_name
                         coach_tel.text = data.telephone
-
-                        coach_add.visibility =
-                            if (certificationId == getString("token")) View.GONE
-                            else View.VISIBLE
+                        coach_collect.isChecked = hasCollect == "1"
 
                         tvRight.visibility =
                             if (data.friend == "1" || certificationId == getString("token")) View.GONE

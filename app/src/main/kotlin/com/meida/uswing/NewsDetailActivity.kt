@@ -13,6 +13,7 @@ import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import kotlinx.android.synthetic.main.activity_news_detail.*
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.sdk25.listeners.onTouch
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 
@@ -50,7 +51,7 @@ class NewsDetailActivity : BaseActivity() {
             settings.domStorageEnabled = true
         }
 
-        news_collect.setOnTouchListener { _, event ->
+        news_collect.onTouch { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_UP -> {
                     when (mCollect) {
@@ -94,7 +95,7 @@ class NewsDetailActivity : BaseActivity() {
                 }
             }
 
-            return@setOnTouchListener true
+            return@onTouch true
         }
     }
 

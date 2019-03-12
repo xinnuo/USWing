@@ -86,6 +86,7 @@
             android:onClick="doClick" />
 
         <LinearLayout
+            android:id="@+id/compare_both"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_size_15">

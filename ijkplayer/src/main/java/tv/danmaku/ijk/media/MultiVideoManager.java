@@ -10,8 +10,10 @@ import android.view.Window;
 import java.util.HashMap;
 import java.util.Map;
 
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 import tv.danmaku.ijk.media.player.IPlayerManager;
 import tv.danmaku.ijk.media.player.IjkPlayerManager;
+import tv.danmaku.ijk.media.player.SystemPlayerManager;
 import tv.danmaku.ijk.media.utils.CommonUtil;
 import tv.danmaku.ijk.media.video.base.VideoPlayer;
 
@@ -36,7 +38,14 @@ public class MultiVideoManager extends VideoBaseManager {
 
     @Override
     protected IPlayerManager getPlayManager() {
-        return new IjkPlayerManager();
+        IPlayerManager manager = super.getPlayManager();
+        if (manager instanceof Exo2PlayerManager) {
+            return new Exo2PlayerManager();
+        } else if (manager instanceof SystemPlayerManager) {
+            return new SystemPlayerManager();
+        } else {
+            return new IjkPlayerManager();
+        }
     }
 
     /**
@@ -68,7 +77,6 @@ public class MultiVideoManager extends VideoBaseManager {
         }
         getMultiManager(key).releaseMediaPlayer();
     }
-
 
     /**
      * 暂停播放

@@ -41,6 +41,9 @@ import com.meida.uswing.BuildConfig
 import io.rong.common.SystemUtils.getCurrentProcessName
 import io.rong.imkit.RongIM
 import okhttp3.OkHttpClient
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
+import tv.danmaku.ijk.media.player.PlayerFactory
+import tv.danmaku.ijk.media.utils.VideoType
 import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 
@@ -55,6 +58,10 @@ class Application : MultiDexApplication() {
         super.onCreate()
 
         initOkGo()
+
+        VideoType.enableMediaCodec()
+        VideoType.enableMediaCodecTexture()
+        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java) //EXO模式
 
         //极光推送
         JPushInterface.setDebugMode(BuildConfig.LOG_DEBUG) //设置开启日志,发布时请关闭日志
