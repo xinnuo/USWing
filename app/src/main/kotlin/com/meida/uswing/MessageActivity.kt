@@ -47,7 +47,8 @@ class MessageActivity : BaseActivity() {
         mAdapter = SlimAdapter.create()
             .register<CommonData>(R.layout.item_msg_list1) { data, injector ->
 
-                val isLast = list.indexOf(data) == list.size - 1
+                val index = list.indexOf(data)
+                val isLast = index == list.size - 1
 
                 injector.text(R.id.item_msg_title, data.title)
                     .text(R.id.item_msg_time, data.send_date)
@@ -59,8 +60,11 @@ class MessageActivity : BaseActivity() {
                     .visibility(R.id.item_msg_divider2, if (!isLast) View.GONE else View.VISIBLE)
 
                     .clicked(R.id.item_msg) {
+                        data.astatus = "1"
+                        mAdapter.notifyItemChanged(index)
+
                         startActivity<WebActivity>(
-                            "title" to "详情",
+                            "title" to "消息详情",
                             "msgReceiveId" to data.msg_receive_id
                         )
                     }

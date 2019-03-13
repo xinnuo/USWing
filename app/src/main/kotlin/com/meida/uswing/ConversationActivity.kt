@@ -15,6 +15,7 @@ import com.meida.RongCloudContext
 import com.meida.base.*
 import com.meida.model.CommonData
 import com.meida.model.GroupModel
+import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showRewardDialog
 import com.meida.utils.toTextInt
@@ -30,6 +31,7 @@ import io.rong.imlib.model.UserInfo
 import io.rong.imlib.typingmessage.TypingStatus
 import io.rong.message.TextMessage
 import io.rong.message.VoiceMessage
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.util.*
@@ -75,7 +77,10 @@ class ConversationActivity : BaseActivity() {
 
         when (mConversationType) {
             Conversation.ConversationType.PRIVATE -> getUserData(mTargetId)
-            Conversation.ConversationType.GROUP -> getGroupData(mTargetId)
+            Conversation.ConversationType.GROUP -> {
+                EventBus.getDefault().post(RefreshMessageEvent("群聊消息", mTargetId))
+                getGroupData(mTargetId)
+            }
             else -> getUserData(mTargetId)
         }
     }

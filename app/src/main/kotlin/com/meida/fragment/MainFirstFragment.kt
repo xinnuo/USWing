@@ -84,7 +84,14 @@ class MainFirstFragment : BaseFragment() {
         mLoopAdapter = LoopAdapter(activity, banner)
         banner.apply {
             setAdapter(mLoopAdapter)
-            setOnItemClickListener { /*轮播图点击事件*/ }
+            setOnItemClickListener {
+                if (listSliders[it].href.isNotEmpty()) {
+                    startActivity<WebActivity>(
+                        "title" to "详情",
+                        "url" to listSliders[it].href,
+                        "hint" to listSliders[it].title)
+                }
+            }
         }
 
         mAdapterEx = SlimAdapter.create(SlimAdapterEx::class.java)

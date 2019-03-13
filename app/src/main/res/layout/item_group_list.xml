@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="@dimen/dimen_size_15"
-        android:paddingTop="@dimen/dimen_size_10"
+        android:paddingTop="@dimen/dimen_size_5"
         android:paddingEnd="@dimen/dimen_size_15"
         android:paddingBottom="@dimen/dimen_size_10">
 
@@ -20,15 +21,32 @@
             android:gravity="center_vertical">
 
             <FrameLayout
-                android:layout_width="@dimen/dimen_size_56"
-                android:layout_height="@dimen/dimen_size_56"
-                android:background="#EEEEEE">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <com.lqr.ninegridimageview.LQRNineGridImageView
-                    android:id="@+id/item_group_nine"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center" />
+                <FrameLayout
+                    android:layout_width="@dimen/dimen_size_56"
+                    android:layout_height="@dimen/dimen_size_56"
+                    android:layout_marginTop="@dimen/rc_dimen_size_5"
+                    android:layout_marginEnd="@dimen/rc_dimen_size_5"
+                    android:background="#EEEEEE">
+
+                    <com.lqr.ninegridimageview.LQRNineGridImageView
+                        android:id="@+id/item_group_nine"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center" />
+
+                </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/item_group_dot"
+                    android:layout_width="@dimen/dimen_size_10"
+                    android:layout_height="@dimen/dimen_size_10"
+                    android:layout_gravity="end"
+                    android:src="@drawable/red_oval"
+                    android:visibility="invisible"
+                    tools:ignore="ContentDescription" />
 
             </FrameLayout>
 
@@ -37,7 +55,7 @@
                 style="@style/Font15_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_size_15"
+                android:layout_marginStart="@dimen/dimen_size_10"
                 android:text="名称" />
 
         </LinearLayout>

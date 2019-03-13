@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.ImageView
 import com.lqr.ninegridimageview.LQRNineGridImageView
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.jackson.JacksonDialogCallback
@@ -20,8 +21,12 @@ import com.meida.sort.PinyinComparator
 import com.meida.utils.dp2px
 import com.meida.utils.setAdapter
 import com.meida.utils.sp2px
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
 import io.rong.imkit.model.GroupUserInfo
+import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Group
 import kotlinx.android.synthetic.main.activity_contact_group.*
 import kotlinx.android.synthetic.main.layout_empty.*
@@ -30,6 +35,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class ContactGroupActivity : BaseActivity() {
@@ -93,11 +99,21 @@ class ContactGroupActivity : BaseActivity() {
 
                         if (!data.ls.isNullOrEmpty()) it.setImagesData(data.ls)
                     }
+                    .with<ImageView>(R.id.item_group_dot) {
+                        val count = RongIM.getInstance()
+                            .getUnreadCount(Conversation.ConversationType.GROUP, data.groupchat_id)
+                        it.visibility = if (count > 0) View.VISIBLE else View.INVISIBLE
+                    }
 
                     .clicked(R.id.item_group) {
                         getMemberData(data.groupchat_id, data.groupchat_name) {
                             RongIM.getInstance()
                                 .startGroupChat(baseContext, data.groupchat_id, data.groupchat_name)
+
+                            Completable.timer(1, TimeUnit.SECONDS)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe { mAdapter.notifyItemChanged(index) }
                         }
                     }
             }
@@ -208,6 +224,10 @@ class ContactGroupActivity : BaseActivity() {
     fun onMessageEvent(event: RefreshMessageEvent) {
         when (event.type) {
             "创建群聊" -> getData()
+            "群聊消息" -> {
+                val index = list.indexOfFirst { it.groupchat_id == event.id }
+                if (index > -1) mAdapter.notifyItemChanged(index)
+            }
         }
     }
 

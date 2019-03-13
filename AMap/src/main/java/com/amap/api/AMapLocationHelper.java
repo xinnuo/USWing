@@ -119,7 +119,7 @@ public class AMapLocationHelper {
         mOption.setHttpTimeOut(30000);                                           //可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
         mOption.setNeedAddress(true);                                            //可选，设置是否返回逆地理地址信息。默认是true
         mOption.setOnceLocation(true);                                           //可选，设置是否单次定位。默认是false
-        mOption.setOnceLocationLatest(true);                                     //可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        mOption.setOnceLocationLatest(false);                                    //可选，设置定位时SDK是否返回最近3s内精度最高的定位结果。如果设置其为true，setOnceLocation()接口也会被设置为true，反之不会，默认为false。
         AMapLocationClientOption.setLocationProtocol(AMapLocationProtocol.HTTP); //可选，设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
         mOption.setSensorEnable(false);                                          //可选，设置是否使用传感器。默认是false
         mOption.setWifiScan(true);                                               //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差

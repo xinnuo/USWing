@@ -214,7 +214,7 @@ class WebActivity : BaseActivity() {
 
                     })
             }
-            "详情" -> {
+            "消息详情" -> {
                 OkGo.post<String>(BaseHttp.find_msg_details)
                     .tag(this@WebActivity)
                     .headers("token", getString("token"))
@@ -247,6 +247,32 @@ class WebActivity : BaseActivity() {
 
                     })
             }
+            "详情" -> {
+                tvTitle.text = intent.getStringExtra("hint")
+                val urlLoad = intent.getStringExtra("url")
+                webView.loadUrl(if (urlLoad.startsWith("http")) urlLoad else BaseHttp.baseImg + urlLoad)
+            }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        webView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        webView.onPause()
+    }
+
+    override fun onBackPressed() {
+        if (webView.canGoBack()) webView.goBack()
+        else super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        webView.destroy()
+    }
+
 }

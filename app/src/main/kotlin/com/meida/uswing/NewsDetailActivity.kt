@@ -60,7 +60,7 @@ class NewsDetailActivity : BaseActivity() {
                             .headers("token", getString("token"))
                             .params("bussId", intent.getStringExtra("newsId"))
                             .params("collectionType", "1")
-                            .execute(object : StringDialogCallback(baseContext) {
+                            .execute(object : StringDialogCallback(baseContext, false) {
 
                                 @SuppressLint("SetTextI18n")
                                 override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
@@ -78,7 +78,7 @@ class NewsDetailActivity : BaseActivity() {
                             .headers("token", getString("token"))
                             .params("bussId", intent.getStringExtra("newsId"))
                             .params("collectionType", "1")
-                            .execute(object : StringDialogCallback(baseContext) {
+                            .execute(object : StringDialogCallback(baseContext, false) {
 
                                 @SuppressLint("SetTextI18n")
                                 override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {

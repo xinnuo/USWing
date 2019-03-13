@@ -148,7 +148,7 @@ class CompareActivity : BaseActivity() {
                         .headers("token", getString("token"))
                         .params("bussId", videoFirstId)
                         .params("collectionType", "2")
-                        .execute(object : StringDialogCallback(baseContext) {
+                        .execute(object : StringDialogCallback(baseContext, false) {
 
                             override fun onSuccessResponse(
                                 response: Response<String>,
@@ -168,7 +168,7 @@ class CompareActivity : BaseActivity() {
                         .headers("token", getString("token"))
                         .params("bussId", videoFirstId)
                         .params("collectionType", "2")
-                        .execute(object : StringDialogCallback(baseContext) {
+                        .execute(object : StringDialogCallback(baseContext, false) {
 
                             override fun onSuccessResponse(
                                 response: Response<String>,

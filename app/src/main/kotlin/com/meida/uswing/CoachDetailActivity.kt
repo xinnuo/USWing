@@ -61,7 +61,7 @@ class CoachDetailActivity : BaseActivity() {
                             .headers("token", getString("token"))
                             .params("bussId", certificationId)
                             .params("collectionType", "3")
-                            .execute(object : StringDialogCallback(baseContext) {
+                            .execute(object : StringDialogCallback(baseContext, false) {
 
                                 override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
 
@@ -77,7 +77,7 @@ class CoachDetailActivity : BaseActivity() {
                             .headers("token", getString("token"))
                             .params("bussId", certificationId)
                             .params("collectionType", "3")
-                            .execute(object : StringDialogCallback(baseContext) {
+                            .execute(object : StringDialogCallback(baseContext, false) {
 
                                 override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
 

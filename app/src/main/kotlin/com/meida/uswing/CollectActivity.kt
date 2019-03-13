@@ -211,11 +211,11 @@ class CollectActivity : BaseActivity() {
 
                         when (mPosition) {
                             2 -> {
-                                mAdapter.attachTo(recycle_list)
+                                if (!isLoadingMore) mAdapter.attachTo(recycle_list)
                                 mAdapter.updateData(list)
                             }
                             3 -> {
-                                mAdapterCoach.attachTo(recycle_list)
+                                if (!isLoadingMore) mAdapterCoach.attachTo(recycle_list)
                                 mAdapterCoach.updateData(list)
                             }
                         }
@@ -250,7 +250,7 @@ class CollectActivity : BaseActivity() {
                             if (count(response.body().`object`) > 0) pageNum++
                         }
 
-                        mAdapterNews.attachTo(recycle_list)
+                        if (!isLoadingMore) mAdapterNews.attachTo(recycle_list)
                         mAdapterNews.updateData(list)
                     }
 

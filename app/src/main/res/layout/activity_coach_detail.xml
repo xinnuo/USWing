@@ -351,6 +351,7 @@
             android:layout_marginStart="@dimen/dimen_size_15"
             android:layout_marginTop="@dimen/dimen_size_5"
             android:layout_marginEnd="@dimen/dimen_size_15"
+            android:layout_marginBottom="@dimen/dimen_size_10"
             app:shadowMargin="@dimen/dimen_size_10"
             app:shadowRadius="@dimen/dimen_size_5">
 
