@@ -9,35 +9,35 @@ class ActivityStack private constructor() {
      * 移除栈顶的activity
      */
     fun popActivity() {
-        val activity = mActivityStack.lastElement()
-        activity?.finish()
+        if (mActivityStack.isNotEmpty()) {
+            val activity = mActivityStack.pop()
+            activity.finish()
+        }
     }
 
     /**
      * 移除一个activity
      */
-    private fun popActivity(activity: Activity?) {
-        activity?.let {
-            it.finish()
-            mActivityStack.remove(it)
-        }
+    private fun popActivity(index: Int, activity: Activity) {
+        if (!activity.isDestroyed) activity.finish()
+        mActivityStack.removeElementAt(index)
     }
 
     /**
      * 获取栈顶的activity，先进后出原则
+     *
+     * lastElement()获取最后个子元素，这里是栈顶的Activity
      */
-    fun currentActivity(): Activity? {
-        // lastElement()获取最后个子元素，这里是栈顶的Activity
-        return if (mActivityStack.isEmpty()) null else mActivityStack.lastElement()
-    }
+    fun currentActivity(): Activity? =
+        if (mActivityStack.isEmpty()) null else mActivityStack.lastElement()
 
     /**
      * 将当前Activity推入栈中
      */
-    fun pushActivity(activity: Activity) = mActivityStack.add(activity)
+    fun pushActivity(activity: Activity) = mActivityStack.addElement(activity)
 
     /**
-     * 是否包含指定的Activity
+     * 是否包含未销毁的Activity
      */
     fun isContainsActivity(cls: Class<*>): Boolean {
         if (mActivityStack.isEmpty()) return false
@@ -47,43 +47,44 @@ class ActivityStack private constructor() {
     /**
      * 弹出栈中指定Activity
      */
-    fun popOneActivity(cls: Class<*>): Boolean {
-        if (mActivityStack.isEmpty()) return false
-        for (activity in mActivityStack) {
-            if (activity.javaClass == cls) {
-                if (!activity.isDestroyed) {
-                    popActivity(activity)
-                    return true
-                } else popActivity()
+    fun popOneActivity(cls: Class<*>) {
+        if (mActivityStack.any { it.javaClass == cls }) {
+            val index = mActivityStack.size - 1
+            (index downTo 0).forEach {
+                val activity = mActivityStack[it]
+                if (activity.javaClass == cls) popActivity(it, activity)
             }
         }
-        return false
     }
 
     /**
      * 弹出栈中所有Activity，保留指定的一个Activity
      */
     fun popAllActivityExceptOne(cls: Class<*>) {
-        while (true) {
-            val activity = currentActivity() ?: break
-            if (activity.javaClass == cls) break
-            popActivity(activity)
+        if (mActivityStack.isNotEmpty()) {
+            val index = mActivityStack.size - 1
+            (index downTo 0).forEach {
+                val activity = mActivityStack[it]
+                if (activity.javaClass != cls) popActivity(it, activity)
+            }
         }
     }
 
     /**
      * 移除指定的多个activity
      */
-    fun popActivities(vararg clss: Class<*>) = clss.filter { isContainsActivity(it) }.forEach { popOneActivity(it) }
+    fun popActivities(vararg clss: Class<*>) = clss.forEach { popOneActivity(it) }
 
     /**
      * 弹出栈中所有Activity，保留指定的Activity
      */
     fun popAllActivityExcept(vararg clss: Class<*>) {
-        for (i in mActivityStack.indices.reversed()) {
-            val activity = mActivityStack[i]
-            val isNotFinish = clss.any { activity.javaClass == it }
-            if (!isNotFinish) popActivity(activity)
+        if (mActivityStack.isNotEmpty()) {
+            val index = mActivityStack.size - 1
+            (index downTo 0).forEach {
+                val activity = mActivityStack[it]
+                if (activity.javaClass !in clss) popActivity(it, activity)
+            }
         }
     }
 
@@ -91,9 +92,9 @@ class ActivityStack private constructor() {
      * 弹出栈中所有Activity
      */
     fun popAllActivitys() {
-        while (true) {
-            val activity = currentActivity() ?: break
-            popActivity(activity)
+        if (mActivityStack.isNotEmpty()) {
+            mActivityStack.filter { !it.isDestroyed }.forEach { it.finish() }
+            mActivityStack.clear()
         }
     }
 
