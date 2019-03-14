@@ -11,6 +11,7 @@ import com.lzg.extend.jackson.JacksonDialogCallback
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.meida.base.*
+import com.meida.getUnreadCount
 import com.meida.model.CommonData
 import com.meida.model.GroupModel
 import com.meida.model.RefreshMessageEvent
@@ -26,7 +27,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
 import io.rong.imkit.model.GroupUserInfo
-import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Group
 import kotlinx.android.synthetic.main.activity_contact_group.*
 import kotlinx.android.synthetic.main.layout_empty.*
@@ -99,10 +99,12 @@ class ContactGroupActivity : BaseActivity() {
 
                         if (!data.ls.isNullOrEmpty()) it.setImagesData(data.ls)
                     }
-                    .with<ImageView>(R.id.item_group_dot) {
-                        val count = RongIM.getInstance()
-                            .getUnreadCount(Conversation.ConversationType.GROUP, data.groupchat_id)
-                        it.visibility = if (count > 0) View.VISIBLE else View.INVISIBLE
+                    .with<ImageView>(R.id.item_group_dot) { view ->
+                        getUnreadCount(data.groupchat_id) {
+                            onSuccess {
+                                view.visibility = if (it > 0) View.VISIBLE else View.INVISIBLE
+                            }
+                        }
                     }
 
                     .clicked(R.id.item_group) {
