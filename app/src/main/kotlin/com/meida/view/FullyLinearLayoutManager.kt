@@ -25,7 +25,7 @@
  * #               佛祖保佑         永无BUG             #
  * #                                                   #
  */
-package com.ruanmeng.view
+package com.meida.view
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
@@ -45,11 +45,17 @@ class FullyLinearLayoutManager : LinearLayoutManager {
 
     constructor(context: Context, orientation: Int) : super(context, orientation, false)
 
-    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout)
+    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(
+        context,
+        orientation,
+        reverseLayout
+    )
 
-    override fun onMeasure(recycler: RecyclerView.Recycler,
-                           state: RecyclerView.State,
-                           widthSpec: Int, heightSpec: Int) {
+    override fun onMeasure(
+        recycler: RecyclerView.Recycler,
+        state: RecyclerView.State,
+        widthSpec: Int, heightSpec: Int
+    ) {
 
         val widthMode = View.MeasureSpec.getMode(widthSpec)
         val heightMode = View.MeasureSpec.getMode(heightSpec)
@@ -60,10 +66,12 @@ class FullyLinearLayoutManager : LinearLayoutManager {
         var height = 0
 
         (0 until itemCount).forEach {
-            measureScrapChild(recycler, it,
-                    View.MeasureSpec.makeMeasureSpec(it, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(it, View.MeasureSpec.UNSPECIFIED),
-                    mMeasuredDimension)
+            measureScrapChild(
+                recycler,
+                View.MeasureSpec.makeMeasureSpec(it, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(it, View.MeasureSpec.UNSPECIFIED),
+                mMeasuredDimension
+            )
 
             if (orientation == LinearLayoutManager.HORIZONTAL) {
                 width += mMeasuredDimension[0]
@@ -80,22 +88,27 @@ class FullyLinearLayoutManager : LinearLayoutManager {
         setMeasuredDimension(width, height)
     }
 
-    private fun measureScrapChild(recycler: RecyclerView.Recycler?,
-                                  position: Int,
-                                  widthSpec: Int,
-                                  heightSpec: Int,
-                                  measuredDimension: IntArray) {
+    private fun measureScrapChild(
+        recycler: RecyclerView.Recycler?,
+        widthSpec: Int,
+        heightSpec: Int,
+        measuredDimension: IntArray
+    ) {
 
         try {
             val view = recycler?.getViewForPosition(0) //fix 动态添加时报IndexOutOfBoundsException
             if (view != null) {
                 val p = view.layoutParams as RecyclerView.LayoutParams
 
-                val childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
-                        paddingLeft + paddingRight, p.width)
+                val childWidthSpec = ViewGroup.getChildMeasureSpec(
+                    widthSpec,
+                    paddingLeft + paddingRight, p.width
+                )
 
-                val childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
-                        paddingTop + paddingBottom, p.height)
+                val childHeightSpec = ViewGroup.getChildMeasureSpec(
+                    heightSpec,
+                    paddingTop + paddingBottom, p.height
+                )
 
                 view.measure(childWidthSpec, childHeightSpec)
                 measuredDimension[0] = view.measuredWidth + p.leftMargin + p.rightMargin

@@ -36,7 +36,7 @@ class CoachMineActivity : BaseActivity() {
         coach_watch.oneClick { startActivity<CoachWatchActivity>() }
         coach_honor.oneClick { startActivity<CoachHonorActivity>("list" to listHonor) }
         coach_info.oneClick { startActivity<CoachInfoActivity>("info" to mInfo) }
-        coach_video.oneClick { startActivity<CoachVideoActivity>() }
+        coach_video.oneClick { startActivity<CoachVideoActivity>("isUpload" to true) }
         coach_group.onCheckedChange { _, checkedId ->
             when (checkedId) {
                 R.id.coach_check1 -> OkGo.post<String>(BaseHttp.upadate_specialty)

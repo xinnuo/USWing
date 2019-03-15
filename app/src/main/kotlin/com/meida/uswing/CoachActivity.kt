@@ -13,9 +13,9 @@ import com.meida.base.*
 import com.meida.model.CommonData
 import com.meida.share.BaseHttp
 import com.meida.utils.MultiGapDecoration
+import com.meida.utils.hideSoftInput
 import com.meida.utils.trimString
 import com.meida.view.DropPopWindow
-import com.ruanmeng.utils.KeyboardHelper
 import com.sunfusheng.GlideImageView
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -102,7 +102,7 @@ class CoachActivity : BaseActivity() {
         search_edit.addTextChangedListener(this@CoachActivity)
         search_edit.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                KeyboardHelper.hideSoftInput(baseContext) //隐藏软键盘
+                hideSoftInput() //隐藏软键盘
 
                 if (search_edit.text.isBlank()) {
                     toast("请输入关键字")

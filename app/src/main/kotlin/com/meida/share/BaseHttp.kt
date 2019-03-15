@@ -116,6 +116,7 @@ object BaseHttp {
     val edit_magicvoide = "$baseIp/edit_magicvoide.rm"               //编辑魔频
     val add_circle_share = "$baseIp/add_circle_share.rm"             //分享魔频
     val find_magicvoide_deatls = "$baseIp/find_magicvoide_deatls.rm" //魔频详情
+    val add_magicvoide_coach = "$baseIp/add_magicvoide_coach.rm"     //上传魔频
 
     val leave_message_sub = "$baseIp/leave_message_sub.rm" //意见反馈
     val find_area_parent = "$baseIp/find_area_parent.rm"   //父级区域

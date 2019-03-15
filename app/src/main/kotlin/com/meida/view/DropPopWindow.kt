@@ -16,7 +16,7 @@ import android.view.animation.AnimationUtils
 import android.widget.PopupWindow
 import com.meida.uswing.R
 import com.meida.utils.getScreenWidth
-import com.ruanmeng.utils.startRotateAnimator
+import com.meida.utils.startRotateAnimator
 
 abstract class DropPopWindow @JvmOverloads constructor(
         context: Context,

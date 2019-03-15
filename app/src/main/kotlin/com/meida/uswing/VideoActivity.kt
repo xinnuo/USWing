@@ -13,8 +13,8 @@ import com.meida.model.CommonData
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showHintDialog
+import com.meida.utils.hideSoftInput
 import com.meida.utils.trimString
-import com.ruanmeng.utils.KeyboardHelper
 import com.sunfusheng.GlideImageView
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_list.*
@@ -125,7 +125,7 @@ class VideoActivity : BaseActivity() {
         search_edit.addTextChangedListener(this@VideoActivity)
         search_edit.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                KeyboardHelper.hideSoftInput(baseContext) //隐藏软键盘
+                hideSoftInput() //隐藏软键盘
 
                 if (search_edit.text.isBlank()) {
                     toast("请输入关键字")

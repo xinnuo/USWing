@@ -18,8 +18,8 @@ import com.meida.model.GroupModel
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showRewardDialog
+import com.meida.utils.hideSoftInput
 import com.meida.utils.toTextInt
-import com.ruanmeng.utils.KeyboardHelper
 import io.rong.imkit.RongIM
 import io.rong.imkit.fragment.ConversationFragment
 import io.rong.imkit.model.GroupUserInfo
@@ -159,7 +159,7 @@ class ConversationActivity : BaseActivity() {
                         override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
                             toast(msg)
                             mIntegral -= it.toTextInt()
-                            KeyboardHelper.hideSoftInput(baseContext)
+                            hideSoftInput()
                         }
 
                     })

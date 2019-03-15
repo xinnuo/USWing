@@ -22,7 +22,7 @@ import com.meida.utils.DialogHelper.showRewardDialog
 import com.meida.utils.DialogHelper.showRightPopup
 import com.meida.view.CenterImageSpan
 import com.meida.view.EmptyControlVideo
-import com.ruanmeng.view.FullyLinearLayoutManager
+import com.meida.view.FullyLinearLayoutManager
 import com.sunfusheng.GlideImageView
 import kotlinx.android.synthetic.main.activity_state_detail.*
 import net.idik.lib.slimadapter.SlimAdapter

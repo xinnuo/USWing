@@ -103,6 +103,9 @@
             android:name=".VideoActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".VideoUploadActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".VideoEditAddActivity"
             android:screenOrientation="portrait" />
         <activity

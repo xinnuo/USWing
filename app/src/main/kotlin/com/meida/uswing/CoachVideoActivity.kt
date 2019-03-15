@@ -17,7 +17,9 @@ import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_list.*
 import net.idik.lib.slimadapter.SlimAdapter
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.include
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.util.ArrayList
@@ -26,6 +28,7 @@ class CoachVideoActivity : BaseActivity() {
 
     private val list = ArrayList<Any>()
     private lateinit var mType: String
+    private lateinit var mUserId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,8 @@ class CoachVideoActivity : BaseActivity() {
             "详情魔频", "魔频对比" -> tvTitle.text = "教练魔频"
         }
 
+        EventBus.getDefault().register(this@CoachVideoActivity)
+
         swipe_refresh.isRefreshing = true
         getData(pageNum)
     }
@@ -43,6 +48,15 @@ class CoachVideoActivity : BaseActivity() {
     override fun init_title() {
         super.init_title()
         mType = intent.getStringExtra("type") ?: ""
+        mUserId = intent.getStringExtra("userInfoId") ?: ""
+        val isUpload = intent.getBooleanExtra("isUpload", false)
+
+        if (isUpload) {
+            if (mUserId.isEmpty() || (mUserId == getString("token"))) {
+                tvRight.text = "上传魔频"
+                tvRight.visible()
+            }
+        }
 
         empty_hint.text = "暂无相关魔频信息！"
         swipe_refresh.refresh { getData(1) }
@@ -118,8 +132,6 @@ class CoachVideoActivity : BaseActivity() {
                                 )
                             }
                             else -> {
-                                val userInfoId = intent.getStringExtra("userInfoId") ?: ""
-
                                 startActivity<CompareActivity>(
                                     "title" to "我的魔频",
                                     "magicvoideId" to data.magicvoide_id,
@@ -127,13 +139,15 @@ class CoachVideoActivity : BaseActivity() {
                                     "video2" to BaseHttp.circleImg + data.negative_voide,
                                     "videoImg1" to BaseHttp.circleImg + data.positive_img,
                                     "videoImg2" to BaseHttp.circleImg + data.negative_img,
-                                    "share" to (userInfoId == getString("token"))
+                                    "share" to (mUserId == getString("token"))
                                 )
                             }
                         }
                     }
             }
             .attachTo(recycle_list)
+
+        tvRight.onClick { startActivity<VideoUploadActivity>() }
     }
 
     override fun getData(pindex: Int) {
@@ -143,7 +157,7 @@ class CoachVideoActivity : BaseActivity() {
             .params("page", pindex)
             .apply {
                 when (mType) {
-                    "详情魔频", "魔频对比" -> params("userInfoId", intent.getStringExtra("userInfoId"))
+                    "详情魔频", "魔频对比" -> params("userInfoId", mUserId)
                 }
             }
             .execute(object :
@@ -172,6 +186,31 @@ class CoachVideoActivity : BaseActivity() {
                 }
 
             })
+    }
+
+    private fun updateList() {
+        swipe_refresh.isRefreshing = true
+
+        empty_view.gone()
+        if (list.isNotEmpty()) {
+            list.clear()
+            mAdapter.notifyDataSetChanged()
+        }
+
+        pageNum = 1
+        getData(pageNum)
+    }
+
+    override fun finish() {
+        EventBus.getDefault().unregister(this@CoachVideoActivity)
+        super.finish()
+    }
+
+    @Subscribe
+    fun onMessageEvent(event: RefreshMessageEvent) {
+        when (event.type) {
+            "上传魔频" -> updateList()
+        }
     }
 
 }

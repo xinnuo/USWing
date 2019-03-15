@@ -20,7 +20,6 @@ import com.meida.base.inflate
 import com.meida.uswing.IntegralChargeActivity
 import com.meida.uswing.R
 import com.meida.uswing.WalletChargeActivity
-import com.ruanmeng.utils.KeyboardHelper
 import com.weigan.loopview.LoopView
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -289,7 +288,7 @@ object DialogHelper {
             }
         }
 
-        dialog.setOnShowListener { KeyboardHelper.showSoftInput(this) }
+        dialog.setOnShowListener { showSoftInput() }
         dialog.show()
     }
 
@@ -400,7 +399,7 @@ object DialogHelper {
             }
         }
 
-        dialog.setOnShowListener { KeyboardHelper.showSoftInput(activity!!) }
+        dialog.setOnShowListener { activity!!.showSoftInput() }
         dialog.show()
     }
 
@@ -606,7 +605,13 @@ object DialogHelper {
         dialog.show()
     }
 
-    fun Context.showPayDialog(price: String, remain: String, listener: (String) -> Unit) {
+    fun Context.showPayDialog(
+        price: String,
+        remain: String,
+        timeHint: String,
+        listener: (String) -> Unit,
+        click: (TextView, TextView) -> Unit
+    ) {
 
         val dialog = object : BaseDialog(this, true) {
 
@@ -619,9 +624,12 @@ object DialogHelper {
                 val tvNum = view.findViewById<TextView>(R.id.dialog_num)
                 val charge = view.findViewById<LinearLayout>(R.id.dialog_charge)
                 val btSure = view.findViewById<Button>(R.id.dialog_sure)
+                val llTime = view.findViewById<LinearLayout>(R.id.dialog_time)
+                val tvTime = view.findViewById<TextView>(R.id.dialog_select)
 
                 tvHint.text = price
                 tvNum.text = "${remain}元"
+                tvTime.text = timeHint
 
                 charge.onClick {
                     dismiss()
@@ -647,11 +655,22 @@ object DialogHelper {
                     listener.invoke("取消")
                 }
 
+                llTime.onClick {
+                    click.invoke(tvHint, tvTime)
+                }
+
                 return view
             }
         }
 
         dialog.setCanceledOnTouchOutside(false)
+        dialog.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.repeatCount == 0) {
+                listener.invoke("关闭")
+            }
+            return@setOnKeyListener false
+        }
         dialog.show()
     }
 

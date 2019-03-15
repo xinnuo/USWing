@@ -26,7 +26,7 @@ import com.meida.utils.DialogHelper.showSchoolDialog
 import com.meida.utils.NameLengthFilter
 import com.meida.utils.trimEndString
 import com.meida.utils.trimString
-import com.ruanmeng.view.FullyLinearLayoutManager
+import com.meida.view.FullyLinearLayoutManager
 import kotlinx.android.synthetic.main.activity_coach_author.*
 import net.idik.lib.slimadapter.SlimAdapter
 import org.greenrobot.eventbus.EventBus

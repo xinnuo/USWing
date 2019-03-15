@@ -14,7 +14,7 @@ import com.meida.base.getString
 import com.meida.model.CommonData
 import com.meida.share.BaseHttp
 import com.meida.utils.ActivityStack
-import com.ruanmeng.view.FullyLinearLayoutManager
+import com.meida.view.FullyLinearLayoutManager
 import net.idik.lib.slimadapter.SlimAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView

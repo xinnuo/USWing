@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dimen_size_15"
+        android:layout_marginTop="@dimen/dimen_size_15"
+        android:layout_marginEnd="@dimen/dimen_size_15"
+        android:layout_weight="1">
+
+        <com.sunfusheng.GlideImageView
+            android:id="@+id/upload_img1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dimen_size_15"
+            android:onClick="doClick"
+            android:scaleType="fitCenter" />
+
+        <com.loopeer.shadow.ShadowView
+            android:id="@+id/upload_add1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            app:shadowMargin="@dimen/dimen_size_10"
+            app:shadowRadius="@dimen/dimen_size_5">
+
+            <FrameLayout
+                android:layout_width="@dimen/dimen_size_280"
+                android:layout_height="@dimen/dimen_size_175">
+
+                <LinearLayout
+                    android:id="@+id/upload_select1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dimen_size_30"
+                    android:layout_marginTop="@dimen/dimen_size_25"
+                    android:layout_marginEnd="@dimen/dimen_size_30"
+                    android:layout_marginBottom="@dimen/dimen_size_25"
+                    android:background="@mipmap/video_icon21"
+                    android:gravity="center"
+                    android:onClick="doClick"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_size_35"
+                        android:layout_height="@dimen/dimen_size_35"
+                        android:src="@mipmap/video_icon22"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        style="@style/Font13_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_size_10"
+                        android:text="添加正面魔频" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </com.loopeer.shadow.ShadowView>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dimen_size_15"
+        android:layout_marginEnd="@dimen/dimen_size_15"
+        android:layout_marginBottom="@dimen/dimen_size_15"
+        android:layout_weight="1">
+
+        <com.sunfusheng.GlideImageView
+            android:id="@+id/upload_img2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dimen_size_15"
+            android:onClick="doClick"
+            android:scaleType="fitCenter" />
+
+        <com.loopeer.shadow.ShadowView
+            android:id="@+id/upload_add2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            app:shadowMargin="@dimen/dimen_size_10"
+            app:shadowRadius="@dimen/dimen_size_5">
+
+            <FrameLayout
+                android:layout_width="@dimen/dimen_size_280"
+                android:layout_height="@dimen/dimen_size_175">
+
+                <LinearLayout
+                    android:id="@+id/upload_select2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dimen_size_30"
+                    android:layout_marginTop="@dimen/dimen_size_25"
+                    android:layout_marginEnd="@dimen/dimen_size_30"
+                    android:layout_marginBottom="@dimen/dimen_size_25"
+                    android:background="@mipmap/video_icon21"
+                    android:gravity="center"
+                    android:onClick="doClick"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_size_35"
+                        android:layout_height="@dimen/dimen_size_35"
+                        android:src="@mipmap/video_icon22"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        style="@style/Font13_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_size_10"
+                        android:text="添加侧面魔频" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </com.loopeer.shadow.ShadowView>
+
+    </FrameLayout>
+
+</LinearLayout>

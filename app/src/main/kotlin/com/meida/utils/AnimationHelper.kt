@@ -25,7 +25,7 @@
  * #          *****       ***        ***      *             #
  * #            **       ****        ****                   #
  */
-package com.ruanmeng.utils
+package com.meida.utils
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator

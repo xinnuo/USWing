@@ -102,7 +102,8 @@ class CoachDetailActivity : BaseActivity() {
             R.id.coach_video -> {
                 startActivity<CoachVideoActivity>(
                     "type" to "详情魔频",
-                    "userInfoId" to certificationId
+                    "userInfoId" to certificationId,
+                    "isUpload" to true
                 )
             }
             R.id.coach_state -> startActivity<CoachStateActivity>("userInfoId" to certificationId)

@@ -25,7 +25,7 @@
  * #               佛祖保佑         永无BUG             #
  * #                                                   #
  */
-package com.ruanmeng.view
+package com.meida.view
 
 import android.content.Context
 import android.support.v7.widget.GridLayoutManager

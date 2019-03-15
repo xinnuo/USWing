@@ -23,7 +23,7 @@ import com.meida.utils.BitmapHelper
 import com.meida.utils.BitmapHelper.getVideoThumbnail
 import com.meida.utils.DialogHelper.showItemDialog
 import com.meida.utils.trimString
-import com.ruanmeng.view.FullyGridLayoutManager
+import com.meida.view.FullyGridLayoutManager
 import com.sunfusheng.GlideImageView
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers

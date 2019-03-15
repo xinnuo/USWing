@@ -10,6 +10,7 @@ import com.meida.utils.setDelegate
 import kotlinx.android.synthetic.main.activity_scan.*
 import android.os.Vibrator
 import android.view.View
+import com.amap.api.AMapLocationHelper
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -23,6 +24,7 @@ import com.meida.share.BaseHttp
 import com.meida.share.Const
 import com.meida.utils.ActivityStack
 import com.meida.utils.DialogHelper.showPayDialog
+import com.meida.utils.DialogHelper.showSchoolDialog
 import com.meida.utils.isWeb
 import com.meida.utils.toNotDouble
 import io.reactivex.Completable
@@ -37,7 +39,11 @@ import java.util.concurrent.TimeUnit
 class ScanActivity : BaseActivity() {
 
     private var isFlashlighting = false
-    private var mPrice = ""
+    private val listTime = ArrayList<String>()
+    private var mStartTimes = ""
+    private var mBasePrice = ""
+    private var mTotalPrice = ""
+    private var mAddress = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +51,7 @@ class ScanActivity : BaseActivity() {
         init_title("扫一扫")
 
         getData()
+        getLocationData()
     }
 
     override fun init_title() {
@@ -77,17 +84,36 @@ class ScanActivity : BaseActivity() {
                         val code = params.first { item -> "device=" in item }
                             .replace("device=", "")
 
-                        if (mPrice.isEmpty()) {
+                        if (mBasePrice.isEmpty() || listTime.isEmpty()) {
                             resetZxing("开机信息获取失败！")
                         } else {
                             getBanlanceData { banlance ->
+                                mPosition = 0
+
                                 showPayDialog(
-                                    DecimalFormat("0.00").format(mPrice.toNotDouble()),
-                                    DecimalFormat("0.00").format(banlance)
-                                ) { str ->
-                                    if (str == "确定") getBootData(code)
-                                    else resetZxing()
-                                }
+                                    DecimalFormat("0.00").format(mBasePrice.toNotDouble()),
+                                    DecimalFormat("0.00").format(banlance),
+                                    listTime[0],
+                                    { str ->
+                                        if (str == "确定") getBootData(code)
+                                        else resetZxing()
+                                    },
+                                    { hintView, timeView ->
+                                        showSchoolDialog(
+                                            "选择时间段",
+                                            mPosition,
+                                            listTime
+                                        ) { index, hint ->
+                                            mPosition = index
+                                            val items = mStartTimes.split(",")
+                                            val time1 = items[0].toInt()
+                                            val time2 = items[index].toInt()
+                                            mTotalPrice = DecimalFormat("0.00").format(time2 / time1 * mBasePrice.toNotDouble())
+
+                                            hintView.text = mTotalPrice
+                                            timeView.text = hint
+                                        }
+                                    })
                             }
                         }
                     }
@@ -111,6 +137,20 @@ class ScanActivity : BaseActivity() {
         scan_zxing.stopCamera() //关闭摄像头预览，并且隐藏扫描框
     }
 
+    /* 位置 */
+    private fun getLocationData() {
+        AMapLocationHelper.getInstance(baseContext)
+            .startLocation(300) { location, isSuccessed, codes ->
+                if (300 in codes) {
+                    if (isSuccessed) mAddress = location.address
+                    else {
+                        val errorInfo = location?.locationDetail ?: "位置信息获取失败"
+                        toast(errorInfo.split("#")[0])
+                    }
+                }
+            }
+    }
+
     /* 开机价格 */
     override fun getData() {
         OkGo.post<String>(BaseHttp.find_startboot_price)
@@ -126,7 +166,13 @@ class ScanActivity : BaseActivity() {
                     val obj = JSONObject(response.body())
                         .optJSONObject("object") ?: JSONObject()
 
-                    mPrice = obj.optString("startSum")
+                    mBasePrice = obj.optString("startSum")
+                    mTotalPrice = mBasePrice
+
+                    mStartTimes = obj.optString("startTimes")
+                    if (mStartTimes.isNotEmpty()) {
+                        mStartTimes.split(",").forEach { listTime.add("${it}分钟") }
+                    }
                 }
 
             })
@@ -138,6 +184,7 @@ class ScanActivity : BaseActivity() {
             .tag(this@ScanActivity)
             .headers("token", getString("token"))
             .params("item", code)
+            .params("startTime", mStartTimes.split(",")[mPosition])
             .execute(object : StringDialogCallback(baseContext) {
 
                 override fun onSuccessResponse(
@@ -183,7 +230,7 @@ class ScanActivity : BaseActivity() {
             .isMultipart(true)
             .headers("token", getString("token"))
             .params("item", code)
-            .params("address", "深圳市")
+            .params("address", mAddress)
             .execute(object : StringDialogCallback(baseContext) {
 
                 override fun onSuccessResponse(
@@ -261,7 +308,8 @@ class ScanActivity : BaseActivity() {
             when (requestCode) {
                 PictureConfig.CHOOSE_REQUEST -> {
                     // 图片选择结果回调
-                    val selectList = PictureSelector.obtainMultipleResult(data) as ArrayList<LocalMedia>
+                    val selectList =
+                        PictureSelector.obtainMultipleResult(data) as ArrayList<LocalMedia>
                     // LocalMedia 里面返回三种path
                     // 1.media.getPath(); 为原图path
                     // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
@@ -278,6 +326,7 @@ class ScanActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        AMapLocationHelper.getInstance(baseContext).removeCode(300)
         scan_zxing.onDestroy() //销毁二维码扫描控件
     }
 

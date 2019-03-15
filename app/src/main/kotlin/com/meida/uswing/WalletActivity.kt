@@ -95,7 +95,7 @@ class WalletActivity : BaseActivity() {
                     )
                     .text(
                         R.id.item_wallet_num,
-                        if (mPosition == 0) "+${data.opt_amount}" else "-${data.opt_amount}"
+                        if (mPosition == 1) "+${data.opt_amount}" else "-${data.opt_amount}"
                     )
                     .visibility(
                         R.id.item_wallet_divider1,
