@@ -189,7 +189,6 @@
                     android:layout_width="@dimen/dimen_size_35"
                     android:layout_height="@dimen/dimen_size_35"
                     android:layout_marginStart="@dimen/dimen_size_40"
-                    android:layout_marginEnd="@dimen/dimen_size_40"
                     android:onClick="doClick"
                     android:src="@mipmap/per_icon02"
                     tools:ignore="ContentDescription,OnClick" />
@@ -198,8 +197,10 @@
                     android:id="@+id/login_facebook"
                     android:layout_width="@dimen/dimen_size_35"
                     android:layout_height="@dimen/dimen_size_35"
+                    android:layout_marginStart="@dimen/dimen_size_40"
                     android:onClick="doClick"
                     android:src="@mipmap/per_icon03"
+                    android:visibility="gone"
                     tools:ignore="ContentDescription,OnClick" />
 
             </LinearLayout>

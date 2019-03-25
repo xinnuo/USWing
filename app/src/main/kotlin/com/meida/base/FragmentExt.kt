@@ -89,3 +89,9 @@ inline fun Fragment.getBoolean(key: String, defaultValue: Boolean = false): Bool
 
 inline fun Fragment.putBoolean(key: String, vaule: Boolean) =
     PreferencesUtils.putBoolean(this.activity, key, vaule)
+
+inline fun Fragment.getInt(key: String, defaultValue: Int = -1): Int =
+    PreferencesUtils.getInt(this.activity, key, defaultValue)
+
+inline fun Fragment.putInt(key: String, vaule: Int) =
+    PreferencesUtils.putInt(this.activity, key, vaule)

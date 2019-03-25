@@ -3,6 +3,8 @@ package com.meida.uswing
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.FrameLayout
+import android.widget.ImageView
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.StringDialogCallback
 import com.lzg.extend.jackson.JacksonDialogCallback
@@ -22,8 +24,8 @@ import kotlinx.android.synthetic.main.layout_title_search.*
 import net.idik.lib.slimadapter.SlimAdapter
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk25.listeners.onClick
 import java.util.ArrayList
 
 class VideoActivity : BaseActivity() {
@@ -84,7 +86,11 @@ class VideoActivity : BaseActivity() {
                                     .params("magicvoideId", data.magicvoide_id)
                                     .execute(object : StringDialogCallback(baseContext) {
 
-                                        override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                                        override fun onSuccessResponse(
+                                            response: Response<String>,
+                                            msg: String,
+                                            msgCode: String
+                                        ) {
 
                                             toast(msg)
                                             list.remove(data)
@@ -109,7 +115,7 @@ class VideoActivity : BaseActivity() {
                     }
 
                     .clicked(R.id.item_video) {
-                        startActivity<CompareActivity>(
+                        /*startActivity<CompareActivity>(
                             "title" to "我的魔频",
                             "magicvoideId" to data.magicvoide_id,
                             "video1" to BaseHttp.circleImg + data.positive_voide,
@@ -117,6 +123,14 @@ class VideoActivity : BaseActivity() {
                             "videoImg1" to BaseHttp.circleImg + data.positive_img,
                             "videoImg2" to BaseHttp.circleImg + data.negative_img,
                             "share" to true
+                        )*/
+
+                        startActivity<VideoDetailActivity>(
+                            "magicvoideId" to data.magicvoide_id,
+                            "video1" to BaseHttp.circleImg + data.positive_voide,
+                            "video2" to BaseHttp.circleImg + data.negative_voide,
+                            "videoImg1" to BaseHttp.circleImg + data.positive_img,
+                            "videoImg2" to BaseHttp.circleImg + data.negative_img
                         )
                     }
             }
@@ -170,10 +184,39 @@ class VideoActivity : BaseActivity() {
                     isLoadingMore = false
 
                     empty_view.apply { if (list.isEmpty()) visible() else gone() }
+
+                    val guideCount = getInt("guide_index")
+                    if (guideCount in 3..4) {
+                        putInt("guide_index", 3)
+                        (window.decorView as FrameLayout).addView(createView())
+                    }
                 }
 
             })
     }
+
+    private fun createView() = UI {
+        verticalLayout {
+            lparams(width = matchParent, height = matchParent)
+            imageView {
+                scaleType = ImageView.ScaleType.FIT_XY
+                imageResource = R.mipmap.icon_guide4
+                onClick {
+                    when (getInt("guide_index")) {
+                        3 -> {
+                            putInt("guide_index", 4)
+                            imageResource = R.mipmap.icon_guide5
+                        }
+                        4 -> {
+                            putInt("guide_index", 5)
+                            val parent = window.decorView as FrameLayout
+                            parent.removeViewAt(parent.childCount - 1)
+                        }
+                    }
+                }
+            }.lparams(width = matchParent, height = matchParent)
+        }
+    }.view
 
     private fun updateList() {
         swipe_refresh.isRefreshing = true

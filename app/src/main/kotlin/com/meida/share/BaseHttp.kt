@@ -122,4 +122,6 @@ object BaseHttp {
     val find_area_parent = "$baseIp/find_area_parent.rm"   //父级区域
     val find_area_level = "$baseIp/find_area_level.rm"     //级别区域
     val find_html_info = "$baseIp/find_html_info.rm"       //字典详情
+    val find_startimg = "$baseIp/find_startimg.rm"         //启动页
+    val update_oosition = "$baseIp/update_oosition.rm"     //更新位置
 }

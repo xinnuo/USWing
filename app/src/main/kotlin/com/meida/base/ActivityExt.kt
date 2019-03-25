@@ -96,11 +96,17 @@ inline fun Context.getString(key: String, defaultValue: String = ""): String =
 inline fun Context.getBoolean(key: String): Boolean =
     PreferencesUtils.getBoolean(this, key)
 
+inline fun Context.getInt(key: String, defaultValue: Int = -1): Int =
+    PreferencesUtils.getInt(this, key, defaultValue)
+
 inline fun Context.putString(key: String, vaule: String) =
     PreferencesUtils.putString(this, key, vaule)
 
 inline fun Context.putBoolean(key: String, vaule: Boolean) =
     PreferencesUtils.putBoolean(this, key, vaule)
+
+inline fun Context.putInt(key: String, vaule: Int) =
+    PreferencesUtils.putInt(this, key, vaule)
 
 inline fun Context.clearString(vararg keys: String, vaule: String = "") =
     keys.forEach { PreferencesUtils.putString(this, it, vaule) }

@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/compare_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/dimen_size_15"
-        android:layout_marginTop="@dimen/dimen_size_15"
-        android:layout_marginEnd="@dimen/dimen_size_15"
         android:layout_weight="1">
 
-        <com.meida.view.CustomVideoPlayer
+        <com.meida.view.EmptyNoControlVideo
             android:id="@+id/compare_first"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.meida.view.EmptyNoControlVideo
+            android:id="@+id/compare_second"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_size_45"
-        android:layout_marginStart="@dimen/dimen_size_15"
-        android:layout_marginEnd="@dimen/dimen_size_15"
-        android:gravity="center_vertical|end">
-
-        <TextView
-            android:id="@+id/compare_speed"
-            style="@style/Font13_white"
-            android:layout_width="@dimen/dimen_size_65"
-            android:layout_height="@dimen/dimen_size_25"
-            android:layout_marginEnd="@dimen/dimen_size_15"
-            android:background="@mipmap/btn07"
-            android:gravity="center"
-            android:onClick="doClick" />
-
-        <TextView
-            android:id="@+id/compare_left"
-            style="@style/Font13_white"
-            android:layout_width="@dimen/dimen_size_62"
-            android:layout_height="@dimen/dimen_size_25"
-            android:background="@mipmap/btn03"
-            android:gravity="center"
-            android:onClick="doClick"
-            android:text="正面" />
-
-        <TextView
-            android:id="@+id/compare_right"
-            style="@style/Font14_black"
-            android:layout_width="@dimen/dimen_size_62"
-            android:layout_height="@dimen/dimen_size_25"
-            android:background="@mipmap/btn04"
-            android:gravity="center"
-            android:onClick="doClick"
-            android:text="侧面" />
-
-    </LinearLayout>
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/dimen_size_15"
-        android:layout_marginEnd="@dimen/dimen_size_15"
-        android:layout_marginBottom="@dimen/dimen_size_15"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
-        <com.meida.view.CustomVideoPlayer
-            android:id="@+id/compare_second"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="@dimen/dimen_size_45"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/dimen_size_7"
+            android:background="@color/red">
+
+            <ImageView
+                android:id="@+id/compare_play"
+                android:layout_width="@dimen/dimen_size_35"
+                android:layout_height="@dimen/dimen_size_35"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/dimen_size_15"
+                android:onClick="doClick"
+                android:src="@mipmap/mes_icon16"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/compare_speed"
+                style="@style/Font13_white"
+                android:layout_width="@dimen/dimen_size_65"
+                android:layout_height="@dimen/dimen_size_25"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/dimen_size_15"
+                android:background="@mipmap/btn07"
+                android:gravity="center"
+                android:onClick="doClick" />
+
+        </FrameLayout>
+
+        <SeekBar
+            android:id="@+id/compare_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:max="100"
+            android:maxHeight="@dimen/dimen_size_4"
+            android:minHeight="@dimen/dimen_size_4"
+            android:paddingStart="@dimen/dimen_size_0"
+            android:paddingTop="@dimen/dimen_size_0"
+            android:paddingEnd="@dimen/dimen_size_0"
+            android:paddingBottom="@dimen/dimen_size_0"
+            android:progressDrawable="@drawable/video_new_progress_2"
+            android:splitTrack="false"
+            android:thumb="@drawable/video_new_seek_thumb_2"
+            tools:ignore="UnusedAttribute" />
 
     </FrameLayout>
 

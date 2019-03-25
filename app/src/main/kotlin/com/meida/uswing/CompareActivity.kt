@@ -98,8 +98,6 @@ class CompareActivity : BaseActivity() {
                     }
                     "朋友圈" -> {
                     }
-                    "新浪" -> {
-                    }
                     "问答" -> {
                         showGroupDialog("问答内容", "请输入问答内容") { str ->
                             if (str.isEmpty()) {

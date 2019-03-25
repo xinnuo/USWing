@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
@@ -23,7 +22,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -125,7 +123,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".VideoDetailActivity"
-            android:screenOrientation="portrait" />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".ScanActivity"
             android:screenOrientation="portrait" />
@@ -217,7 +215,7 @@
         <!-- 微信支付 start -->
         <meta-data
             android:name="WX_APPID"
-            android:value="wxefefe03c928c5c53" />
+            android:value="wxb1ad75808e89d797" />
 
         <activity
             android:name=".wxapi.WXPayEntryActivity"
@@ -250,7 +248,6 @@
             tools:ignore="ExportedReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
@@ -265,9 +262,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data
                     android:host="${applicationId}"
                     android:pathPrefix="/conversation/"

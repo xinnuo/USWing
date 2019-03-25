@@ -118,7 +118,7 @@ public class StandardVideoPlayer extends VideoPlayer {
     }
 
     /**
-     * 显示wifi确定框
+     * 开始播放
      */
     @Override
     public void startPlayLogic() {

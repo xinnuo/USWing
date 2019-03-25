@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.allen.library.SuperTextView
@@ -32,8 +34,14 @@ import kotlinx.android.synthetic.main.fragment_main_first.*
 import kotlinx.android.synthetic.main.layout_list.*
 import net.idik.lib.slimadapter.SlimAdapter
 import net.idik.lib.slimadapter.SlimAdapterEx
+import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.imageView
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.sdk25.listeners.onClick
+import org.jetbrains.anko.support.v4.UI
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.verticalLayout
 import org.json.JSONObject
 import java.text.DecimalFormat
 import java.util.*
@@ -226,6 +234,7 @@ class MainFirstFragment : BaseFragment() {
                         mCity = location.city
 
                         getData()
+                        updateLocation()
                     } else {
                         val errorInfo = location?.locationDetail ?: "位置信息获取失败"
                         toast(errorInfo.split("#")[0])
@@ -253,6 +262,17 @@ class MainFirstFragment : BaseFragment() {
                     ) { if (it == "确定") makeCall(obj) }
                 }
 
+            })
+    }
+
+    private fun updateLocation() {
+        OkGo.post<String>(BaseHttp.update_oosition)
+            .tag(this@MainFirstFragment)
+            .headers("token", getString("token"))
+            .params("userLat", mLat)
+            .params("userLng", mLng)
+            .execute(object : StringDialogCallback(activity, false) {
+                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) { }
             })
     }
 
@@ -303,9 +323,42 @@ class MainFirstFragment : BaseFragment() {
                 override fun onFinish() {
                     super.onFinish()
                     swipe_refresh.isRefreshing = false
+
+                    val guideCount = getInt("guide_index", 0)
+                    if (guideCount in 0..2) {
+                        putInt("guide_index", 0)
+                        (activity!!.window.decorView as FrameLayout).addView(createView())
+                    }
                 }
 
             })
     }
+
+    private fun createView() = UI {
+        verticalLayout {
+            lparams(width = matchParent, height = matchParent)
+            imageView {
+                scaleType = ImageView.ScaleType.FIT_XY
+                imageResource = R.mipmap.icon_guide1
+                onClick {
+                    when (getInt("guide_index")) {
+                        0 -> {
+                            putInt("guide_index", 1)
+                            imageResource = R.mipmap.icon_guide2
+                        }
+                        1 -> {
+                            putInt("guide_index", 2)
+                            imageResource = R.mipmap.icon_guide3
+                        }
+                        2 -> {
+                            putInt("guide_index", 3)
+                            val parent = activity!!.window.decorView as FrameLayout
+                            parent.removeViewAt(parent.childCount - 1)
+                        }
+                    }
+                }
+            }.lparams(width = matchParent, height = matchParent)
+        }
+    }.view
 
 }

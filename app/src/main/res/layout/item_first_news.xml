@@ -14,47 +14,56 @@
         android:background="@color/divider"
         android:visibility="gone" />
 
-    <com.sunfusheng.GlideImageView
-        android:id="@+id/item_first_img"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_size_200"
-        android:scaleType="centerCrop" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical"
+        android:gravity="center_vertical"
         android:padding="@dimen/dimen_size_15">
 
-        <TextView
-            android:id="@+id/item_first_title"
-            style="@style/Font15_black"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lineSpacingExtra="@dimen/dimen_size_5"
-            android:maxLines="2"
-            android:text="标题" />
+        <com.sunfusheng.GlideImageView
+            android:id="@+id/item_first_img"
+            android:layout_width="@dimen/dimen_size_100"
+            android:layout_height="@dimen/dimen_size_75"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_logo" />
 
-        <TextView
-            android:id="@+id/item_first_content"
-            style="@style/Font13_gray"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_size_10"
-            android:ellipsize="end"
-            android:lineSpacingExtra="@dimen/dimen_size_5"
-            android:maxLines="2"
-            android:text="内容" />
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/item_first_time"
-            style="@style/Font13_light"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_size_10"
-            android:text="时间" />
+            <TextView
+                android:id="@+id/item_first_title"
+                style="@style/Font15_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/dimen_size_5"
+                android:maxLines="2"
+                android:text="标题" />
+
+            <TextView
+                android:id="@+id/item_first_content"
+                style="@style/Font13_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_size_8"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/dimen_size_5"
+                android:maxLines="2"
+                android:text="内容" />
+
+            <TextView
+                android:id="@+id/item_first_time"
+                style="@style/Font13_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_size_8"
+                android:text="时间" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

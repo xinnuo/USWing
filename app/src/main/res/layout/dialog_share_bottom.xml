@@ -134,6 +134,7 @@
             android:onClick="doClick"
             android:orientation="vertical"
             android:paddingTop="@dimen/dimen_size_15"
+            android:visibility="gone"
             android:paddingBottom="@dimen/dimen_size_15">
 
             <ImageView

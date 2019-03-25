@@ -118,6 +118,7 @@
                     android:background="@android:color/white"
                     android:gravity="end|center_vertical"
                     android:hint="请输入手机号"
+                    android:inputType="number"
                     android:maxLength="12"
                     android:paddingStart="@dimen/dimen_size_10"
                     android:paddingEnd="@dimen/dimen_size_15" />
@@ -215,11 +216,9 @@
                 android:background="@color/divider" />
 
             <LinearLayout
-                android:id="@+id/author_school_ll"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_size_60"
-                android:gravity="center_vertical"
-                android:onClick="doClick">
+                android:gravity="center_vertical">
 
                 <TextView
                     style="@style/Font15_black"
@@ -234,17 +233,13 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@android:color/white"
                     android:gravity="end|center_vertical"
-                    android:hint="请选择所属学院"
+                    android:hint="请输入所属学院"
+                    android:maxLength="1"
                     android:paddingStart="@dimen/dimen_size_10"
-                    android:paddingEnd="@dimen/dimen_size_0" />
-
-                <ImageView
-                    android:layout_width="@dimen/dimen_size_16"
-                    android:layout_height="@dimen/dimen_size_16"
-                    android:layout_marginEnd="@dimen/dimen_size_15"
-                    android:src="@mipmap/index_icon16"
-                    tools:ignore="ContentDescription" />
+                    android:paddingEnd="@dimen/dimen_size_15"
+                    android:singleLine="true" />
 
             </LinearLayout>
 

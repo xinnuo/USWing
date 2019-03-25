@@ -10,9 +10,7 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
-import com.lzg.extend.BaseResponse
 import com.lzg.extend.StringDialogCallback
-import com.lzg.extend.jackson.JacksonDialogCallback
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.meida.base.*
@@ -44,14 +42,12 @@ import java.util.regex.Pattern
 class CoachAuthorActivity : BaseActivity() {
 
     private var selectList = ArrayList<LocalMedia>()
-    private var listCollege = ArrayList<CommonData>()
     private var listHonor = ArrayList<CommonData>()
     private var listVideo = ArrayList<CommonData>()
 
     private lateinit var mGender: String
     private lateinit var mProvince: String
     private lateinit var mCity: String
-    private var mCollegeId = ""
     private var mSpecial = ""
     private var mAge = 0
 
@@ -231,7 +227,7 @@ class CoachAuthorActivity : BaseActivity() {
                 }
             }
             R.id.author_adress_ll -> startActivity<NearCityActivity>("type" to "选择地区")
-            R.id.author_school_ll -> {
+            /*R.id.author_school_ll -> {
                 if (listCollege.isEmpty()) {
                     OkGo.post<BaseResponse<ArrayList<CommonData>>>(BaseHttp.find_college_list)
                         .tag(this@CoachAuthorActivity)
@@ -275,7 +271,7 @@ class CoachAuthorActivity : BaseActivity() {
                         author_school.text = str
                     }
                 }
-            }
+            }*/
             R.id.author_age_ll -> {
                 showSchoolDialog(
                     "选择教龄(年)",
@@ -300,8 +296,8 @@ class CoachAuthorActivity : BaseActivity() {
                         toast("请选择地址")
                         return
                     }
-                    mCollegeId.isEmpty() -> {
-                        toast("请选择所属学院")
+                    author_school.text.isBlank() -> {
+                        toast("请输入所属学院")
                         return
                     }
                     mAge == 0 -> {
@@ -356,7 +352,7 @@ class CoachAuthorActivity : BaseActivity() {
                     .params("name", author_name.text.trimString())
                     .params("gender", mGender)
                     .params("address", "$mProvince $mCity")
-                    .params("college", mCollegeId)
+                    .params("college", author_school.text.trimString())
                     .params("honor", arr.toString())
                     .params("specialty", mSpecial)
                     .params("introduction", author_content.text.trimEndString())

@@ -565,7 +565,8 @@ object DialogHelper {
         title: String = "所属学院",
         position: Int,
         items: List<String>,
-        listener: (Int, String) -> Unit) {
+        listener: (Int, String) -> Unit
+    ) {
 
         val dialog = object : BottomDialog(this) {
 
@@ -666,7 +667,8 @@ object DialogHelper {
         dialog.setCanceledOnTouchOutside(false)
         dialog.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.repeatCount == 0) {
+                && event.repeatCount == 0
+            ) {
                 listener.invoke("关闭")
             }
             return@setOnKeyListener false
