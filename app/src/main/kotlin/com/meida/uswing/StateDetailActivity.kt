@@ -268,6 +268,7 @@ class StateDetailActivity : BaseActivity() {
         when (v.id) {
             R.id.state_more -> showRightPopup(
                 state_more,
+                mData?.friendctn == "1",
                 if (mData?.fctn == "1") "已关注" else "关注"
             ) { hint ->
                 when (hint) {
@@ -314,6 +315,7 @@ class StateDetailActivity : BaseActivity() {
                             })
                     }
                     "举报" -> startActivity<ReportActivity>("circleId" to circleId)
+                    "好友" -> startActivity<CoachAddActivity>("toUserId" to mData?.send_user)
                 }
             }
             R.id.state_fram -> {

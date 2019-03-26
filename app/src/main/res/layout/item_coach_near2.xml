@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_coach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/dimen_size_10"
+        android:paddingBottom="@dimen/dimen_size_10">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/item_coach_img"
+            android:layout_width="@dimen/dimen_size_70"
+            android:layout_height="@dimen/dimen_size_70"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_logo"
+            app:riv_oval="true" />
+
+        <TextView
+            android:id="@+id/item_coach_name"
+            style="@style/Font15_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            android:text="名称" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/item_coach_divider1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginStart="@dimen/dimen_size_15"
+        android:layout_marginEnd="@dimen/dimen_size_15"
+        android:background="@color/divider" />
+
+    <View
+        android:id="@+id/item_coach_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -86,6 +86,12 @@
             android:name=".CoachStateActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".CoachTopActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CoachIssueActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".NewsDetailActivity"
             android:screenOrientation="portrait" />
         <activity

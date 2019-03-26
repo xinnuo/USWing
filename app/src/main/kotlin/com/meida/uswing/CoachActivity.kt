@@ -50,6 +50,8 @@ class CoachActivity : BaseActivity() {
     private var mSpecial = ""
     private var mKey = ""
 
+    private var isNear = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coach)
@@ -61,6 +63,8 @@ class CoachActivity : BaseActivity() {
     }
 
     override fun init_title() {
+        isNear = intent.getBooleanExtra("isNear", false)
+
         empty_hint.text = "暂无相关教练信息！"
         swipe_refresh.refresh { getData(1) }
         recycle_list.load_Grid(swipe_refresh, {
@@ -125,7 +129,9 @@ class CoachActivity : BaseActivity() {
     }
 
     override fun getData(pindex: Int) {
-        OkGo.post<BaseResponse<ArrayList<CommonData>>>(BaseHttp.certification_list)
+        OkGo.post<BaseResponse<ArrayList<CommonData>>>(
+            if (isNear) BaseHttp.certification_near_list else BaseHttp.certification_list
+        )
             .tag(this@CoachActivity)
             .isMultipart(true)
             .params("teachAge", mTeachAge)
@@ -134,6 +140,12 @@ class CoachActivity : BaseActivity() {
             .params("specialty", mSpecial)
             .params("keyword", mKey)
             .params("page", pindex)
+            .apply {
+                if (isNear) {
+                    params("lat", intent.getStringExtra("lat") ?: "")
+                    params("lng", intent.getStringExtra("lng") ?: "")
+                }
+            }
             .execute(object :
                 JacksonDialogCallback<BaseResponse<ArrayList<CommonData>>>(baseContext) {
 

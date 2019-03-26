@@ -4,40 +4,134 @@ import android.os.Bundle
 import android.text.Html
 import android.view.MotionEvent
 import android.view.View
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.TextView
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.StringDialogCallback
 import com.lzg.extend.jackson.JacksonDialogCallback
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
+import com.makeramen.roundedimageview.RoundedImageView
 import com.meida.base.*
 import com.meida.model.CommonData
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
+import com.meida.utils.getScreenHeight
+import com.meida.utils.getScreenWidth
 import com.meida.utils.toTextInt
-import kotlinx.android.synthetic.main.activity_coach_detail.*
+import com.meida.view.EmptyControlVideo
+import com.sunfusheng.GlideImageView
+import kotlinx.android.synthetic.main.layout_list.*
+import net.idik.lib.slimadapter.SlimAdapter
+import net.idik.lib.slimadapter.SlimAdapterEx
+import net.moyokoo.diooto.Diooto
+import net.moyokoo.diooto.config.DiootoConfig
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.include
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.sdk25.listeners.onTouch
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class CoachDetailActivity : BaseActivity() {
 
+    private val list = ArrayList<Any>()
     private var certificationId = ""
     private var hasFollow = ""
     private var hasCollect = ""
     private var followSum = 0
 
+    private lateinit var coach_collect: CheckBox
+    private lateinit var coach_add: ImageView
+    private lateinit var coach_watch: TextView
+    private lateinit var coach_year: TextView
+    private lateinit var coach_area: TextView
+    private lateinit var coach_name: TextView
+    private lateinit var coach_name2: TextView
+    private lateinit var coach_tel: TextView
+    private lateinit var coach_info: TextView
+    private lateinit var coach_honor: TextView
+    private lateinit var coach_img: RoundedImageView
+    private lateinit var coach_gender: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coach_detail)
+        include<View>(R.layout.layout_list)
         init_title("教练详情", "加好友")
 
+        swipe_refresh.isRefreshing = true
         getData()
+        getData(pageNum)
     }
 
     override fun init_title() {
         super.init_title()
         certificationId = intent.getStringExtra("certificationId")
+
+        val view = inflate<View>(R.layout.header_coach)
+        coach_collect = view.findViewById(R.id.coach_collect)
+        coach_add = view.findViewById(R.id.coach_add)
+        coach_watch = view.findViewById(R.id.coach_watch)
+        coach_year = view.findViewById(R.id.coach_year)
+        coach_area = view.findViewById(R.id.coach_area)
+        coach_name = view.findViewById(R.id.coach_name)
+        coach_name2 = view.findViewById(R.id.coach_name2)
+        coach_tel = view.findViewById(R.id.coach_tel)
+        coach_info = view.findViewById(R.id.coach_info)
+        coach_honor = view.findViewById(R.id.coach_honor)
+        coach_img = view.findViewById(R.id.coach_img)
+        coach_gender = view.findViewById(R.id.coach_gender)
+
+        swipe_refresh.refresh {
+            getData()
+            getData(1)
+        }
+        recycle_list.load_Linear(baseContext, swipe_refresh) {
+            if (!isLoadingMore) {
+                isLoadingMore = true
+                getData(pageNum)
+            }
+        }
+        mAdapterEx = SlimAdapter.create(SlimAdapterEx::class.java)
+            .addHeader(view)
+            .register<CommonData>(R.layout.item_coach_detail) { data, injector ->
+
+                val index = list.indexOf(data)
+                val isLast = index == list.size - 1
+
+                injector.text(R.id.item_detail_title, data.video_introduction)
+                    .text(R.id.item_detail_time, data.create_date)
+                    .with<GlideImageView>(R.id.item_detail_img) {
+                    it.load(BaseHttp.circleImg + data.video_img, R.mipmap.default_img)
+                }
+                    .visibility(R.id.item_detail_divider1, if (isLast) View.GONE else View.VISIBLE)
+                    .visibility(R.id.item_detail_divider2, if (!isLast) View.GONE else View.VISIBLE)
+                    .clicked(R.id.item_detail) { v ->
+                        Diooto(baseContext)
+                            .immersive(true)
+                            .urls(BaseHttp.circleImg + data.video_img)
+                            .views(v)
+                            .type(DiootoConfig.VIDEO)
+                            .onProvideVideoView { EmptyControlVideo(baseContext) }
+                            .onVideoLoadEnd { dragView, _, progressView ->
+                                progressView.gone()
+
+                                (dragView.contentView as EmptyControlVideo).apply {
+                                    loadCoverImage(BaseHttp.circleImg + data.video_img)
+                                    isLooping = true
+                                    setUp(BaseHttp.circleImg + data.videos, true, "")
+                                    startPlayLogic()
+                                    front.onClick { dragView.backToMin() }
+                                }
+
+                                dragView.notifySize(getScreenWidth(), getScreenHeight())
+                            }
+                            .onFinish { (it.contentView as EmptyControlVideo).release() }
+                            .start()
+                    }
+            }
+            .attachTo(recycle_list)
 
         coach_collect.visibility =
             if (certificationId == getString("token")) View.GONE
@@ -157,7 +251,7 @@ class CoachDetailActivity : BaseActivity() {
             .params("certificationId", certificationId)
             .params("userInfoId", getString("token"))
             .execute(object :
-                JacksonDialogCallback<BaseResponse<CommonData>>(baseContext, true) {
+                JacksonDialogCallback<BaseResponse<CommonData>>(baseContext) {
 
                 override fun onSuccess(response: Response<BaseResponse<CommonData>>) {
 
@@ -205,6 +299,37 @@ class CoachDetailActivity : BaseActivity() {
                         honors.mapTo(items) { it.honorInfo }
                         coach_honor.text = items.joinToString("\n")
                     }
+                }
+
+            })
+    }
+
+    override fun getData(pindex: Int) {
+        OkGo.post<BaseResponse<ArrayList<CommonData>>>(BaseHttp.find_voide_coach)
+            .tag(this@CoachDetailActivity)
+            .headers("token", certificationId)
+            .params("page", pindex)
+            .execute(object :
+                JacksonDialogCallback<BaseResponse<ArrayList<CommonData>>>(baseContext) {
+
+                override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
+
+                    list.apply {
+                        if (pindex == 1) {
+                            clear()
+                            pageNum = pindex
+                        }
+                        addItems(response.body().`object`)
+                        if (count(response.body().`object`) > 0) pageNum++
+                    }
+
+                    mAdapterEx.updateData(list)
+                }
+
+                override fun onFinish() {
+                    super.onFinish()
+                    swipe_refresh.isRefreshing = false
+                    isLoadingMore = false
                 }
 
             })

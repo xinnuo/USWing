@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dimen_size_25"
+    android:layout_marginEnd="@dimen/dimen_size_25"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dimen_size_15">
+
+            <com.sunfusheng.GlideImageView
+                android:id="@+id/item_detail_img"
+                android:layout_width="@dimen/dimen_size_80"
+                android:layout_height="@dimen/dimen_size_60"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/default_logo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_size_15"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_detail_title"
+                    style="@style/Font15_black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="@dimen/dimen_size_5"
+                    android:maxLines="2"
+                    android:text="标题" />
+
+                <TextView
+                    android:id="@+id/item_detail_time"
+                    style="@style/Font13_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_size_12"
+                    android:text="时间" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/item_detail_divider1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="@dimen/dimen_size_15"
+            android:layout_marginEnd="@dimen/dimen_size_15"
+            android:background="@color/divider" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/item_detail_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginBottom="@dimen/dimen_size_20"
+        android:background="@color/divider"
+        android:visibility="gone" />
+
+</LinearLayout>

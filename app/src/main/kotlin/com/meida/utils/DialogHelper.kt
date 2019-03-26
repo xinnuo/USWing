@@ -294,6 +294,7 @@ object DialogHelper {
 
     fun Context.showRightPopup(
         anchor: View,
+        isFriend: Boolean = false,
         top: String = "关注",
         bottom: String = "举报",
         listener: (String) -> Unit
@@ -303,9 +304,11 @@ object DialogHelper {
 
         val appoint = view.findViewById<TextView>(R.id.popu_appoint)
         val report = view.findViewById<TextView>(R.id.popu_report)
+        val friend = view.findViewById<LinearLayout>(R.id.popu_friend)
 
         appoint.text = top
         report.text = bottom
+        friend.visibility = if (isFriend) View.GONE else View.VISIBLE
 
         BubblePopup(this, view).apply {
 
@@ -329,12 +332,17 @@ object DialogHelper {
                 dismiss()
                 listener.invoke(bottom)
             }
+            friend.onClick {
+                dismiss()
+                listener.invoke("好友")
+            }
         }
 
     }
 
     fun Fragment.showRightPopup(
         anchor: View,
+        isFriend: Boolean = false,
         top: String = "关注",
         bottom: String = "举报",
         listener: (String) -> Unit
@@ -344,9 +352,11 @@ object DialogHelper {
 
         val appoint = view.findViewById<TextView>(R.id.popu_appoint)
         val report = view.findViewById<TextView>(R.id.popu_report)
+        val friend = view.findViewById<LinearLayout>(R.id.popu_friend)
 
         appoint.text = top
         report.text = bottom
+        friend.visibility = if (isFriend) View.GONE else View.VISIBLE
 
         BubblePopup(activity, view).apply {
 
@@ -369,6 +379,10 @@ object DialogHelper {
             report.onClick {
                 dismiss()
                 listener.invoke(bottom)
+            }
+            friend.onClick {
+                dismiss()
+                listener.invoke("好友")
             }
         }
 

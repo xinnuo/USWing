@@ -20,10 +20,7 @@ import com.meida.base.*
 import com.meida.model.CommonData
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
-import com.meida.uswing.R
-import com.meida.uswing.ReportActivity
-import com.meida.uswing.StateDetailActivity
-import com.meida.uswing.StateIssueActivity
+import com.meida.uswing.*
 import com.meida.utils.*
 import com.meida.utils.DialogHelper.showCommentDialog
 import com.meida.utils.DialogHelper.showItemDialog
@@ -463,7 +460,11 @@ class MainThirdFragment : BaseFragment() {
                     }
 
                     .clicked(R.id.item_state_more) {
-                        showRightPopup(it, if (data.fctn == "1") "已关注" else "关注") { hint ->
+                        showRightPopup(
+                            it,
+                            data.friendctn == "1",
+                            if (data.fctn == "1") "已关注" else "关注"
+                        ) { hint ->
                             when (hint) {
                                 "关注" -> {
                                     OkGo.post<String>(BaseHttp.add_coach_follow)
@@ -515,6 +516,7 @@ class MainThirdFragment : BaseFragment() {
                                         })
                                 }
                                 "举报" -> startActivity<ReportActivity>("circleId" to data.circle_id)
+                                "好友" -> startActivity<CoachAddActivity>("toUserId" to data.send_user)
                             }
                         }
                     }

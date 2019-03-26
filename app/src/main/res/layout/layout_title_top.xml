@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_title"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_size_45"
+    android:background="?attr/colorPrimary">
+
+    <TextView
+        android:id="@+id/nav_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dimen_size_60"
+        android:layout_marginEnd="@dimen/dimen_size_60"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_size_18" />
+
+    <TextView
+        android:id="@+id/nav_location"
+        style="@style/Font15_black"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|end"
+        android:drawableStart="@mipmap/index_icon18"
+        android:drawablePadding="@dimen/dimen_size_3"
+        android:gravity="center"
+        android:onClick="doClick"
+        android:paddingStart="@dimen/dimen_size_15"
+        android:paddingEnd="@dimen/dimen_size_15"
+        android:text="位置" />
+
+    <ImageView
+        android:id="@id/iv_nav_back"
+        android:layout_width="@dimen/dimen_size_90"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:onClick="doClick"
+        android:paddingStart="@dimen/dimen_size_0"
+        android:paddingTop="@dimen/dimen_size_15"
+        android:paddingEnd="@dimen/dimen_size_45"
+        android:paddingBottom="@dimen/dimen_size_15"
+        android:src="@mipmap/index_icon17"
+        tools:ignore="ContentDescription" />
+
+</FrameLayout>

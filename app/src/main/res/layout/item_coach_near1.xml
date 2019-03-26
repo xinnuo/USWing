@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.makeramen.roundedimageview.RoundedImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_coach"
+    android:layout_width="@dimen/dimen_size_75"
+    android:layout_height="@dimen/dimen_size_75"
+    android:layout_marginStart="@dimen/dimen_size_15"
+    android:layout_marginBottom="@dimen/dimen_size_15"
+    android:scaleType="centerCrop"
+    android:src="@mipmap/default_logo"
+    app:riv_border_color="@color/colorAccent"
+    app:riv_border_width="@dimen/dimen_size_2"
+    app:riv_oval="true" />

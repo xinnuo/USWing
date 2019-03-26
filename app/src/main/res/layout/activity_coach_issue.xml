@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/issue_content"
+                style="@style/Font14_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="top"
+                android:hint="请输入描述的内容"
+                android:maxLength="300"
+                android:minLines="8"
+                android:paddingStart="@dimen/dimen_size_15"
+                android:paddingTop="@dimen/dimen_size_15"
+                android:paddingEnd="@dimen/dimen_size_15"
+                android:paddingBottom="@dimen/dimen_size_10" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/issue_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_size_15"
+                android:layout_marginEnd="@dimen/dimen_size_15"
+                android:layout_marginBottom="@dimen/dimen_size_15"
+                android:overScrollMode="never" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/issue_done"
+            style="@style/Font16_white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_size_44"
+            android:layout_margin="@dimen/dimen_size_20"
+            android:background="@mipmap/btn01"
+            android:onClick="doClick"
+            android:text="保存" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

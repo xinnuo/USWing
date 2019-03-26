@@ -91,6 +91,7 @@ data class CommonData(
     var circle_imgs: String = "",
     var fctn: String = "",
     var lctn: String = "",
+    var friendctn: String = "",
     var comment_ctn: String = "",
     var like_ctn: String = "",
     var reward_ctn: String = "",
@@ -168,6 +169,10 @@ data class CommonData(
     //标签列表
     var labelsId: String = "",
     var labelsName: String = "",
+
+    var video_img: String = "",
+    var video_introduction: String = "",
+    var videos: String = "",
 
     var isChecked: Boolean = false
 ) : Serializable

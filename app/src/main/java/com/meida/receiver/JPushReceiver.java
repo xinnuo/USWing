@@ -1,5 +1,6 @@
 package com.meida.receiver;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.meida.uswing.MessageActivity;
+import com.meida.uswing.StateDetailActivity;
 import com.meida.uswing.VideoActivity;
 import com.meida.uswing.WalletCashListActivity;
+import com.meida.utils.ActivityStack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +22,7 @@ import cn.jpush.android.api.JPushInterface;
 
 /**
  * 自定义接收器
- *
+ * <p>
  * 如果不定义这个 Receiver，则：
  * 1) 默认用户会打开主界面
  * 2) 接收不到自定义消息
@@ -71,6 +74,22 @@ public class JPushReceiver extends BroadcastReceiver {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
+                        case "likes": //点赞
+                            String circleId = json.optString("businessId");
+                            Activity current = ActivityStack.Companion.getScreenManager().currentActivity();
+                            if (!(current instanceof StateDetailActivity)) {
+                                intent = new Intent(context, StateDetailActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("circleId", circleId);
+                                context.startActivity(intent);
+                            }
+                            break;
+                        case "reward": //打赏
+                            break;
+                        case "recharge": //充值
+                            break;
+                        case "follow": //关注
+                            break;
                         case "start": //开机
                             break;
                     }
@@ -82,9 +101,9 @@ public class JPushReceiver extends BroadcastReceiver {
             Log.d(TAG, "[JPushReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
 
-        } else if(JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
+        } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
-            Log.w(TAG, "[JPushReceiver]" + intent.getAction() +" connected state change to "+connected);
+            Log.w(TAG, "[JPushReceiver]" + intent.getAction() + " connected state change to " + connected);
         } else {
             Log.d(TAG, "[JPushReceiver] Unhandled intent - " + intent.getAction());
         }

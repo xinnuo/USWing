@@ -400,7 +400,11 @@ class CoachStateActivity : BaseActivity() {
                     }
 
                     .clicked(R.id.item_state_more) {
-                        showRightPopup(it, if (data.fctn == "1") "已关注" else "关注") { hint ->
+                        showRightPopup(
+                            it,
+                            data.friendctn == "1",
+                            if (data.fctn == "1") "已关注" else "关注"
+                        ) { hint ->
                             when (hint) {
                                 "关注" -> {
                                     OkGo.post<String>(BaseHttp.add_coach_follow)
@@ -443,6 +447,7 @@ class CoachStateActivity : BaseActivity() {
                                         })
                                 }
                                 "举报" -> startActivity<ReportActivity>("circleId" to data.circle_id)
+                                "好友" -> startActivity<CoachAddActivity>("toUserId" to data.send_user)
                             }
                         }
                     }

@@ -5,6 +5,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -30,6 +31,9 @@ import com.meida.uswing.*
 import com.meida.utils.DialogHelper.showHintDialog
 import com.meida.utils.toTextDouble
 import com.sunfusheng.GlideImageView
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main_first.*
 import kotlinx.android.synthetic.main.layout_list.*
 import net.idik.lib.slimadapter.SlimAdapter
@@ -45,15 +49,20 @@ import org.jetbrains.anko.verticalLayout
 import org.json.JSONObject
 import java.text.DecimalFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainFirstFragment : BaseFragment() {
 
     private val list = ArrayList<Any>()
     private val listCoach = ArrayList<CommonData>()
     private val listSliders = ArrayList<CommonData>()
+    private val listNews = ArrayList<NewsData>()
+    private var mIndex = -1
     private var mLat = ""
     private var mLng = ""
     private var mCity = ""
+    private var mRecommend = ""
+    private var mType = ""
 
     private lateinit var banner: RollPagerView
     private lateinit var mLoopAdapter: LoopAdapter
@@ -80,13 +89,13 @@ class MainFirstFragment : BaseFragment() {
         getLocationData()
     }
 
-    @SuppressLint("InflateParams", "SetTextI18n")
+    @SuppressLint("SetTextI18n")
     override fun init_title() {
         super.init_title()
         swipe_refresh.refresh { getLocationData() }
         recycle_list.load_Linear(activity!!, swipe_refresh)
 
-        val view = LayoutInflater.from(activity).inflate(R.layout.header_first, null)
+        val view = activity!!.inflate<View>(R.layout.header_first)
         banner = view.findViewById(R.id.first_banner)
 
         mLoopAdapter = LoopAdapter(activity, banner)
@@ -97,7 +106,8 @@ class MainFirstFragment : BaseFragment() {
                     startActivity<WebActivity>(
                         "title" to "详情",
                         "url" to listSliders[it].href,
-                        "hint" to listSliders[it].title)
+                        "hint" to listSliders[it].title
+                    )
                 }
             }
         }
@@ -109,10 +119,57 @@ class MainFirstFragment : BaseFragment() {
                     .clicked(R.id.first_type) {
                         when (data) {
                             "附近试炼场" -> startActivity<NearActivity>()
-                            "魔镜教练推荐" -> startActivity<CoachActivity>()
+                            "魔镜教练推荐" -> startActivity<CoachTopActivity>()
                             "高球资讯" -> startActivity<NewsActivity>()
                         }
                     }
+            }
+            .register<FriendData>(R.layout.item_first_tab) { _, injector ->
+                injector.with<TabLayout>(R.id.item_tab) { view ->
+                    view.apply {
+                        removeAllTabs()
+
+                        onTabSelectedListener {
+                            onTabSelected { tab ->
+                                when (tab!!.position) {
+                                    0 -> {
+                                        mRecommend = "1"
+                                        mType = ""
+                                    }
+                                    1 -> {
+                                        mRecommend = ""
+                                        mType = "0"
+                                    }
+                                    2 -> {
+                                        mRecommend = ""
+                                        mType = "1"
+                                    }
+                                    3 -> {
+                                        mRecommend = ""
+                                        mType = "2"
+                                    }
+                                }
+
+                                OkGo.getInstance().cancelTag(this@MainFirstFragment)
+                                Completable.timer(300, TimeUnit.MILLISECONDS)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe {
+                                        if (tab.position != mIndex) {
+                                            mIndex = tab.position
+                                            mPosition = tab.position
+                                            getNewsData()
+                                        }
+                                    }
+                            }
+                        }
+
+                        addTab(this.newTab().setText("推荐"), mPosition == 0)
+                        addTab(this.newTab().setText("视频"), mPosition == 1)
+                        addTab(this.newTab().setText("球技"), mPosition == 2)
+                        addTab(this.newTab().setText("球场"), mPosition == 3)
+                    }
+                }
             }
             .register<NearData>(R.layout.item_first_near) { data, injector ->
                 injector.text(R.id.item_first_name, data.court_name)
@@ -251,7 +308,11 @@ class MainFirstFragment : BaseFragment() {
             .params("htmlKey", "lxwm")
             .execute(object : StringDialogCallback(activity) {
 
-                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                override fun onSuccessResponse(
+                    response: Response<String>,
+                    msg: String,
+                    msgCode: String
+                ) {
 
                     val obj = JSONObject(response.body()).optString("object")
                     showHintDialog(
@@ -272,7 +333,12 @@ class MainFirstFragment : BaseFragment() {
             .params("userLat", mLat)
             .params("userLng", mLng)
             .execute(object : StringDialogCallback(activity, false) {
-                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) { }
+                override fun onSuccessResponse(
+                    response: Response<String>,
+                    msg: String,
+                    msgCode: String
+                ) {
+                }
             })
     }
 
@@ -302,8 +368,12 @@ class MainFirstFragment : BaseFragment() {
                     list.add("魔镜教练推荐")
                     list.add(CommonData())
 
-                    list.add("高球资讯")
-                    list.addItems(data.news)
+                    list.add(FriendData())
+
+                    // list.add("高球资讯")
+                    // list.addItems(data.news)
+
+                    if (listNews.isNotEmpty()) list.addAll(listNews)
 
                     mAdapterEx.updateData(list)
 
@@ -329,6 +399,31 @@ class MainFirstFragment : BaseFragment() {
                         putInt("guide_index", 0)
                         (activity!!.window.decorView as FrameLayout).addView(createView())
                     }
+                }
+
+            })
+    }
+
+    private fun getNewsData() {
+        OkGo.post<BaseResponse<ArrayList<NewsData>>>(BaseHttp.find_news_list)
+            .tag(this@MainFirstFragment)
+            .params("recommend", mRecommend)
+            .params("newsType", mType)
+            .params("page", 1)
+            .execute(object :
+                JacksonDialogCallback<BaseResponse<ArrayList<NewsData>>>(activity) {
+
+                override fun onSuccess(response: Response<BaseResponse<ArrayList<NewsData>>>) {
+
+                    listNews.apply {
+                        clear()
+                        addItems(response.body().`object`)
+                    }
+
+                    list.removeAll { it is NewsData }
+                    list.addAll(listNews)
+
+                    mAdapterEx.updateData(list)
                 }
 
             })

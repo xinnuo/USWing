@@ -28,4 +28,26 @@
         android:gravity="center"
         android:text="举报" />
 
+    <LinearLayout
+        android:id="@+id/popu_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="@dimen/dimen_size_10"
+            android:layout_marginEnd="@dimen/dimen_size_10"
+            android:background="#25DBDBDB" />
+
+        <TextView
+            style="@style/Font15_white"
+            android:layout_width="@dimen/dimen_size_90"
+            android:layout_height="@dimen/dimen_size_40"
+            android:gravity="center"
+            android:text="加好友" />
+
+    </LinearLayout>
+
 </LinearLayout>

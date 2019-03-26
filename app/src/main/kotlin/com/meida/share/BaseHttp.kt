@@ -90,15 +90,16 @@ object BaseHttp {
     val find_groupchat_users = "$baseIp/find_groupchat_users.rm" //群成员
     val find_user_heads = "$baseIp/find_user_heads.rm"           //成员头像
 
-    val index_data = "$baseIp/index_data.rm"                 //首页
-    val find_court_list = "$baseIp/find_court_list.rm"       //试炼场列表
-    val find_court_detils = "$baseIp/find_court_detils.rm"   //试炼场详情
-    val certification_list = "$baseIp/certification_list.rm" //教练列表
-    val coach_details = "$baseIp/coach_details.rm"           //教练详情
-    val find_news_list = "$baseIp/find_news_list.rm"         //资讯列表
-    val find_news_details = "$baseIp/find_news_details.rm"   //资讯详情
-    val add_collection = "$baseIp/add_collection.rm"         //收藏
-    val delete_collection = "$baseIp/delete_collection.rm"   //取消收藏
+    val index_data = "$baseIp/index_data.rm"                           //首页
+    val find_court_list = "$baseIp/find_court_list.rm"                 //试炼场列表
+    val find_court_detils = "$baseIp/find_court_detils.rm"             //试炼场详情
+    val certification_list = "$baseIp/certification_list.rm"           //教练列表
+    val certification_near_list = "$baseIp/certification_near_list.rm" //附近教练
+    val coach_details = "$baseIp/coach_details.rm"                     //教练详情
+    val find_news_list = "$baseIp/find_news_list.rm"                   //资讯列表
+    val find_news_details = "$baseIp/find_news_details.rm"             //资讯详情
+    val add_collection = "$baseIp/add_collection.rm"                   //收藏
+    val delete_collection = "$baseIp/delete_collection.rm"             //取消收藏
 
     val delete_honor = "$baseIp/delete_honor.rm"                 //删除荣誉
     val add_honor = "$baseIp/add_honor.rm"                       //新增荣誉
@@ -117,6 +118,8 @@ object BaseHttp {
     val add_circle_share = "$baseIp/add_circle_share.rm"             //分享魔频
     val find_magicvoide_deatls = "$baseIp/find_magicvoide_deatls.rm" //魔频详情
     val add_magicvoide_coach = "$baseIp/add_magicvoide_coach.rm"     //上传魔频
+    val add_voide_coach = "$baseIp/add_voide_coach.rm"               //教练上传
+    val find_voide_coach = "$baseIp/find_voide_coach.rm"             //教练视频
 
     val leave_message_sub = "$baseIp/leave_message_sub.rm" //意见反馈
     val find_area_parent = "$baseIp/find_area_parent.rm"   //父级区域

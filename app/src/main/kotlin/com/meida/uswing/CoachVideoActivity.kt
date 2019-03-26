@@ -132,22 +132,32 @@ class CoachVideoActivity : BaseActivity() {
                                 )
                             }
                             else -> {
-                                startActivity<CompareActivity>(
-                                    "title" to "我的魔频",
-                                    "magicvoideId" to data.magicvoide_id,
-                                    "video1" to BaseHttp.circleImg + data.positive_voide,
-                                    "video2" to BaseHttp.circleImg + data.negative_voide,
-                                    "videoImg1" to BaseHttp.circleImg + data.positive_img,
-                                    "videoImg2" to BaseHttp.circleImg + data.negative_img,
-                                    "share" to (mUserId == getString("token"))
-                                )
+                                if (mUserId == getString("token")) {
+                                    startActivity<VideoDetailActivity>(
+                                        "magicvoideId" to data.magicvoide_id,
+                                        "video1" to BaseHttp.circleImg + data.positive_voide,
+                                        "video2" to BaseHttp.circleImg + data.negative_voide,
+                                        "videoImg1" to BaseHttp.circleImg + data.positive_img,
+                                        "videoImg2" to BaseHttp.circleImg + data.negative_img
+                                    )
+                                } else {
+                                    startActivity<CompareActivity>(
+                                        "title" to "我的魔频",
+                                        "magicvoideId" to data.magicvoide_id,
+                                        "video1" to BaseHttp.circleImg + data.positive_voide,
+                                        "video2" to BaseHttp.circleImg + data.negative_voide,
+                                        "videoImg1" to BaseHttp.circleImg + data.positive_img,
+                                        "videoImg2" to BaseHttp.circleImg + data.negative_img,
+                                        "share" to false
+                                    )
+                                }
                             }
                         }
                     }
             }
             .attachTo(recycle_list)
 
-        tvRight.onClick { startActivity<VideoUploadActivity>() }
+        tvRight.onClick { startActivity<CoachIssueActivity>() }
     }
 
     override fun getData(pindex: Int) {

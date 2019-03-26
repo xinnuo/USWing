@@ -48,8 +48,8 @@ class IntegralChargeActivity : BaseActivity() {
                         toast("请输入积分充值数量")
                         return
                     }
-                    integral_num.text.toTextDouble() == 0.0 -> {
-                        toast("积分充值数量不少于0")
+                    integral_num.text.toTextDouble() < 100.0 -> {
+                        toast("积分充值数量不少于100")
                         return
                     }
                 }

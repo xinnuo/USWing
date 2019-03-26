@@ -6,25 +6,27 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import com.lzg.extend.StringDialogCallback
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
-import com.meida.base.BaseActivity
-import com.meida.base.getString
-import com.meida.base.oneClick
-import com.meida.base.visible
+import com.meida.base.*
 import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showGroupDialog
 import com.meida.utils.DialogHelper.showShareDialog
 import com.meida.utils.dp2px
 import com.meida.utils.getScreenWidth
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_video_detail.*
 import kotlinx.android.synthetic.main.layout_title.*
+import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.sdk25.listeners.onSeekBarChangeListener
 import org.jetbrains.anko.sdk25.listeners.onTouch
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import tv.danmaku.ijk.media.MultiVideoManager
+import java.util.concurrent.TimeUnit
 
 class VideoDetailActivity : BaseActivity() {
 
@@ -35,6 +37,7 @@ class VideoDetailActivity : BaseActivity() {
     private var videoPositiveImg = ""
     private var videoNegativeImg = ""
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_detail)
@@ -48,6 +51,17 @@ class VideoDetailActivity : BaseActivity() {
 
         if (videoPositive.isNotEmpty()) initVideoFirst()
         if (videoNegative.isNotEmpty()) initVideoSecond()
+
+        Completable.timer(300, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                val guideCount = getInt("guide_index")
+                if (guideCount == 5) {
+                    putInt("guide_index", 5)
+                    (window.decorView as FrameLayout).addView(createView())
+                }
+            }
     }
 
     @SuppressLint("SetTextI18n")
@@ -65,7 +79,7 @@ class VideoDetailActivity : BaseActivity() {
         ivRight.visibility = if (orientation == 2) View.GONE else View.VISIBLE
         nav_collect.visible()
 
-        compare_speed.text = "< 1/2 >"
+        compare_speed.text = "1/2"
         compare_first.setSpeedPlaying(mSpeed, true)
         compare_second.setSpeedPlaying(mSpeed, true)
 
@@ -109,7 +123,7 @@ class VideoDetailActivity : BaseActivity() {
             }
         }
 
-        compare_second.setVideoProgressListener { progress, secProgress, currentPosition, duration ->
+        compare_second.setVideoProgressListener { progress, secProgress, _, duration ->
             if (compare_first.isPlaying) {
                 val durationFirst = compare_first.duration
                 if (duration > durationFirst) {
@@ -123,18 +137,18 @@ class VideoDetailActivity : BaseActivity() {
         }
 
         compare_first.setOnPlayListener {
-            if (it) compare_play.setImageResource(R.mipmap.mes_icon17)
-            else {
-                if (compare_second.isPlaying) compare_play.setImageResource(R.mipmap.mes_icon17)
-                else compare_play.setImageResource(R.mipmap.mes_icon16)
+            val durationFirst = compare_first.duration
+            val durationSecond = compare_second.duration
+            if (durationSecond <= durationFirst) {
+                compare_play.setImageResource(if (it) R.mipmap.video_pause else R.mipmap.video_play)
             }
         }
 
         compare_second.setOnPlayListener {
-            if (it) compare_play.setImageResource(R.mipmap.mes_icon17)
-            else {
-                if (compare_first.isPlaying) compare_play.setImageResource(R.mipmap.mes_icon17)
-                else compare_play.setImageResource(R.mipmap.mes_icon16)
+            val durationFirst = compare_first.duration
+            val durationSecond = compare_second.duration
+            if (durationFirst <= durationSecond) {
+                compare_play.setImageResource(if (it) R.mipmap.video_pause else R.mipmap.video_play)
             }
         }
 
@@ -214,19 +228,19 @@ class VideoDetailActivity : BaseActivity() {
                         mSpeed = 0.25f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
-                        compare_speed.text = "< 1/4 >"
+                        compare_speed.text = "1/4"
                     }
                     0.25f -> {
                         mSpeed = 0.125f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
-                        compare_speed.text = "< 1/8 >"
+                        compare_speed.text = "1/8"
                     }
                     0.125f -> {
                         mSpeed = 0.5f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
-                        compare_speed.text = "< 1/2 >"
+                        compare_speed.text = "1/2"
                     }
                 }
             }
@@ -264,6 +278,21 @@ class VideoDetailActivity : BaseActivity() {
             setIsTouchWiget(false)
         }
     }
+
+    private fun createView() = UI {
+        verticalLayout {
+            lparams(width = matchParent, height = matchParent)
+            imageView {
+                scaleType = ImageView.ScaleType.FIT_XY
+                imageResource = R.mipmap.icon_guide6
+                onClick {
+                    putInt("guide_index", 6)
+                    val parent = window.decorView as FrameLayout
+                    parent.removeViewAt(parent.childCount - 1)
+                }
+            }.lparams(width = matchParent, height = matchParent)
+        }
+    }.view
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
