@@ -7,14 +7,17 @@ import android.view.ViewGroup
 import com.lzg.extend.StringDialogCallback
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
-import com.meida.base.BaseFragment
-import com.meida.base.getString
-import com.meida.base.oneClick
-import com.meida.base.putString
+import com.lzy.okgo.utils.OkLogger
+import com.meida.base.*
 import com.meida.share.BaseHttp
+import com.meida.uswing.BindActivity
 import com.meida.uswing.ForgetActivity
 import com.meida.uswing.R
+import com.meida.utils.getPlatformInfo
 import com.meida.utils.isMobile
+import com.meida.utils.setShareConfig
+import com.umeng.socialize.UMShareConfig
+import com.umeng.socialize.bean.SHARE_MEDIA
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -73,7 +76,11 @@ class LoginFragment : BaseFragment() {
                 .params("loginType", "mobile")
                 .execute(object : StringDialogCallback(activity) {
 
-                    override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                    override fun onSuccessResponse(
+                        response: Response<String>,
+                        msg: String,
+                        msgCode: String
+                    ) {
 
                         val obj = JSONObject(response.body())
                             .optJSONObject("object") ?: JSONObject()
@@ -90,6 +97,94 @@ class LoginFragment : BaseFragment() {
 
                 })
         }
+
+        login_wechat.oneClick {
+            activity!!.apply {
+                setShareConfig(UMShareConfig().apply { isNeedAuthOnGetUserInfo = true })
+                getPlatformInfo(SHARE_MEDIA.WEIXIN) {
+                    onComplete { _, _, data ->
+                        getThirdLogin(
+                            "WX",
+                            data["uid"] ?: "",
+                            data["name"] ?: "",
+                            data["iconurl"] ?: ""
+                        )
+                    }
+                    onError { _, _, throwable ->
+                        OkLogger.e(throwable.message)
+                        toast("授权失败")
+                    }
+                }
+            }
+        }
+        login_qq.oneClick {
+            activity!!.apply {
+                setShareConfig(UMShareConfig().apply { isNeedAuthOnGetUserInfo = true })
+                getPlatformInfo(SHARE_MEDIA.QQ) {
+                    onComplete { _, _, data ->
+                        getThirdLogin(
+                            "QQ",
+                            data["uid"] ?: "",
+                            data["name"] ?: "",
+                            data["iconurl"] ?: ""
+                        )
+                    }
+                    onError { _, _, throwable ->
+                        OkLogger.e(throwable.message)
+                        toast("授权失败")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getThirdLogin(
+        loginType: String,
+        openId: String,
+        nickName: String,
+        headImgUrl: String
+    ) {
+        OkGo.post<String>(BaseHttp.login_sub)
+            .tag(this@LoginFragment)
+            .params("loginType", loginType)
+            .params("openId", openId)
+            .execute(object : StringDialogCallback(activity) {
+
+                override fun onSuccessResponse(
+                    response: Response<String>,
+                    msg: String,
+                    msgCode: String
+                ) {
+
+                    val obj = JSONObject(response.body())
+                        .optJSONObject("object") ?: JSONObject()
+
+                    putString("token", obj.optString("token"))
+                    putString("rongToken", obj.optString("rongtoken"))
+                    putString("mobile", obj.optString("mobile"))
+                    putString("nickName", obj.optString("nick_name"))
+                    putString("userHead", obj.optString("user_head"))
+                    putString("loginType", loginType)
+
+                    (activity as OnFragmentListener).onViewClick("登录成功")
+                }
+
+                override fun onSuccessResponseErrorCode(
+                    response: Response<String>,
+                    msg: String,
+                    msgCode: String
+                ) {
+                    if (msgCode == "105") {
+                        startActivityEx<BindActivity>(
+                            "loginType" to loginType,
+                            "openId" to openId,
+                            "nickName" to nickName,
+                            "headImgUrl" to headImgUrl
+                        )
+                    } else toast(msg)
+                }
+
+            })
     }
 
 }

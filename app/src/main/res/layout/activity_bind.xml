@@ -88,6 +88,37 @@
         android:layout_marginEnd="@dimen/dimen_size_20"
         android:background="@color/divider_dark" />
 
+    <TextView
+        style="@style/Font15_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_size_20"
+        android:layout_marginTop="@dimen/dimen_size_20"
+        android:text="密码" />
+
+    <EditText
+        android:id="@+id/bind_pwd"
+        style="@style/Font15_black"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height"
+        android:layout_marginStart="@dimen/dimen_size_10"
+        android:layout_marginTop="@dimen/dimen_size_10"
+        android:layout_marginEnd="@dimen/dimen_size_10"
+        android:background="@color/transparent"
+        android:hint="请输入6~20位新密码"
+        android:inputType="textPassword"
+        android:maxLength="20"
+        android:paddingStart="@dimen/dimen_size_10"
+        android:paddingEnd="@dimen/dimen_size_10"
+        android:textColorHint="@color/light" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginStart="@dimen/dimen_size_20"
+        android:layout_marginEnd="@dimen/dimen_size_20"
+        android:background="@color/divider_dark" />
+
     <Button
         android:id="@+id/bt_bind"
         style="@style/Font16_white"

@@ -1,5 +1,6 @@
 package com.meida.uswing
 
+import android.content.Intent
 import android.os.Bundle
 import cn.jpush.android.api.JPushInterface
 import com.meida.RongCloudContext
@@ -8,6 +9,7 @@ import com.meida.fragment.LoginFragment
 import com.meida.fragment.OnFragmentListener
 import com.meida.fragment.RegisterFragment
 import com.meida.utils.ActivityStack
+import com.umeng.socialize.UMShareAPI
 import io.rong.imkit.RongIM
 import io.rong.push.RongPushClient
 import org.jetbrains.anko.startActivity
@@ -89,6 +91,11 @@ class LoginActivity : BaseActivity(), OnFragmentListener {
         RongCloudContext.getInstance().clearNotificationMessage()
         RongPushClient.clearAllPushNotifications(applicationContext)
         RongIM.getInstance().logout()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        UMShareAPI.get(this@LoginActivity).onActivityResult(requestCode, resultCode, data)
     }
 
 }

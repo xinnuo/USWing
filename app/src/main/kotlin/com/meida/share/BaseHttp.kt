@@ -42,6 +42,7 @@ object BaseHttp {
     val identify_getbyforget = "$baseIp/identify_getbyforget.rm" //忘记验证码
     val pwd_forget_sub = "$baseIp/pwd_forget_sub.rm"             //忘记密码
     val login_sub = "$baseIp/login_sub.rm"                       //登录
+    val identify_get2 = "$baseIp/identify_get2.rm"               //第三方登录验证码
 
     val user_msg_data = "$baseIp/user_msg_data.rm"                     //个人资料
     val userinfo_uploadhead_sub = "$baseIp/userinfo_uploadhead_sub.rm" //上传头像

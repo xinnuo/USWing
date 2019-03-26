@@ -1,6 +1,7 @@
 package com.meida.uswing
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.lzg.extend.StringDialogCallback
@@ -12,6 +13,11 @@ import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showCompareDialog
 import com.meida.utils.DialogHelper.showGroupDialog
 import com.meida.utils.DialogHelper.showShareDialog
+import com.umeng.socialize.ShareAction
+import com.umeng.socialize.UMShareAPI
+import com.umeng.socialize.bean.SHARE_MEDIA
+import com.umeng.socialize.media.UMImage
+import com.umeng.socialize.media.UMWeb
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -93,10 +99,37 @@ class CompareActivity : BaseActivity() {
 
                 when (it) {
                     "QQ" -> {
+                        ShareAction(baseContext)
+                            .setPlatform(SHARE_MEDIA.QQ)
+                            .withText(getString(R.string.app_name))
+                            .withMedia(UMWeb(videoNegative).apply {
+                                title = getString(R.string.app_name)
+                                description = "为你分享我的魔频"
+                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
+                            })
+                            .share()
                     }
                     "微信" -> {
+                        ShareAction(baseContext)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withText(getString(R.string.app_name))
+                            .withMedia(UMWeb(videoNegative).apply {
+                                title = getString(R.string.app_name)
+                                description = "为你分享我的魔频"
+                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
+                            })
+                            .share()
                     }
                     "朋友圈" -> {
+                        ShareAction(baseContext)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withText(getString(R.string.app_name))
+                            .withMedia(UMWeb(videoNegative).apply {
+                                title = getString(R.string.app_name)
+                                description = "为你分享我的魔频"
+                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
+                            })
+                            .share()
                     }
                     "问答" -> {
                         showGroupDialog("问答内容", "请输入问答内容") { str ->
@@ -193,7 +226,11 @@ class CompareActivity : BaseActivity() {
             .params("magicvoideId", videoFirstId)
             .execute(object : StringDialogCallback(baseContext, false) {
 
-                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                override fun onSuccessResponse(
+                    response: Response<String>,
+                    msg: String,
+                    msgCode: String
+                ) {
 
                     val obj = JSONObject(response.body())
                         .optJSONObject("object") ?: JSONObject()
@@ -404,6 +441,11 @@ class CompareActivity : BaseActivity() {
                 }
             )
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        UMShareAPI.get(this@CompareActivity).onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onPause() {

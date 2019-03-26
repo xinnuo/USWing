@@ -1,6 +1,7 @@
 package com.meida.uswing
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
@@ -16,6 +17,11 @@ import com.meida.utils.DialogHelper.showGroupDialog
 import com.meida.utils.DialogHelper.showShareDialog
 import com.meida.utils.dp2px
 import com.meida.utils.getScreenWidth
+import com.umeng.socialize.ShareAction
+import com.umeng.socialize.UMShareAPI
+import com.umeng.socialize.bean.SHARE_MEDIA
+import com.umeng.socialize.media.UMImage
+import com.umeng.socialize.media.UMWeb
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -90,7 +96,10 @@ class VideoDetailActivity : BaseActivity() {
             when {
                 with > height -> {
                     compare_first.layoutParams =
-                        FrameLayout.LayoutParams(getScreenWidth() / 2, FrameLayout.LayoutParams.MATCH_PARENT)
+                        FrameLayout.LayoutParams(
+                            getScreenWidth() / 2,
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
                     compare_second.layoutParams =
                         FrameLayout.LayoutParams(
                             getScreenWidth() / 2,
@@ -172,10 +181,37 @@ class VideoDetailActivity : BaseActivity() {
 
                 when (it) {
                     "QQ" -> {
+                        ShareAction(baseContext)
+                            .setPlatform(SHARE_MEDIA.QQ)
+                            .withText(getString(R.string.app_name))
+                            .withMedia(UMWeb(videoNegative).apply {
+                                title = getString(R.string.app_name)
+                                description = "为你分享我的魔频"
+                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
+                            })
+                            .share()
                     }
                     "微信" -> {
+                        ShareAction(baseContext)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withText(getString(R.string.app_name))
+                            .withMedia(UMWeb(videoNegative).apply {
+                                title = getString(R.string.app_name)
+                                description = "为你分享我的魔频"
+                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
+                            })
+                            .share()
                     }
                     "朋友圈" -> {
+                        ShareAction(baseContext)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withText(getString(R.string.app_name))
+                            .withMedia(UMWeb(videoNegative).apply {
+                                title = getString(R.string.app_name)
+                                description = "为你分享我的魔频"
+                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
+                            })
+                            .share()
                     }
                     "问答" -> {
                         showGroupDialog("问答内容", "请输入问答内容") { str ->
@@ -293,6 +329,11 @@ class VideoDetailActivity : BaseActivity() {
             }.lparams(width = matchParent, height = matchParent)
         }
     }.view
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        UMShareAPI.get(this@VideoDetailActivity).onActivityResult(requestCode, resultCode, data)
+    }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

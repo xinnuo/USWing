@@ -38,6 +38,9 @@ import com.lzy.okgo.https.HttpsUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
 import com.lzy.okgo.utils.OkLogger
 import com.meida.uswing.BuildConfig
+import com.umeng.commonsdk.UMConfigure
+import com.umeng.socialize.Config
+import com.umeng.socialize.PlatformConfig
 import io.rong.common.SystemUtils.getCurrentProcessName
 import io.rong.imkit.RongIM
 import okhttp3.OkHttpClient
@@ -62,6 +65,13 @@ class Application : MultiDexApplication() {
         VideoType.enableMediaCodec()
         VideoType.enableMediaCodecTexture()
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java) //EXO模式
+
+        //友盟分享
+        UMConfigure.init(this@Application, "5c99d5933fc195dfeb000143", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
+        PlatformConfig.setWeixin("wxb1ad75808e89d797", "63b275e7f313da4c937a6169e2152311")
+        PlatformConfig.setQQZone("101565500", "d147c2bbc3fd27322d5529e3c0f9f3db")
+        Config.isJumptoAppStore = true
+        UMConfigure.setLogEnabled(BuildConfig.LOG_DEBUG)
 
         //极光推送
         JPushInterface.setDebugMode(BuildConfig.LOG_DEBUG) //设置开启日志,发布时请关闭日志
