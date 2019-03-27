@@ -1,92 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include layout="@layout/layout_title_top" />
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
 
-        <include layout="@layout/layout_title_top" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:background="@color/divider" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical">
 
-            <com.allen.library.SuperTextView
-                android:id="@+id/top_more"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_size_50"
-                app:sLeftTextColor="@color/black"
-                app:sLeftTextMarginLeft="@dimen/dimen_size_15"
-                app:sLeftTextSize="@dimen/sp_size_18"
-                app:sLeftTextString="优选推荐"
-                app:sLineShow="none"
-                app:sRightIconMarginRight="@dimen/dimen_size_15"
-                app:sRightIconRes="@mipmap/index_icon04"
-                app:sRightIconSize="@dimen/dimen_size_12"
-                app:sRightTextColor="@color/gray"
-                app:sRightTextMarginRight="@dimen/dimen_size_35"
-                app:sRightTextString="更多" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/top_list1"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never" />
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/top_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_size_50"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextMarginLeft="@dimen/dimen_size_15"
+                    app:sLeftTextSize="@dimen/sp_size_18"
+                    app:sLeftTextString="优选推荐"
+                    app:sLineShow="none"
+                    app:sRightIconMarginRight="@dimen/dimen_size_15"
+                    app:sRightIconRes="@mipmap/index_icon04"
+                    app:sRightIconSize="@dimen/dimen_size_12"
+                    app:sRightTextColor="@color/gray"
+                    app:sRightTextMarginRight="@dimen/dimen_size_35"
+                    app:sRightTextString="更多" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/top_list1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:background="@color/divider" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginTop="@dimen/dimen_size_10"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/top_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_size_50"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextMarginLeft="@dimen/dimen_size_15"
+                    app:sLeftTextSize="@dimen/sp_size_18"
+                    app:sLeftTextString="人气TOP"
+                    app:sLineShow="none"
+                    app:sRightIconMarginRight="@dimen/dimen_size_15"
+                    app:sRightIconRes="@mipmap/index_icon04"
+                    app:sRightIconSize="@dimen/dimen_size_12"
+                    app:sRightTextColor="@color/gray"
+                    app:sRightTextMarginRight="@dimen/dimen_size_35"
+                    app:sRightTextString="更多" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/top_list2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:background="@color/divider" />
+    </android.support.v4.widget.NestedScrollView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:layout_marginTop="@dimen/dimen_size_10"
-            android:background="@color/divider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <com.allen.library.SuperTextView
-                android:id="@+id/top_top"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_size_50"
-                app:sLeftTextColor="@color/black"
-                app:sLeftTextMarginLeft="@dimen/dimen_size_15"
-                app:sLeftTextSize="@dimen/sp_size_18"
-                app:sLeftTextString="人气TOP"
-                app:sLineShow="none"
-                app:sRightIconMarginRight="@dimen/dimen_size_15"
-                app:sRightIconRes="@mipmap/index_icon04"
-                app:sRightIconSize="@dimen/dimen_size_12"
-                app:sRightTextColor="@color/gray"
-                app:sRightTextMarginRight="@dimen/dimen_size_35"
-                app:sRightTextString="更多" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/top_list2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -134,8 +134,8 @@ class CoachAuthorActivity : BaseActivity() {
             adapter = SlimAdapter.create()
                 .register<CommonData>(R.layout.item_honor_list) { data, injector ->
 
-                    val index = listHonor.indexOf(data)
-                    val isLast = index == listHonor.size - 1
+                    val index = listVideo.indexOf(data)
+                    val isLast = index == listVideo.size - 1
 
                     injector.text(R.id.item_honor_title, data.theme_title)
                         .visibility(
@@ -148,7 +148,7 @@ class CoachAuthorActivity : BaseActivity() {
                         )
 
                         .clicked(R.id.item_honor_del) {
-                            listHonor.remove(data)
+                            listVideo.remove(data)
                             (this.adapter as SlimAdapter).notifyDataSetChanged()
                         }
                 }

@@ -236,7 +236,6 @@
                     android:background="@color/transparent"
                     android:gravity="end|center_vertical"
                     android:hint="请输入所属学院"
-                    android:maxLength="1"
                     android:paddingStart="@dimen/dimen_size_10"
                     android:paddingEnd="@dimen/dimen_size_15"
                     android:singleLine="true" />
