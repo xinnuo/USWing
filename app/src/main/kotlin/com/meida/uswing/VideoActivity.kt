@@ -110,7 +110,8 @@ class VideoActivity : BaseActivity() {
                             "title" to data.theme_title,
                             "lableIds" to (data.labels_id ?: ""),
                             "lableNames" to data.labels_name,
-                            "memo" to data.mome
+                            "memo" to data.mome,
+                            "hasExtra" to true
                         )
                     }
 

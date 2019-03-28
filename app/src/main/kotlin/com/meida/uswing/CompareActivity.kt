@@ -163,6 +163,7 @@ class CompareActivity : BaseActivity() {
                         if (!isFront && videoNegative.isEmpty()) return@showShareDialog
 
                         startActivity<CompareContactActivity>(
+                            "videoId" to videoFirstId,
                             "video" to if (isFront) videoPositive else videoNegative,
                             "videoImg" to if (isFront) videoPositiveImg else videoNegativeImg
                         )

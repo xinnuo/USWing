@@ -17,6 +17,8 @@ import android.view.View;
 
 import com.meida.model.RefreshMessageEvent;
 import com.meida.share.BaseHttp;
+import com.meida.uswing.ConversationVideoActivity;
+import com.meida.uswing.ConversationWebActivity;
 import com.meida.uswing.LoginActivity;
 import com.meida.uswing.R;
 import com.meida.utils.PreferencesUtils;
@@ -332,6 +334,17 @@ public class RongCloudContext implements
      */
     @Override
     public boolean onMessageClick(Context context, View view, Message message) {
+        if (message.getContent() instanceof RichContentMessage) {
+            RichContentMessage contentMessage = (RichContentMessage) message.getContent();
+
+            Intent intent = new Intent(mContext, ConversationVideoActivity.class);
+            intent.putExtra("videoId", contentMessage.getExtra());
+            intent.putExtra("url", contentMessage.getUrl());
+            intent.putExtra("videoImg", contentMessage.getImgUrl());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+            return true;
+        }
         return false;
     }
 

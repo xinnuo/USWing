@@ -92,6 +92,10 @@ public class CustomVideoPlayer extends StandardVideoPlayer {
         mAdd.setVisibility(isGone ? View.GONE : View.VISIBLE);
     }
 
+    public void startToPlay() {
+        mStartButton.performClick();
+    }
+
     @Override
     protected void releaseVideos() {
         MultiVideoManager.releaseAllVideos(getKey());

@@ -122,7 +122,7 @@ class VideoDetailActivity : BaseActivity() {
         compare_first.setVideoProgressListener { progress, secProgress, _, duration ->
             if (compare_second.isPlaying) {
                 val durationSecond = compare_second.duration
-                if (duration > durationSecond) {
+                if (duration >= durationSecond) {
                     compare_progress.progress = progress
                     compare_progress.secondaryProgress = secProgress
                 }
@@ -244,6 +244,7 @@ class VideoDetailActivity : BaseActivity() {
                         if (videoPositive.isEmpty()) return@showShareDialog
 
                         startActivity<CompareContactActivity>(
+                            "videoId" to videoFirstId,
                             "video" to videoPositive,
                             "videoImg" to videoPositiveImg
                         )

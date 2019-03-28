@@ -93,6 +93,8 @@ class CompareContactActivity : BaseActivity() {
                             "点评",
                             intent.getStringExtra("videoImg"),
                             intent.getStringExtra("video"))
+                        contentMsg.extra = intent.getStringExtra("videoId")
+
                         val sendMsg = Message.obtain(data.fuser_id, Conversation.ConversationType.PRIVATE, contentMsg)
 
                         RongIM.getInstance().sendMessage(sendMsg, null, null, object : IRongCallback.ISendMessageCallback {

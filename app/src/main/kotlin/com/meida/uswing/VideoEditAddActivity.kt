@@ -76,7 +76,10 @@ class VideoEditAddActivity : BaseActivity() {
                     list.addItems(response.body().`object`)
 
                     val ids = intent.getStringExtra("ids")
-                    list.forEach { if (it.labelsId in ids) it.isChecked = true }
+                    if (ids.isNotEmpty()) {
+                        val items = ids.split(",")
+                        list.forEach { if (it.labelsId in items) it.isChecked = true }
+                    }
 
                     add_mark.adapter = object : TagAdapter<CommonData>(list) {
 

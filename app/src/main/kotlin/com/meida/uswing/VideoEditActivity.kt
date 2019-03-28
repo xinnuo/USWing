@@ -22,11 +22,18 @@ import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.json.JSONObject
 
 class VideoEditActivity : BaseActivity() {
 
     private val itemIds = ArrayList<String>()
     private val itemNames = ArrayList<String>()
+    private var magicvoideId = ""
+    private var title = ""
+    private var lableIds = ""
+    private var lableNames = ""
+    private var memo = ""
+    private var hasExtra = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,21 +41,27 @@ class VideoEditActivity : BaseActivity() {
         init_title("编辑视频")
 
         EventBus.getDefault().register(this@VideoEditActivity)
+
+        if (!hasExtra) getData()
     }
 
     override fun init_title() {
         super.init_title()
-        val title = intent.getStringExtra("title") ?: ""
-        val lableIds = intent.getStringExtra("lableIds") ?: ""
-        val lableNames = intent.getStringExtra("lableNames") ?: ""
-        val memo = intent.getStringExtra("memo") ?: ""
+        title = intent.getStringExtra("title") ?: ""
+        lableIds = intent.getStringExtra("lableIds") ?: ""
+        lableNames = intent.getStringExtra("lableNames") ?: ""
+        memo = intent.getStringExtra("memo") ?: ""
+        magicvoideId  = intent.getStringExtra("magicvoideId") ?: ""
+        hasExtra  = intent.getBooleanExtra("hasExtra", false)
 
         edit_name.setText(title)
         edit_name.setSelection(edit_name.text.length)
         edit_memo.setText(memo)
-        itemIds.addAll(lableIds.split(","))
-        itemNames.addAll(lableNames.split(","))
-        setTagData()
+        if (lableIds.isNotEmpty()) {
+            itemIds.addAll(lableIds.split(","))
+            itemNames.addAll(lableNames.split(","))
+            setTagData()
+        }
 
         edit_add.oneClick {
             startActivity<VideoEditAddActivity>(
@@ -76,7 +89,7 @@ class VideoEditActivity : BaseActivity() {
                     .tag(this@VideoEditActivity)
                     .isMultipart(true)
                     .headers("token", getString("token"))
-                    .params("magicvoideId", intent.getStringExtra("magicvoideId"))
+                    .params("magicvoideId", magicvoideId)
                     .params("themeTitle", edit_name.text.trimString())
                     .params("labelsId", itemIds.joinToString(","))
                     .params("mome", edit_memo.text.trimString())
@@ -101,6 +114,36 @@ class VideoEditActivity : BaseActivity() {
                     })
             }
         }
+    }
+
+    override fun getData() {
+        OkGo.post<String>(BaseHttp.find_magicvoide_deatls)
+            .tag(this@VideoEditActivity)
+            .headers("token", getString("token"))
+            .params("magicvoideId", magicvoideId)
+            .execute(object : StringDialogCallback(baseContext) {
+
+                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+
+                    val obj = JSONObject(response.body())
+                        .optJSONObject("object") ?: JSONObject()
+
+                    title = obj.optString("theme_title")
+                    lableIds = obj.optString("labels_id")
+                    lableNames = obj.optString("labels_name")
+                    memo = obj.optString("memo")
+
+                    edit_name.setText(title)
+                    edit_name.setSelection(edit_name.text.length)
+                    edit_memo.setText(memo)
+                    if (lableIds.isNotEmpty()) {
+                        itemIds.addAll(lableIds.split(","))
+                        itemNames.addAll(lableNames.split(","))
+                        setTagData()
+                    }
+                }
+
+            })
     }
 
     private fun setTagData() {
