@@ -18,6 +18,7 @@ import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.*
 import com.meida.utils.DialogHelper.showCommentDialog
+import com.meida.utils.DialogHelper.showHintDialog
 import com.meida.utils.DialogHelper.showRewardDialog
 import com.meida.utils.DialogHelper.showRightPopup
 import com.meida.view.CenterImageSpan
@@ -58,6 +59,8 @@ class StateDetailActivity : BaseActivity() {
     @Suppress("DEPRECATION")
     override fun init_title() {
         super.init_title()
+        tvRight.text = "删除"
+        tvRight.gone()
 
         state_people.apply {
             isNestedScrollingEnabled = false
@@ -498,6 +501,27 @@ class StateDetailActivity : BaseActivity() {
                         })
                 }
             }
+            R.id.tv_nav_right -> {
+                showHintDialog("删除动态", "确定要删除该动态吗？") {
+                    if (it == "确定") {
+                        /* 删除圈子 */
+                        OkGo.post<String>(BaseHttp.delete_circle)
+                            .tag(this@StateDetailActivity)
+                            .headers("token", getString("token"))
+                            .params("circleId", circleId)
+                            .execute(object : StringDialogCallback(baseContext) {
+
+                                @SuppressLint("SetTextI18n")
+                                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                                    toast(msg)
+                                    EventBus.getDefault().post(RefreshMessageEvent("删除圈子", circleId))
+                                    ActivityStack.screenManager.popActivities(this@StateDetailActivity::class.java)
+                                }
+
+                            })
+                    }
+                }
+            }
         }
     }
 
@@ -544,6 +568,7 @@ class StateDetailActivity : BaseActivity() {
                         itemLike.addItems(data.likes)
                         itemComment.addItems(data.comments)
 
+                        tvRight.visibility = if (data.send_user == getString("token")) View.VISIBLE else View.GONE
                         state_img.loadRectImage(BaseHttp.baseImg + data.user_head)
                         state_name.text = data.nick_name
                         state_time.text = TimeHelper.getDiffTime(data.create_date_time.toLong())

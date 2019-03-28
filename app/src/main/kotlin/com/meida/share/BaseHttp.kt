@@ -71,6 +71,7 @@ object BaseHttp {
     val add_circle_voides = "$baseIp/add_circle_voides.rm"       //圈子视频
     val find_circle_list = "$baseIp/find_circle_list.rm"         //圈子列表
     val find_circle_details = "$baseIp/find_circle_details.rm"   //圈子详情
+    val delete_circle = "$baseIp/delete_circle.rm"               //删除圈子
     val add_likes = "$baseIp/add_likes.rm"                       //点赞
     val delete_likes = "$baseIp/delete_likes.rm"                 //取消点赞
     val add_comment = "$baseIp/add_comment.rm"                   //评论

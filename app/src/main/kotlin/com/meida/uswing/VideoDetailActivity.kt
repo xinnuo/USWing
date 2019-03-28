@@ -13,6 +13,7 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.meida.base.*
 import com.meida.share.BaseHttp
+import com.meida.utils.ActivityStack
 import com.meida.utils.DialogHelper.showGroupDialog
 import com.meida.utils.DialogHelper.showShareDialog
 import com.meida.utils.dp2px
@@ -37,6 +38,9 @@ import java.util.concurrent.TimeUnit
 class VideoDetailActivity : BaseActivity() {
 
     private var mSpeed = 0.5f
+    private var mLayoutHeight = 0
+    private var isSame = true
+
     private var videoFirstId = ""
     private var videoPositive = ""
     private var videoNegative = ""
@@ -90,32 +94,11 @@ class VideoDetailActivity : BaseActivity() {
         compare_second.setSpeedPlaying(mSpeed, true)
 
         compare_container.viewTreeObserver.addOnGlobalLayoutListener {
-            val with = compare_container.width
             val height = compare_container.height
 
-            when {
-                with > height -> {
-                    compare_first.layoutParams =
-                        FrameLayout.LayoutParams(
-                            getScreenWidth() / 2,
-                            FrameLayout.LayoutParams.MATCH_PARENT
-                        )
-                    compare_second.layoutParams =
-                        FrameLayout.LayoutParams(
-                            getScreenWidth() / 2,
-                            FrameLayout.LayoutParams.MATCH_PARENT,
-                            Gravity.END
-                        )
-                }
-                with < height -> {
-                    compare_first.layoutParams =
-                        FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, height / 2)
-                    compare_second.layoutParams = FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        height / 2,
-                        Gravity.BOTTOM
-                    )
-                }
+            if (mLayoutHeight != height) {
+                mLayoutHeight = height
+                changeLayoutSize()
             }
         }
 
@@ -289,6 +272,104 @@ class VideoDetailActivity : BaseActivity() {
                         compare_first.startToClick()
                         compare_second.startToClick()
                     }
+                }
+            }
+            R.id.compare_link -> {
+                MultiVideoManager.onPauseAll()
+                MultiVideoManager.clearAllVideo()
+
+                startActivity<CompareActivity>(
+                    "title" to "我的魔频",
+                    "magicvoideId" to videoFirstId,
+                    "video1" to videoPositive,
+                    "video2" to videoNegative,
+                    "videoImg1" to videoPositiveImg,
+                    "videoImg2" to videoNegativeImg,
+                    "share" to true
+                )
+
+                ActivityStack.screenManager.popActivities(this@VideoDetailActivity::class.java)
+            }
+            R.id.compare_lay -> {
+                if (isSame) {
+                    isSame = !isSame
+                    compare_lay.setImageResource(R.mipmap.icon_video1)
+                    changeLayoutSize()
+                } else {
+                    isSame = !isSame
+                    compare_lay.setImageResource(R.mipmap.icon_video2)
+                    changeLayoutSize()
+                }
+            }
+        }
+    }
+
+    private fun changeLayoutSize() {
+        val orientation = resources.configuration.orientation
+        when (orientation) {
+            1 -> {
+                if (isSame) {
+                    compare_container.setDragEnable(false)
+
+                    compare_first.layoutParams =
+                        FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            mLayoutHeight / 2
+                        )
+                    compare_second.layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        mLayoutHeight / 2,
+                        Gravity.BOTTOM
+                    )
+                } else {
+                    compare_container.addDragChildView(compare_second)
+                    compare_container.setDragEnable(true)
+
+                    compare_first.layoutParams =
+                        FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
+
+                    compare_second.layoutParams =
+                        FrameLayout.LayoutParams(
+                            dp2px(120f),
+                            dp2px(160f),
+                            Gravity.BOTTOM
+                        )
+                }
+            }
+            2 -> {
+                if (isSame) {
+                    compare_container.setDragEnable(false)
+
+                    compare_first.layoutParams =
+                        FrameLayout.LayoutParams(
+                            getScreenWidth() / 2,
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
+                    compare_second.layoutParams =
+                        FrameLayout.LayoutParams(
+                            getScreenWidth() / 2,
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            Gravity.END
+                        )
+                } else {
+                    compare_container.addDragChildView(compare_second)
+                    compare_container.setDragEnable(true)
+
+                    compare_first.layoutParams =
+                        FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
+
+                    compare_second.layoutParams =
+                        FrameLayout.LayoutParams(
+                            dp2px(160f),
+                            dp2px(120f),
+                            Gravity.BOTTOM
+                        )
                 }
             }
         }

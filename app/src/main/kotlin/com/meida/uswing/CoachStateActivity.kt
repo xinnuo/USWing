@@ -705,6 +705,12 @@ class CoachStateActivity : BaseActivity() {
                 mAdapter.notifyItemChanged(index)
             }
             "取消关注", "评论回复" -> updateList()
+            "删除圈子" -> {
+                val index = list.indexOfFirst { it.circle_id == event.id }
+                list.removeAt(index)
+                empty_view.apply { if (list.isEmpty()) visible() else gone() }
+                mAdapter.notifyItemRemoved(index)
+            }
         }
     }
 

@@ -71,11 +71,6 @@ class ActivityStack private constructor() {
     }
 
     /**
-     * 移除指定的多个activity
-     */
-    fun popActivities(vararg clss: Class<*>) = clss.forEach { popOneActivity(it) }
-
-    /**
      * 弹出栈中所有Activity，保留指定的Activity
      */
     fun popAllActivityExcept(vararg clss: Class<*>) {
@@ -89,12 +84,17 @@ class ActivityStack private constructor() {
     }
 
     /**
+     * 移除指定的多个activity
+     */
+    fun popActivities(vararg clss: Class<*>) = clss.forEach { popOneActivity(it) }
+
+    /**
      * 弹出栈中所有Activity
      */
     fun popAllActivitys() {
         if (mActivityStack.isNotEmpty()) {
-            mActivityStack.filter { !it.isDestroyed }.forEach { it.finish() }
-            mActivityStack.clear()
+            val index = mActivityStack.size - 1
+            (index downTo 0).forEach { popActivity(it, mActivityStack[it]) }
         }
     }
 

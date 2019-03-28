@@ -593,6 +593,12 @@ class StateActivity : BaseActivity() {
                 itemLike.removeAll { it.user_info_id == getString("token") }
                 mAdapter.notifyItemChanged(index)
             }
+            "删除圈子" -> {
+                val index = list.indexOfFirst { it.circle_id == event.id }
+                list.removeAt(index)
+                empty_view.apply { if (list.isEmpty()) visible() else gone() }
+                mAdapter.notifyItemRemoved(index)
+            }
         }
     }
 
