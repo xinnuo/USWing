@@ -523,6 +523,11 @@ class CompareActivity : BaseActivity() {
     fun onMessageEvent(event: RefreshMessageEvent) {
         when (event.type) {
             "第一对比" -> {
+                if (event.id == videoSecondId) {
+                    toast("已选择过该魔频")
+                    return
+                }
+
                 videoFirstId = event.id
                 videoPositive = event.name
                 videoNegative = event.checkId
@@ -552,6 +557,11 @@ class CompareActivity : BaseActivity() {
                 }
             }
             "第二对比" -> {
+                if (event.id == videoFirstId) {
+                    toast("已选择过该魔频")
+                    return
+                }
+
                 videoSecondId = event.id
                 videoPositiveCompare = event.name
                 videoNegativeCompare = event.checkId
