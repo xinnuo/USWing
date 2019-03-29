@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
     <application
         android:name="com.meida.Application"
         android:allowBackup="true"
@@ -51,7 +54,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".WebActivity"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".CollectActivity"
             android:screenOrientation="portrait" />
