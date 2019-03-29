@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.lzg.extend.StringDialogCallback
 import com.lzy.okgo.OkGo
+import com.lzy.okgo.callback.FileCallback
 import com.lzy.okgo.model.Response
 import com.meida.base.*
 import com.meida.share.BaseHttp
@@ -33,6 +34,8 @@ import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.sdk25.listeners.onSeekBarChangeListener
 import org.jetbrains.anko.sdk25.listeners.onTouch
 import tv.danmaku.ijk.media.MultiVideoManager
+import tv.danmaku.ijk.media.utils.StorageUtils
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 class VideoDetailActivity : BaseActivity() {
@@ -47,20 +50,30 @@ class VideoDetailActivity : BaseActivity() {
     private var videoPositiveImg = ""
     private var videoNegativeImg = ""
 
+    private var videoPositiveLocal = ""
+    private var videoNegativeLocal = ""
+
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_detail)
         init_title("我的魔频")
 
-        videoFirstId = intent.getStringExtra("magicvoideId") ?: ""
-        videoPositive = intent.getStringExtra("video1") ?: ""
-        videoNegative = intent.getStringExtra("video2") ?: ""
-        videoPositiveImg = intent.getStringExtra("videoImg1") ?: ""
-        videoNegativeImg = intent.getStringExtra("videoImg2") ?: ""
-
-        if (videoPositive.isNotEmpty()) initVideoFirst()
-        if (videoNegative.isNotEmpty()) initVideoSecond()
+        showLoadingDialog()
+        getDownloadFile(videoPositive) {
+            if (videoNegativeLocal.isNotEmpty()) cancelLoadingDialog()
+            if (it.isNotEmpty()) {
+                videoPositiveLocal = it
+                compare_first.setUp(videoPositiveLocal, true, "")
+            } else toast("视频加载失败")
+        }
+        getDownloadFile(videoNegative) {
+            if (videoPositiveLocal.isNotEmpty()) cancelLoadingDialog()
+            if (it.isNotEmpty()) {
+                videoNegativeLocal = it
+                compare_second.setUp(videoNegativeLocal, true, "")
+            } else toast("视频加载失败")
+        }
 
         Completable.timer(300, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
@@ -89,6 +102,15 @@ class VideoDetailActivity : BaseActivity() {
         ivRight.visibility = if (orientation == 2) View.GONE else View.VISIBLE
         nav_collect.visible()
 
+        videoFirstId = intent.getStringExtra("magicvoideId") ?: ""
+        videoPositive = intent.getStringExtra("video1") ?: ""
+        videoNegative = intent.getStringExtra("video2") ?: ""
+        videoPositiveImg = intent.getStringExtra("videoImg1") ?: ""
+        videoNegativeImg = intent.getStringExtra("videoImg2") ?: ""
+
+        if (videoPositive.isNotEmpty()) initVideoFirst()
+        if (videoNegative.isNotEmpty()) initVideoSecond()
+
         compare_speed.text = "1/2"
         compare_first.setSpeedPlaying(mSpeed, true)
         compare_second.setSpeedPlaying(mSpeed, true)
@@ -115,6 +137,14 @@ class VideoDetailActivity : BaseActivity() {
             }
         }
 
+        compare_first.setOnPlayListener {
+            val durationFirst = compare_first.duration
+            val durationSecond = compare_second.duration
+            if (durationSecond <= durationFirst) {
+                compare_play.setImageResource(if (it) R.mipmap.video_pause else R.mipmap.video_play)
+            }
+        }
+
         compare_second.setVideoProgressListener { progress, secProgress, _, duration ->
             if (compare_first.isPlaying) {
                 val durationFirst = compare_first.duration
@@ -125,14 +155,6 @@ class VideoDetailActivity : BaseActivity() {
             } else {
                 compare_progress.progress = progress
                 compare_progress.secondaryProgress = secProgress
-            }
-        }
-
-        compare_first.setOnPlayListener {
-            val durationFirst = compare_first.duration
-            val durationSecond = compare_second.duration
-            if (durationSecond <= durationFirst) {
-                compare_play.setImageResource(if (it) R.mipmap.video_pause else R.mipmap.video_play)
             }
         }
 
@@ -237,6 +259,23 @@ class VideoDetailActivity : BaseActivity() {
         }
     }
 
+    private fun getDownloadFile(url: String, event: ((String) -> Unit)) {
+        if (url.isNotEmpty()) {
+            val path = StorageUtils.getIndividualCacheDirectory(baseContext).absolutePath
+            val fileName = url.split("/").last()
+            val filePath = File(path + File.separator + fileName)
+            if (filePath.exists()) event(filePath.absolutePath)
+            else {
+                OkGo.get<File>(url).execute(object : FileCallback(path, fileName) {
+                    private var responeUrl = ""
+                    override fun onSuccess(response: Response<File>) { responeUrl = response.body().absolutePath }
+                    override fun onError(response: Response<File>) { responeUrl = "" }
+                    override fun onFinish() { event(responeUrl) }
+                })
+            }
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     override fun doClick(v: View) {
         super.doClick(v)
@@ -265,6 +304,11 @@ class VideoDetailActivity : BaseActivity() {
                 }
             }
             R.id.compare_play -> {
+                if (videoPositiveLocal.isEmpty()
+                    || videoNegativeLocal.isEmpty()) {
+                    toast("视频未准备好")
+                }
+
                 when {
                     compare_first.isPlaying && !compare_second.isPlaying -> compare_first.startToClick()
                     compare_second.isPlaying && !compare_first.isPlaying -> compare_second.startToClick()
@@ -380,7 +424,7 @@ class VideoDetailActivity : BaseActivity() {
             playTag = "compare"
             playPosition = 1
             loadCoverImage(if (videoPositiveImg.isEmpty()) videoPositive else videoPositiveImg)
-            setUp(videoPositive, true, "")
+            // setUp(videoPositive, true, "")
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
         }
@@ -391,7 +435,7 @@ class VideoDetailActivity : BaseActivity() {
             playTag = "compare"
             playPosition = 2
             loadCoverImage(if (videoNegativeImg.isEmpty()) videoNegative else videoNegativeImg)
-            setUp(videoNegative, true, "")
+            // setUp(videoNegative, true, "")
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
         }

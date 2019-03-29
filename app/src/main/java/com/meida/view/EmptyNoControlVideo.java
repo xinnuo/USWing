@@ -103,17 +103,13 @@ public class EmptyNoControlVideo extends StandardVideoPlayer {
     @Override
     protected void updateStartImage() {
         if (listener != null) {
-            listener.doWork(mCurrentState == CURRENT_STATE_PLAYING);
+            listener.hadPlay(mCurrentState == CURRENT_STATE_PLAYING);
         }
     }
 
     @Override
     protected void touchDoubleUp() {
         // super.touchDoubleUp();
-    }
-
-    public void setOnPlayListener(OnPlayListener listener) {
-        this.listener = listener;
     }
 
     public void updataProgress(int progress) {
@@ -126,6 +122,10 @@ public class EmptyNoControlVideo extends StandardVideoPlayer {
 
     public boolean isPlaying() {
         return getCurrentPlayer().isInPlayingState();
+    }
+
+    public boolean isCacheFile() {
+        return getVideoManager().isCacheFile();
     }
 
     public void startToClick() {
@@ -149,8 +149,12 @@ public class EmptyNoControlVideo extends StandardVideoPlayer {
         super.setViewShowState(view, visibility);
     }
 
+    public void setOnPlayListener(OnPlayListener listener) {
+        this.listener = listener;
+    }
+
     public interface OnPlayListener {
-        void doWork(boolean isPlaying);
+        void hadPlay(boolean isPlaying);
     }
 
 }

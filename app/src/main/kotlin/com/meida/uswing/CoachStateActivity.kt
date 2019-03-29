@@ -249,6 +249,7 @@ class CoachStateActivity : BaseActivity() {
                                                 /* 回复评论 */
                                                 OkGo.post<String>(BaseHttp.add_comment)
                                                     .tag(this@CoachStateActivity)
+                                                    .isMultipart(true)
                                                     .headers("token", getString("token"))
                                                     .params("circleId", data.circle_id)
                                                     .params("info", it)
@@ -267,7 +268,7 @@ class CoachStateActivity : BaseActivity() {
                                                                 data.comment_ctn.toTextInt()
                                                             data.comment_ctn =
                                                                 (commentSum + 1).toString()
-                                                            itemComment.add(0, CommonData().apply {
+                                                            itemComment.add(CommonData().apply {
                                                                 user_info_id = getString("token")
                                                                 nick_name = getString("nickName")
                                                                 comment_user = item.user_info_id
@@ -292,6 +293,7 @@ class CoachStateActivity : BaseActivity() {
                                                 /* 回复评论 */
                                                 OkGo.post<String>(BaseHttp.add_comment)
                                                     .tag(this@CoachStateActivity)
+                                                    .isMultipart(true)
                                                     .headers("token", getString("token"))
                                                     .params("circleId", data.circle_id)
                                                     .params("info", it)
@@ -310,7 +312,7 @@ class CoachStateActivity : BaseActivity() {
                                                                 data.comment_ctn.toTextInt()
                                                             data.comment_ctn =
                                                                 (commentSum + 1).toString()
-                                                            itemComment.add(0, CommonData().apply {
+                                                            itemComment.add(CommonData().apply {
                                                                 user_info_id = getString("token")
                                                                 nick_name = getString("nickName")
                                                                 comment_user = item.comment_user
@@ -462,6 +464,7 @@ class CoachStateActivity : BaseActivity() {
                             /* 圈子评论 */
                             OkGo.post<String>(BaseHttp.add_comment)
                                 .tag(this@CoachStateActivity)
+                                .isMultipart(true)
                                 .headers("token", getString("token"))
                                 .params("circleId", data.circle_id)
                                 .params("info", str)
@@ -477,7 +480,7 @@ class CoachStateActivity : BaseActivity() {
                                         toast(msg)
                                         val commentSum = data.comment_ctn.toTextInt()
                                         data.comment_ctn = (commentSum + 1).toString()
-                                        itemComment.add(0, CommonData().apply {
+                                        itemComment.add(CommonData().apply {
                                             user_info_id = getString("token")
                                             nick_name = getString("nickName")
                                             comment_info = str

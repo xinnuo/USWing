@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.jackson.JacksonDialogCallback
 import com.lzy.okgo.OkGo
@@ -116,9 +118,20 @@ class CollectActivity : BaseActivity() {
                 val index = list.indexOf(data)
                 val isLast = index == list.size - 1
 
-                injector.text(R.id.item_collect_desc, data.labels_name)
-                    .text(R.id.item_collect_name, data.theme_title)
+                injector.text(R.id.item_collect_name, data.theme_title)
                     .text(R.id.item_collect_time, "时间：${data.create_date}")
+
+                    .with<TextView>(R.id.item_collect_desc) {
+                        it.text = data.labels_name
+                        val textWidth = it.paint.measureText(data.labels_name)
+                        data.labels_width = textWidth
+                    }
+
+                    .with<ImageView>(R.id.item_collect_more) {
+                        it.visibility =
+                            if (data.labels_width > dp2px(110f)) View.VISIBLE
+                            else View.INVISIBLE
+                    }
 
                     .with<GlideImageView>(R.id.item_collect_img) {
                         it.load(BaseHttp.circleImg + data.positive_img, R.mipmap.default_video)
@@ -129,6 +142,12 @@ class CollectActivity : BaseActivity() {
                         if (index == 0) View.VISIBLE else View.GONE
                     )
                     .visibility(R.id.item_collect_divider2, if (isLast) View.VISIBLE else View.GONE)
+
+                    .clicked(R.id.item_collect_label) {
+                        if (data.labels_name.isNotEmpty()) {
+                            startActivity<VideoLabelActivity>("label" to data.labels_name)
+                        }
+                    }
 
                     .clicked(R.id.item_collect) {
                         startActivity<CompareActivity>(

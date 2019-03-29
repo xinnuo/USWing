@@ -160,6 +160,7 @@ data class CommonData(
     var theme_title: String = "",
     var labels_id: String? = "",
     var labels_name: String = "",
+    var labels_width: Float = 0f,
     var positive_voide: String = "",
     var positive_img: String = "",
     var negative_voide: String = "",

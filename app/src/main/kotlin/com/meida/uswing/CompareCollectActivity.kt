@@ -2,6 +2,8 @@ package com.meida.uswing
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.jackson.JacksonDialogCallback
 import com.lzy.okgo.OkGo
@@ -11,12 +13,14 @@ import com.meida.model.CommonData
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.ActivityStack
+import com.meida.utils.dp2px
 import com.sunfusheng.GlideImageView
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_list.*
 import net.idik.lib.slimadapter.SlimAdapter
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.include
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.util.*
 
@@ -50,9 +54,20 @@ class CompareCollectActivity : BaseActivity() {
                 val index = list.indexOf(data)
                 val isLast = index == list.size - 1
 
-                injector.text(R.id.item_collect_desc, data.labels_name)
-                    .text(R.id.item_collect_name, data.theme_title)
+                injector.text(R.id.item_collect_name, data.theme_title)
                     .text(R.id.item_collect_time, "时间：${data.create_date}")
+
+                    .with<TextView>(R.id.item_collect_desc) {
+                        it.text = data.labels_name
+                        val textWidth = it.paint.measureText(data.labels_name)
+                        data.labels_width = textWidth
+                    }
+
+                    .with<ImageView>(R.id.item_collect_more) {
+                        it.visibility =
+                            if (data.labels_width > dp2px(110f)) View.VISIBLE
+                            else View.INVISIBLE
+                    }
 
                     .with<GlideImageView>(R.id.item_collect_img) {
                         it.load(BaseHttp.circleImg + data.positive_img, R.mipmap.default_video)
@@ -63,6 +78,12 @@ class CompareCollectActivity : BaseActivity() {
                         if (index == 0) View.VISIBLE else View.GONE
                     )
                     .visibility(R.id.item_collect_divider2, if (isLast) View.VISIBLE else View.GONE)
+
+                    .clicked(R.id.item_collect_label) {
+                        if (data.labels_name.isNotEmpty()) {
+                            startActivity<VideoLabelActivity>("label" to data.labels_name)
+                        }
+                    }
 
                     .clicked(R.id.item_collect) {
                         val itemId = intent.getStringExtra("selectId")

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import com.lzg.extend.BaseResponse
 import com.lzg.extend.StringDialogCallback
 import com.lzg.extend.jackson.JacksonDialogCallback
@@ -15,6 +16,7 @@ import com.meida.model.CommonData
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showHintDialog
+import com.meida.utils.dp2px
 import com.meida.utils.hideSoftInput
 import com.meida.utils.trimString
 import com.sunfusheng.GlideImageView
@@ -61,11 +63,22 @@ class VideoActivity : BaseActivity() {
                 val index = list.indexOf(data)
                 val isLast = index == list.size - 1
 
-                injector.text(R.id.item_video_desc, data.labels_name)
-                    .text(R.id.item_video_name, data.theme_title)
+                injector.text(R.id.item_video_name, data.theme_title)
                     .text(R.id.item_video_adress, "地址：${data.address}")
                     .text(R.id.item_video_time, "时间：${data.create_date}")
                     .text(R.id.item_video_memo, "备注：${data.mome}")
+
+                    .with<TextView>(R.id.item_video_desc) {
+                        it.text = data.labels_name
+                        val textWidth = it.paint.measureText(data.labels_name)
+                        data.labels_width = textWidth
+                    }
+
+                    .with<ImageView>(R.id.item_video_more) {
+                        it.visibility =
+                            if (data.labels_width > dp2px(110f)) View.VISIBLE
+                            else View.INVISIBLE
+                    }
 
                     .with<GlideImageView>(R.id.item_video_img) {
                         it.load(BaseHttp.circleImg + data.positive_img, R.mipmap.default_video)
@@ -113,6 +126,12 @@ class VideoActivity : BaseActivity() {
                             "memo" to data.mome,
                             "hasExtra" to true
                         )
+                    }
+
+                    .clicked(R.id.item_video_label) {
+                        if (data.labels_name.isNotEmpty()) {
+                            startActivity<VideoLabelActivity>("label" to data.labels_name)
+                        }
                     }
 
                     .clicked(R.id.item_video) {

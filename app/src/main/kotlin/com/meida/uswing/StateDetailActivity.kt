@@ -137,6 +137,7 @@ class StateDetailActivity : BaseActivity() {
                                 /* 回复评论 */
                                 OkGo.post<String>(BaseHttp.add_comment)
                                     .tag(this@StateDetailActivity)
+                                    .isMultipart(true)
                                     .headers("token", getString("token"))
                                     .params("circleId", circleId)
                                     .params("info", it)
@@ -156,7 +157,7 @@ class StateDetailActivity : BaseActivity() {
                                             mData?.comment_ctn = (commentSum + 1).toString()
                                             state_num1.text = "评价${mData?.comment_ctn}"
 
-                                            itemComment.add(0, CommonData().apply {
+                                            itemComment.add(CommonData().apply {
                                                 user_info_id = getString("token")
                                                 nick_name = getString("nickName")
                                                 comment_user = item.user_info_id
@@ -185,6 +186,7 @@ class StateDetailActivity : BaseActivity() {
                                 /* 回复评论 */
                                 OkGo.post<String>(BaseHttp.add_comment)
                                     .tag(this@StateDetailActivity)
+                                    .isMultipart(true)
                                     .headers("token", getString("token"))
                                     .params("circleId", circleId)
                                     .params("info", it)
@@ -204,7 +206,7 @@ class StateDetailActivity : BaseActivity() {
                                             mData?.comment_ctn = (commentSum + 1).toString()
                                             state_num1.text = "评价${mData?.comment_ctn}"
 
-                                            itemComment.add(0, CommonData().apply {
+                                            itemComment.add(CommonData().apply {
                                                 user_info_id = getString("token")
                                                 nick_name = getString("nickName")
                                                 comment_user = item.comment_user
@@ -359,6 +361,7 @@ class StateDetailActivity : BaseActivity() {
                 /* 圈子评论 */
                 OkGo.post<String>(BaseHttp.add_comment)
                     .tag(this@StateDetailActivity)
+                    .isMultipart(true)
                     .headers("token", getString("token"))
                     .params("circleId", circleId)
                     .params("info", str)
@@ -377,7 +380,7 @@ class StateDetailActivity : BaseActivity() {
                             mData?.comment_ctn = (commentSum + 1).toString()
                             state_num1.text = "评价${mData?.comment_ctn}"
 
-                            itemComment.add(0, CommonData().apply {
+                            itemComment.add(CommonData().apply {
                                 user_info_id = getString("token")
                                 nick_name = getString("nickName")
                                 comment_user = ""

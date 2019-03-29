@@ -116,6 +116,9 @@
             android:name=".VideoEditActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".VideoLabelActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".CompareActivity"
             android:screenOrientation="portrait" />
         <activity
