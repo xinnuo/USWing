@@ -135,7 +135,7 @@ class VideoActivity : BaseActivity() {
                     }
 
                     .clicked(R.id.item_video) {
-                        /*startActivity<CompareActivity>(
+                        startActivity<VideoDetailActivity>(
                             "title" to "我的魔频",
                             "magicvoideId" to data.magicvoide_id,
                             "video1" to BaseHttp.circleImg + data.positive_voide,
@@ -143,14 +143,6 @@ class VideoActivity : BaseActivity() {
                             "videoImg1" to BaseHttp.circleImg + data.positive_img,
                             "videoImg2" to BaseHttp.circleImg + data.negative_img,
                             "share" to true
-                        )*/
-
-                        startActivity<VideoDetailActivity>(
-                            "magicvoideId" to data.magicvoide_id,
-                            "video1" to BaseHttp.circleImg + data.positive_voide,
-                            "video2" to BaseHttp.circleImg + data.negative_voide,
-                            "videoImg1" to BaseHttp.circleImg + data.positive_img,
-                            "videoImg2" to BaseHttp.circleImg + data.negative_img
                         )
                     }
             }

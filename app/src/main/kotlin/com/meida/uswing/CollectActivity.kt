@@ -150,7 +150,7 @@ class CollectActivity : BaseActivity() {
                     }
 
                     .clicked(R.id.item_collect) {
-                        startActivity<CompareActivity>(
+                        startActivity<VideoDetailActivity>(
                             "title" to "教练魔频",
                             "magicvoideId" to data.magicvoide_id,
                             "video1" to BaseHttp.circleImg + data.positive_voide,

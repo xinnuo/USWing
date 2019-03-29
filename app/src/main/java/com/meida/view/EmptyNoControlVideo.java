@@ -21,6 +21,8 @@ public class EmptyNoControlVideo extends StandardVideoPlayer {
 
     private GlideImageView mCoverImage;
     private OnPlayListener listener;
+    private GlideImageView mAdd;
+    private boolean isGone;
 
     public EmptyNoControlVideo(Context context, Boolean fullFlag) {
         super(context, fullFlag);
@@ -38,6 +40,7 @@ public class EmptyNoControlVideo extends StandardVideoPlayer {
     protected void init(Context context) {
         super.init(context);
         mCoverImage = findViewById(R.id.thumbImage);
+        mAdd = findViewById(R.id.add);
 
         if (mThumbImageViewLayout != null &&
                 (mCurrentState == -1
@@ -102,6 +105,7 @@ public class EmptyNoControlVideo extends StandardVideoPlayer {
 
     @Override
     protected void updateStartImage() {
+        if (!isGone) mAdd.setVisibility(mCurrentState == CURRENT_STATE_PLAYING ? View.GONE : View.VISIBLE);
         if (listener != null) {
             listener.hadPlay(mCurrentState == CURRENT_STATE_PLAYING);
         }
@@ -110,6 +114,15 @@ public class EmptyNoControlVideo extends StandardVideoPlayer {
     @Override
     protected void touchDoubleUp() {
         // super.touchDoubleUp();
+    }
+
+    public GlideImageView getAddButton() {
+        return mAdd;
+    }
+
+    public void setGone(boolean enable) {
+        isGone = enable;
+        mAdd.setVisibility(isGone ? View.GONE : View.VISIBLE);
     }
 
     public void updataProgress(int progress) {

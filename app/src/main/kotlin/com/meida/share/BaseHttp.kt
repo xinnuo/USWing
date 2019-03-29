@@ -129,4 +129,6 @@ object BaseHttp {
     val find_html_info = "$baseIp/find_html_info.rm"       //字典详情
     val find_startimg = "$baseIp/find_startimg.rm"         //启动页
     val update_oosition = "$baseIp/update_oosition.rm"     //更新位置
+
+    val share_video = "${baseImg}forend/share_video.hm?magicvoideId=" //分享
 }

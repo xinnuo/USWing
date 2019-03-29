@@ -152,25 +152,16 @@ class CoachVideoActivity : BaseActivity() {
                                 )
                             }
                             else -> {
-                                if (mUserId == getString("token")) {
-                                    startActivity<VideoDetailActivity>(
-                                        "magicvoideId" to data.magicvoide_id,
-                                        "video1" to BaseHttp.circleImg + data.positive_voide,
-                                        "video2" to BaseHttp.circleImg + data.negative_voide,
-                                        "videoImg1" to BaseHttp.circleImg + data.positive_img,
-                                        "videoImg2" to BaseHttp.circleImg + data.negative_img
-                                    )
-                                } else {
-                                    startActivity<CompareActivity>(
-                                        "title" to "我的魔频",
-                                        "magicvoideId" to data.magicvoide_id,
-                                        "video1" to BaseHttp.circleImg + data.positive_voide,
-                                        "video2" to BaseHttp.circleImg + data.negative_voide,
-                                        "videoImg1" to BaseHttp.circleImg + data.positive_img,
-                                        "videoImg2" to BaseHttp.circleImg + data.negative_img,
-                                        "share" to false
-                                    )
-                                }
+                                val isMine = mUserId == getString("token")
+                                startActivity<VideoDetailActivity>(
+                                    "title" to if (isMine) "我的魔频" else "教练魔频",
+                                    "magicvoideId" to data.magicvoide_id,
+                                    "video1" to BaseHttp.circleImg + data.positive_voide,
+                                    "video2" to BaseHttp.circleImg + data.negative_voide,
+                                    "videoImg1" to BaseHttp.circleImg + data.positive_img,
+                                    "videoImg2" to BaseHttp.circleImg + data.negative_img,
+                                    "share" to isMine
+                                )
                             }
                         }
                     }

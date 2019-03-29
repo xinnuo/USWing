@@ -13,6 +13,7 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.FileCallback
 import com.lzy.okgo.model.Response
 import com.meida.base.*
+import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.ActivityStack
 import com.meida.utils.DialogHelper.showGroupDialog
@@ -29,10 +30,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_video_detail.*
 import kotlinx.android.synthetic.main.layout_title.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.sdk25.listeners.onSeekBarChangeListener
 import org.jetbrains.anko.sdk25.listeners.onTouch
+import org.json.JSONObject
 import tv.danmaku.ijk.media.MultiVideoManager
 import tv.danmaku.ijk.media.utils.StorageUtils
 import java.io.File
@@ -43,12 +46,14 @@ class VideoDetailActivity : BaseActivity() {
     private var mSpeed = 0.5f
     private var mLayoutHeight = 0
     private var isSame = true
+    private var hasCollect = ""
 
     private var videoFirstId = ""
     private var videoPositive = ""
     private var videoNegative = ""
     private var videoPositiveImg = ""
     private var videoNegativeImg = ""
+    private var isShare = false
 
     private var videoPositiveLocal = ""
     private var videoNegativeLocal = ""
@@ -57,7 +62,7 @@ class VideoDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_detail)
-        init_title("我的魔频")
+        init_title(intent.getStringExtra("title"))
 
         showLoadingDialog()
         getDownloadFile(videoPositive) {
@@ -85,28 +90,34 @@ class VideoDetailActivity : BaseActivity() {
                     (window.decorView as FrameLayout).addView(createView())
                 }
             }
+
+        if (!isShare) getData()
     }
 
     @SuppressLint("SetTextI18n")
     override fun init_title() {
         super.init_title()
-        nav_collect.setImageResource(R.mipmap.index_icon01)
-        nav_collect.setPadding(
-            dp2px(13.5f),
-            dp2px(13.5f),
-            dp2px(13.5f),
-            dp2px(13.5f)
-        )
-
-        val orientation = resources.configuration.orientation
-        ivRight.visibility = if (orientation == 2) View.GONE else View.VISIBLE
-        nav_collect.visible()
-
         videoFirstId = intent.getStringExtra("magicvoideId") ?: ""
         videoPositive = intent.getStringExtra("video1") ?: ""
         videoNegative = intent.getStringExtra("video2") ?: ""
         videoPositiveImg = intent.getStringExtra("videoImg1") ?: ""
         videoNegativeImg = intent.getStringExtra("videoImg2") ?: ""
+        isShare = intent.getBooleanExtra("share", false)
+
+        nav_collect.visible()
+        if (isShare) {
+            nav_collect.setImageResource(R.mipmap.index_icon01)
+            nav_collect.setPadding(
+                dp2px(13.5f),
+                dp2px(13.5f),
+                dp2px(13.5f),
+                dp2px(13.5f)
+            )
+        }
+
+        val orientation = resources.configuration.orientation
+        ivRight.visibility = if (isShare && orientation == 1) View.VISIBLE else View.GONE
+
 
         if (videoPositive.isNotEmpty()) initVideoFirst()
         if (videoNegative.isNotEmpty()) initVideoSecond()
@@ -189,7 +200,7 @@ class VideoDetailActivity : BaseActivity() {
                         ShareAction(baseContext)
                             .setPlatform(SHARE_MEDIA.QQ)
                             .withText(getString(R.string.app_name))
-                            .withMedia(UMWeb(videoNegative).apply {
+                            .withMedia(UMWeb(BaseHttp.share_video + videoFirstId).apply {
                                 title = getString(R.string.app_name)
                                 description = "为你分享我的魔频"
                                 setThumb(UMImage(baseContext, R.mipmap.icon_logo))
@@ -200,7 +211,7 @@ class VideoDetailActivity : BaseActivity() {
                         ShareAction(baseContext)
                             .setPlatform(SHARE_MEDIA.WEIXIN)
                             .withText(getString(R.string.app_name))
-                            .withMedia(UMWeb(videoNegative).apply {
+                            .withMedia(UMWeb(BaseHttp.share_video + videoFirstId).apply {
                                 title = getString(R.string.app_name)
                                 description = "为你分享我的魔频"
                                 setThumb(UMImage(baseContext, R.mipmap.icon_logo))
@@ -211,7 +222,7 @@ class VideoDetailActivity : BaseActivity() {
                         ShareAction(baseContext)
                             .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
                             .withText(getString(R.string.app_name))
-                            .withMedia(UMWeb(videoNegative).apply {
+                            .withMedia(UMWeb(BaseHttp.share_video + videoFirstId).apply {
                                 title = getString(R.string.app_name)
                                 description = "为你分享我的魔频"
                                 setThumb(UMImage(baseContext, R.mipmap.icon_logo))
@@ -259,6 +270,27 @@ class VideoDetailActivity : BaseActivity() {
         }
     }
 
+    override fun getData() {
+        OkGo.post<String>(BaseHttp.find_magicvoide_deatls)
+            .tag(this@VideoDetailActivity)
+            .headers("token", getString("token"))
+            .params("magicvoideId", videoFirstId)
+            .execute(object : StringDialogCallback(baseContext, false) {
+
+                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                    val obj = JSONObject(response.body())
+                        .optJSONObject("object") ?: JSONObject()
+
+                    hasCollect = obj.optString("collection")
+                    nav_collect.setImageResource(
+                        if (hasCollect == "1") R.mipmap.video_icon26
+                        else R.mipmap.video_icon25
+                    )
+                }
+
+            })
+    }
+
     private fun getDownloadFile(url: String, event: ((String) -> Unit)) {
         if (url.isNotEmpty()) {
             val path = StorageUtils.getIndividualCacheDirectory(baseContext).absolutePath
@@ -280,7 +312,55 @@ class VideoDetailActivity : BaseActivity() {
     override fun doClick(v: View) {
         super.doClick(v)
         when (v.id) {
-            R.id.nav_collect -> startActivity<ScanActivity>()
+            R.id.nav_collect -> {
+                if (isShare) startActivity<ScanActivity>()
+                else {
+                    if (videoFirstId.isNotEmpty()) {
+                        when (hasCollect) {
+                            "0" -> OkGo.post<String>(BaseHttp.add_collection)
+                                .tag(this@VideoDetailActivity)
+                                .headers("token", getString("token"))
+                                .params("bussId", videoFirstId)
+                                .params("collectionType", "2")
+                                .execute(object : StringDialogCallback(baseContext, false) {
+
+                                    override fun onSuccessResponse(
+                                        response: Response<String>,
+                                        msg: String,
+                                        msgCode: String
+                                    ) {
+
+                                        toast(msg)
+                                        hasCollect = "1"
+                                        nav_collect.setImageResource(R.mipmap.video_icon26)
+                                        EventBus.getDefault().post(RefreshMessageEvent("添加收藏"))
+                                    }
+
+                                })
+                            "1" -> OkGo.post<String>(BaseHttp.delete_collection)
+                                .tag(this@VideoDetailActivity)
+                                .headers("token", getString("token"))
+                                .params("bussId", videoFirstId)
+                                .params("collectionType", "2")
+                                .execute(object : StringDialogCallback(baseContext, false) {
+
+                                    override fun onSuccessResponse(
+                                        response: Response<String>,
+                                        msg: String,
+                                        msgCode: String
+                                    ) {
+
+                                        toast(msg)
+                                        hasCollect = "0"
+                                        nav_collect.setImageResource(R.mipmap.video_icon25)
+                                        EventBus.getDefault().post(RefreshMessageEvent("取消收藏"))
+                                    }
+
+                                })
+                        }
+                    }
+                }
+            }
             R.id.compare_speed -> {
                 when (mSpeed) {
                     0.5f -> {
@@ -427,6 +507,7 @@ class VideoDetailActivity : BaseActivity() {
             // setUp(videoPositive, true, "")
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
+            setGone(true)
         }
     }
 
@@ -438,6 +519,7 @@ class VideoDetailActivity : BaseActivity() {
             // setUp(videoNegative, true, "")
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
+            setGone(true)
         }
     }
 
@@ -463,9 +545,8 @@ class VideoDetailActivity : BaseActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
         val orientation = resources.configuration.orientation
-        ivRight.visibility = if (orientation == 2) View.GONE else View.VISIBLE
+        ivRight.visibility = if (isShare && orientation == 1) View.VISIBLE else View.GONE
     }
 
     override fun onPause() {

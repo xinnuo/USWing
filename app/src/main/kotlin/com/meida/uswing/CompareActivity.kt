@@ -3,40 +3,40 @@ package com.meida.uswing
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
-import com.lzg.extend.StringDialogCallback
+import android.widget.FrameLayout
 import com.lzy.okgo.OkGo
+import com.lzy.okgo.callback.FileCallback
 import com.lzy.okgo.model.Response
 import com.meida.base.*
 import com.meida.model.RefreshMessageEvent
-import com.meida.share.BaseHttp
 import com.meida.utils.DialogHelper.showCompareDialog
-import com.meida.utils.DialogHelper.showGroupDialog
-import com.meida.utils.DialogHelper.showShareDialog
-import com.umeng.socialize.ShareAction
+import com.meida.utils.dp2px
+import com.meida.utils.getScreenWidth
 import com.umeng.socialize.UMShareAPI
-import com.umeng.socialize.bean.SHARE_MEDIA
-import com.umeng.socialize.media.UMImage
-import com.umeng.socialize.media.UMWeb
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_compare.*
-import kotlinx.android.synthetic.main.layout_title.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.jetbrains.anko.sdk25.listeners.onClick
+import org.jetbrains.anko.sdk25.listeners.onSeekBarChangeListener
+import org.jetbrains.anko.sdk25.listeners.onTouch
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import org.json.JSONObject
 import tv.danmaku.ijk.media.MultiVideoManager
+import tv.danmaku.ijk.media.utils.StorageUtils
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 class CompareActivity : BaseActivity() {
 
     private var mSpeed = 0.5f
+    private var mLayoutHeight = 0
     private var isFront = true
-    private var hasCollect = ""
+    private var isSame = true
+    private var isEditable = true
 
     private var videoFirstId = ""
     private var videoPositive = ""
@@ -50,217 +50,121 @@ class CompareActivity : BaseActivity() {
     private var videoPositiveImgCompare = ""
     private var videoNegativeImgCompare = ""
 
+    private var videoPositiveLocal = ""
+    private var videoNegativeLocal = ""
+    private var videoPositiveCompareLocal = ""
+    private var videoNegativeCompareLocal = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compare)
+        init_title("魔镜对比")
 
         EventBus.getDefault().register(this@CompareActivity)
 
-        val title = intent.getStringExtra("title") ?: "魔镜对比"
-        init_title(title)
-
-        if (videoFirstId.isNotEmpty()) getData()
+        if (videoPositive.isNotEmpty()) {
+            getDownloadFile(videoPositive) {
+                if (it.isNotEmpty()) {
+                    videoPositiveLocal = it
+                    compare_first.setUp(videoPositiveLocal, true, "")
+                } else toast("视频加载失败")
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
     override fun init_title() {
         super.init_title()
+        compare_control.gone()
+        compare_progress.gone()
+
         videoFirstId = intent.getStringExtra("magicvoideId") ?: ""
         videoPositive = intent.getStringExtra("video1") ?: ""
         videoNegative = intent.getStringExtra("video2") ?: ""
         videoPositiveImg = intent.getStringExtra("videoImg1") ?: ""
         videoNegativeImg = intent.getStringExtra("videoImg2") ?: ""
-        val isShare = intent.getBooleanExtra("share", false)
 
-        if (isShare) ivRight.visible()
-        if (videoFirstId.isNotEmpty() && !isShare) nav_collect.visible()
-
-        compare_speed.text = "< 1/2 >"
+        compare_speed.text = "1/2"
         compare_first.setSpeedPlaying(mSpeed, true)
         compare_second.setSpeedPlaying(mSpeed, true)
 
-        if (videoPositive.isNotEmpty()) initVideoFirst()
-        if (videoNegative.isNotEmpty()) {
-            videoPositiveCompare = videoNegative
-            videoPositiveImgCompare = videoNegativeImg
-
-            initVideoSecond()
-            compare_both.gone()
-            compare_first.setLinkedPlayer(compare_second)
-            compare_second.setLinkedPlayer(compare_first)
+        if (videoPositive.isNotEmpty()) {
+            isEditable = false
+            initVideoFirst()
         }
 
-        ivRight.oneClick {
-            showShareDialog {
-                if (videoFirstId.isEmpty()) {
-                    toast("视频信息获取失败")
-                    return@showShareDialog
-                }
+        compare_container.viewTreeObserver.addOnGlobalLayoutListener {
+            val height = compare_container.height
 
-                when (it) {
-                    "QQ" -> {
-                        ShareAction(baseContext)
-                            .setPlatform(SHARE_MEDIA.QQ)
-                            .withText(getString(R.string.app_name))
-                            .withMedia(UMWeb(videoNegative).apply {
-                                title = getString(R.string.app_name)
-                                description = "为你分享我的魔频"
-                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
-                            })
-                            .share()
-                    }
-                    "微信" -> {
-                        ShareAction(baseContext)
-                            .setPlatform(SHARE_MEDIA.WEIXIN)
-                            .withText(getString(R.string.app_name))
-                            .withMedia(UMWeb(videoNegative).apply {
-                                title = getString(R.string.app_name)
-                                description = "为你分享我的魔频"
-                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
-                            })
-                            .share()
-                    }
-                    "朋友圈" -> {
-                        ShareAction(baseContext)
-                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
-                            .withText(getString(R.string.app_name))
-                            .withMedia(UMWeb(videoNegative).apply {
-                                title = getString(R.string.app_name)
-                                description = "为你分享我的魔频"
-                                setThumb(UMImage(baseContext, R.mipmap.icon_logo))
-                            })
-                            .share()
-                    }
-                    "问答" -> {
-                        showGroupDialog("问答内容", "请输入问答内容") { str ->
-                            if (str.isEmpty()) {
-                                toast("请输入问答内容")
-                                return@showGroupDialog
-                            }
-
-                            /* 分享问答 */
-                            OkGo.post<String>(BaseHttp.add_circle_share)
-                                .tag(this@CompareActivity)
-                                .isMultipart(true)
-                                .headers("token", getString("token"))
-                                .params("circleTitle", str)
-                                .params("magicvoideId", videoFirstId)
-                                .execute(object : StringDialogCallback(baseContext) {
-
-                                    override fun onSuccessResponse(
-                                        response: Response<String>,
-                                        msg: String,
-                                        msgCode: String
-                                    ) {
-                                        toast(msg)
-                                    }
-
-                                })
-                        }
-                    }
-                    "点评" -> {
-                        if (isFront && videoPositive.isEmpty()) return@showShareDialog
-                        if (!isFront && videoNegative.isEmpty()) return@showShareDialog
-
-                        startActivity<CompareContactActivity>(
-                            "videoId" to videoFirstId,
-                            "video" to if (isFront) videoPositive else videoNegative,
-                            "videoImg" to if (isFront) videoPositiveImg else videoNegativeImg
-                        )
-                    }
-                }
+            if (mLayoutHeight != height) {
+                mLayoutHeight = height
+                changeLayoutSize()
             }
         }
 
-        nav_collect.onClick {
-            if (videoFirstId.isNotEmpty()) {
-                when (hasCollect) {
-                    "0" -> OkGo.post<String>(BaseHttp.add_collection)
-                        .tag(this@CompareActivity)
-                        .headers("token", getString("token"))
-                        .params("bussId", videoFirstId)
-                        .params("collectionType", "2")
-                        .execute(object : StringDialogCallback(baseContext, false) {
-
-                            override fun onSuccessResponse(
-                                response: Response<String>,
-                                msg: String,
-                                msgCode: String
-                            ) {
-
-                                toast(msg)
-                                hasCollect = "1"
-                                nav_collect.setImageResource(R.mipmap.video_icon26)
-                                EventBus.getDefault().post(RefreshMessageEvent("添加收藏"))
-                            }
-
-                        })
-                    "1" -> OkGo.post<String>(BaseHttp.delete_collection)
-                        .tag(this@CompareActivity)
-                        .headers("token", getString("token"))
-                        .params("bussId", videoFirstId)
-                        .params("collectionType", "2")
-                        .execute(object : StringDialogCallback(baseContext, false) {
-
-                            override fun onSuccessResponse(
-                                response: Response<String>,
-                                msg: String,
-                                msgCode: String
-                            ) {
-
-                                toast(msg)
-                                hasCollect = "0"
-                                nav_collect.setImageResource(R.mipmap.video_icon25)
-                                EventBus.getDefault().post(RefreshMessageEvent("取消收藏"))
-                            }
-
-                        })
+        compare_first.setVideoProgressListener { progress, secProgress, _, duration ->
+            if (compare_second.isPlaying) {
+                val durationSecond = compare_second.duration
+                if (duration >= durationSecond) {
+                    compare_progress.progress = progress
+                    compare_progress.secondaryProgress = secProgress
                 }
+            } else {
+                compare_progress.progress = progress
+                compare_progress.secondaryProgress = secProgress
             }
         }
-    }
 
-    override fun getData() {
-        OkGo.post<String>(BaseHttp.find_magicvoide_deatls)
-            .tag(this@CompareActivity)
-            .headers("token", getString("token"))
-            .params("magicvoideId", videoFirstId)
-            .execute(object : StringDialogCallback(baseContext, false) {
+        compare_first.setOnPlayListener {
+            val durationFirst = compare_first.duration
+            val durationSecond = compare_second.duration
+            if (durationSecond <= durationFirst) {
+                compare_play.setImageResource(if (it) R.mipmap.video_pause else R.mipmap.video_play)
+            }
+        }
 
-                override fun onSuccessResponse(
-                    response: Response<String>,
-                    msg: String,
-                    msgCode: String
-                ) {
-
-                    val obj = JSONObject(response.body())
-                        .optJSONObject("object") ?: JSONObject()
-
-                    hasCollect = obj.optString("collection")
-                    nav_collect.setImageResource(
-                        if (hasCollect == "1") R.mipmap.video_icon26
-                        else R.mipmap.video_icon25
-                    )
+        compare_second.setVideoProgressListener { progress, secProgress, _, duration ->
+            if (compare_first.isPlaying) {
+                val durationFirst = compare_first.duration
+                if (duration > durationFirst) {
+                    compare_progress.progress = progress
+                    compare_progress.secondaryProgress = secProgress
                 }
+            } else {
+                compare_progress.progress = progress
+                compare_progress.secondaryProgress = secProgress
+            }
+        }
 
-            })
+        compare_second.setOnPlayListener {
+            val durationFirst = compare_first.duration
+            val durationSecond = compare_second.duration
+            if (durationFirst <= durationSecond) {
+                compare_play.setImageResource(if (it) R.mipmap.video_pause else R.mipmap.video_play)
+            }
+        }
+
+        compare_progress.onSeekBarChangeListener {
+            onStopTrackingTouch {
+                if (compare_first.isPlaying) compare_first.updataProgress(it!!.progress)
+                if (compare_second.isPlaying) compare_second.updataProgress(it!!.progress)
+            }
+        }
+
+        compare_progress.onTouch { _, _ ->
+            return@onTouch !compare_first.isPlaying && !compare_second.isPlaying
+        }
     }
 
     private fun initVideoFirst(isAdd: Boolean = false) {
-        compare_first.visible()
-        compare_add1.gone()
-        compare_control.visible()
+        compare_top.invisible()
+        compare_progress.progress = 0
+        compare_progress.secondaryProgress = 0
 
         compare_first.apply {
             playTag = "compare"
             playPosition = 1
-            loadCoverImage(
-                if (isFront) {
-                    if (videoPositiveImg.isEmpty()) videoPositive else videoPositiveImg
-                } else {
-                    if (videoNegativeImg.isEmpty()) videoNegative else videoNegativeImg
-                }
-            )
+            loadCoverImage(if (isFront) videoPositiveImg else videoNegativeImg)
             setUp(
                 if (isFront) videoPositive else videoNegative,
                 true,
@@ -282,20 +186,14 @@ class CompareActivity : BaseActivity() {
     }
 
     private fun initVideoSecond(isAdd: Boolean = false) {
-        compare_second.visible()
-        compare_add2.gone()
-        compare_control.visible()
+        compare_bottom.invisible()
+        compare_progress.progress = 0
+        compare_progress.secondaryProgress = 0
 
         compare_second.apply {
             playTag = "compare"
             playPosition = 2
-            loadCoverImage(
-                if (isFront) {
-                    if (videoPositiveImgCompare.isEmpty()) videoPositiveCompare else videoPositiveImgCompare
-                } else {
-                    if (videoNegativeImgCompare.isEmpty()) videoNegativeCompare else videoNegativeImgCompare
-                }
-            )
+            loadCoverImage(if (isFront) videoPositiveImgCompare else videoNegativeImgCompare)
             setUp(
                 if (isFront) videoPositiveCompare else videoNegativeCompare,
                 true,
@@ -316,6 +214,27 @@ class CompareActivity : BaseActivity() {
         }
     }
 
+    private fun getDownloadFile(url: String, event: ((String) -> Unit)) {
+        if (url.isNotEmpty()) {
+            val path = StorageUtils.getIndividualCacheDirectory(baseContext).absolutePath
+            val fileName = url.split("/").last()
+            val filePath = File(path + File.separator + fileName)
+            if (filePath.exists()) event(filePath.absolutePath)
+            else {
+                showLoadingDialog()
+                OkGo.get<File>(url).execute(object : FileCallback(path, fileName) {
+                    private var responeUrl = ""
+                    override fun onSuccess(response: Response<File>) { responeUrl = response.body().absolutePath }
+                    override fun onError(response: Response<File>) { responeUrl = "" }
+                    override fun onFinish() {
+                        cancelLoadingDialog()
+                        event(responeUrl)
+                    }
+                })
+            }
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     override fun doClick(v: View) {
         super.doClick(v)
@@ -326,28 +245,25 @@ class CompareActivity : BaseActivity() {
                         mSpeed = 0.25f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
-                        compare_speed.text = "< 1/4 >"
+                        compare_speed.text = "1/4"
                     }
                     0.25f -> {
                         mSpeed = 0.125f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
-                        compare_speed.text = "< 1/8 >"
+                        compare_speed.text = "1/8"
                     }
                     0.125f -> {
                         mSpeed = 0.5f
                         compare_first.setSpeedPlaying(mSpeed, true)
                         compare_second.setSpeedPlaying(mSpeed, true)
-                        compare_speed.text = "< 1/2 >"
+                        compare_speed.text = "1/2"
                     }
                 }
             }
-            R.id.compare_left -> {
-                isFront = true
-                switchVideoSource()
-            }
-            R.id.compare_right -> {
-                isFront = false
+            R.id.compare_side -> {
+                isFront = !isFront
+                compare_side.text = if (isFront) "正" else "侧"
                 switchVideoSource()
             }
             R.id.compare_select1 -> {
@@ -366,6 +282,41 @@ class CompareActivity : BaseActivity() {
                         "我的魔频" -> toMine("第二对比", videoSecondId)
                         "我的收藏" -> toCollect("第二对比", videoSecondId)
                     }
+                }
+            }
+            R.id.compare_play -> {
+                if (isFront) {
+                    if (videoPositiveLocal.isEmpty()
+                        || videoPositiveCompareLocal.isEmpty()) {
+                        toast("视频未准备好")
+                    }
+                } else {
+                    if (videoNegativeLocal.isEmpty()
+                        || videoNegativeCompareLocal.isEmpty()) {
+                        toast("视频未准备好")
+                    }
+                }
+
+                when {
+                    compare_first.isPlaying && !compare_second.isPlaying -> compare_first.startToClick()
+                    compare_second.isPlaying && !compare_first.isPlaying -> compare_second.startToClick()
+                    else -> {
+                        compare_first.startToClick()
+                        compare_second.startToClick()
+                    }
+                }
+            }
+            R.id.compare_lay -> {
+                if (isSame) {
+                    isSame = !isSame
+                    compare_lay.setImageResource(R.mipmap.icon_video1)
+                    compare_second.setGone(true)
+                    changeLayoutSize()
+                } else {
+                    isSame = !isSame
+                    compare_lay.setImageResource(R.mipmap.icon_video2)
+                    compare_second.setGone(false)
+                    changeLayoutSize()
                 }
             }
         }
@@ -393,6 +344,77 @@ class CompareActivity : BaseActivity() {
         )
     }
 
+    private fun changeLayoutSize() {
+        val orientation = resources.configuration.orientation
+        when (orientation) {
+            1 -> {
+                if (isSame) {
+                    compare_container.setDragEnable(false)
+
+                    compare_first.layoutParams =
+                        FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            mLayoutHeight / 2
+                        )
+                    compare_second.layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        mLayoutHeight / 2,
+                        Gravity.BOTTOM
+                    )
+                } else {
+                    compare_container.addDragChildView(compare_second)
+                    compare_container.setDragEnable(true)
+
+                    compare_first.layoutParams =
+                        FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
+
+                    compare_second.layoutParams =
+                        FrameLayout.LayoutParams(
+                            dp2px(120f),
+                            dp2px(160f),
+                            Gravity.BOTTOM
+                        )
+                }
+            }
+            2 -> {
+                if (isSame) {
+                    compare_container.setDragEnable(false)
+
+                    compare_first.layoutParams =
+                        FrameLayout.LayoutParams(
+                            getScreenWidth() / 2,
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
+                    compare_second.layoutParams =
+                        FrameLayout.LayoutParams(
+                            getScreenWidth() / 2,
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            Gravity.END
+                        )
+                } else {
+                    compare_container.addDragChildView(compare_second)
+                    compare_container.setDragEnable(true)
+
+                    compare_first.layoutParams =
+                        FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
+
+                    compare_second.layoutParams =
+                        FrameLayout.LayoutParams(
+                            dp2px(160f),
+                            dp2px(120f),
+                            Gravity.BOTTOM
+                        )
+                }
+            }
+        }
+    }
+
     @SuppressLint("CheckResult")
     private fun switchVideoSource() {
         MultiVideoManager.onPauseAll()
@@ -410,18 +432,32 @@ class CompareActivity : BaseActivity() {
         if (videoPositive.isNotEmpty()
             && videoNegative.isNotEmpty()
         ) {
-            compare_first.setUp(
-                if (isFront) videoPositive else videoNegative,
-                true,
-                ""
-            )
-            compare_first.loadCoverImage(
-                if (isFront) {
-                    if (videoPositiveImg.isEmpty()) videoPositive else videoPositiveImg
+            compare_first.loadCoverImage(if (isFront) videoPositiveImg else videoNegativeImg)
+            if (isFront) {
+                if (videoPositiveLocal.isEmpty()) {
+                    compare_first.onVideoPause()
+                    getDownloadFile(videoPositive) {
+                        if (it.isNotEmpty()) {
+                            videoPositiveLocal = it
+                            compare_first.setUp(videoPositiveLocal, true, "")
+                        } else toast("视频加载失败")
+                    }
                 } else {
-                    if (videoNegativeImg.isEmpty()) videoNegative else videoNegativeImg
+                    compare_first.setUp(videoPositiveLocal, true, "")
                 }
-            )
+            } else {
+                if (videoNegativeLocal.isEmpty()) {
+                    compare_first.onVideoPause()
+                    getDownloadFile(videoNegative) {
+                        if (it.isNotEmpty()) {
+                            videoNegativeLocal = it
+                            compare_first.setUp(videoNegativeLocal, true, "")
+                        } else toast("视频加载失败")
+                    }
+                } else {
+                    compare_first.setUp(videoNegativeLocal, true, "")
+                }
+            }
         }
     }
 
@@ -429,18 +465,32 @@ class CompareActivity : BaseActivity() {
         if (videoPositiveCompare.isNotEmpty()
             && videoNegativeCompare.isNotEmpty()
         ) {
-            compare_second.setUp(
-                if (isFront) videoPositiveCompare else videoNegativeCompare,
-                true,
-                ""
-            )
-            compare_second.loadCoverImage(
-                if (isFront) {
-                    if (videoPositiveImgCompare.isEmpty()) videoPositiveCompare else videoPositiveImgCompare
+            compare_second.loadCoverImage(if (isFront) videoPositiveImgCompare else videoNegativeImgCompare)
+            if (isFront) {
+                if (videoPositiveCompareLocal.isEmpty()) {
+                    compare_second.onVideoPause()
+                    getDownloadFile(videoPositiveCompare) {
+                        if (it.isNotEmpty()) {
+                            videoPositiveCompareLocal = it
+                            compare_second.setUp(videoPositiveCompareLocal, true, "")
+                        } else toast("视频加载失败")
+                    }
                 } else {
-                    if (videoNegativeImgCompare.isEmpty()) videoNegativeCompare else videoNegativeImgCompare
+                    compare_second.setUp(videoPositiveCompareLocal, true, "")
                 }
-            )
+            } else {
+                if (videoNegativeCompareLocal.isEmpty()) {
+                    compare_second.onVideoPause()
+                    getDownloadFile(videoNegativeCompare) {
+                        if (it.isNotEmpty()) {
+                            videoNegativeCompareLocal = it
+                            compare_second.setUp(videoNegativeCompareLocal, true, "")
+                        } else toast("视频加载失败")
+                    }
+                } else {
+                    compare_second.setUp(videoNegativeCompareLocal, true, "")
+                }
+            }
         }
     }
 
@@ -479,11 +529,26 @@ class CompareActivity : BaseActivity() {
                 videoPositiveImg = event.title
                 videoNegativeImg = event.memo
 
+                videoPositiveLocal = ""
+                videoNegativeLocal = ""
+
                 initVideoFirst(true)
                 if (videoSecondId.isNotEmpty()) {
-                    switchVideoSecond()
-                    compare_first.setLinkedPlayer(compare_second)
-                    compare_second.setLinkedPlayer(compare_first)
+                    initVideoSecond(true)
+                    compare_control.visible()
+                    compare_progress.visible()
+                }
+
+                getDownloadFile(if (isFront) videoPositive else videoNegative) {
+                    if (it.isNotEmpty()) {
+                        if (isFront) {
+                            videoPositiveLocal = it
+                            compare_first.setUp(videoPositiveLocal, true, "")
+                        } else {
+                            videoNegativeLocal = it
+                            compare_first.setUp(videoNegativeLocal, true, "")
+                        }
+                    } else toast("视频加载失败")
                 }
             }
             "第二对比" -> {
@@ -493,11 +558,26 @@ class CompareActivity : BaseActivity() {
                 videoPositiveImgCompare = event.title
                 videoNegativeImgCompare = event.memo
 
+                videoPositiveCompareLocal = ""
+                videoNegativeCompareLocal = ""
+
                 initVideoSecond(true)
                 if (videoFirstId.isNotEmpty()) {
-                    switchVideoFirst()
-                    compare_first.setLinkedPlayer(compare_second)
-                    compare_second.setLinkedPlayer(compare_first)
+                    initVideoFirst(isEditable)
+                    compare_control.visible()
+                    compare_progress.visible()
+                }
+
+                getDownloadFile(if (isFront) videoPositiveCompare else videoNegativeCompare) {
+                    if (it.isNotEmpty()) {
+                        if (isFront) {
+                            videoPositiveCompareLocal = it
+                            compare_second.setUp(videoPositiveCompareLocal, true, "")
+                        } else {
+                            videoNegativeCompareLocal = it
+                            compare_second.setUp(videoNegativeCompareLocal, true, "")
+                        }
+                    } else toast("视频加载失败")
                 }
             }
         }

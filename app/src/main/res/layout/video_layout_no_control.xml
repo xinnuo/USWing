@@ -24,6 +24,14 @@
 
     </RelativeLayout>
 
+    <com.sunfusheng.GlideImageView
+        android:id="@+id/add"
+        android:layout_width="@dimen/dimen_size_40"
+        android:layout_height="@dimen/dimen_size_40"
+        android:layout_gravity="end"
+        android:layout_margin="@dimen/dimen_size_15"
+        android:src="@mipmap/video_icon09" />
+
     <moe.codeest.enviews.ENDownloadView
         android:id="@+id/loading"
         android:layout_width="@dimen/dimen_size_30"
