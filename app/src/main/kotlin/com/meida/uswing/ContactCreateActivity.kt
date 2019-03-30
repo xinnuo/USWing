@@ -39,7 +39,7 @@ class ContactCreateActivity : BaseActivity() {
         )
     }
     private val list = ArrayList<CommonData>()
-    private val listChecked = ArrayList<String>()
+    private val listChecked = ArrayList<CommonData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,8 +90,13 @@ class ContactCreateActivity : BaseActivity() {
                         mAdapter.notifyItemChanged(index)
 
                         val itemUrl = BaseHttp.baseImg + data.user_head
-                        if (listChecked.none { it == itemUrl }) listChecked.add(0, itemUrl)
-                        else listChecked.remove(itemUrl)
+                        if (listChecked.none { it.fuser_id == data.fuser_id }) {
+                            listChecked.add(0, CommonData().apply {
+                                fuser_id = data.fuser_id
+                                user_head = itemUrl
+                            })
+                        }
+                        else listChecked.removeAll { it.fuser_id == data.fuser_id }
                         (create_selected.adapter as SlimAdapter).updateData(listChecked)
                     }
             }
@@ -112,9 +117,9 @@ class ContactCreateActivity : BaseActivity() {
         create_selected.apply {
             layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.HORIZONTAL, false)
             adapter = SlimAdapter.create()
-                .register<String>(R.layout.item_create_list) { data, injector ->
+                .register<CommonData>(R.layout.item_create_list) { data, injector ->
                     injector.with<GlideImageView>(R.id.item_create) {
-                        it.loadRectImage(data)
+                        it.loadRectImage(data.user_head!!)
                     }
                 }
                 .attachTo(this)

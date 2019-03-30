@@ -48,7 +48,7 @@ class InfoActivity : BaseActivity() {
         )
         info_adress.setRightString("${getString("province")} ${getString("city")}")
 
-        info_name.oneClick { startActivity<InfoNameActivity>() }
+        info_name.oneClick { startActivity<InfoNameActivity>("title" to "昵称") }
         info_tel.oneClick { startActivity<InfoPhoneActivity>() }
         info_pwd.oneClick { startActivity<InfoPasswordActivity>() }
         info_gender.oneClick {

@@ -9,26 +9,32 @@ import com.meida.base.BaseActivity
 import com.meida.base.getString
 import com.meida.base.oneClick
 import com.meida.base.putString
+import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.utils.ActivityStack
 import com.meida.utils.NameLengthFilter
 import com.meida.utils.trimString
 import kotlinx.android.synthetic.main.activity_info_name.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.sdk25.listeners.textChangedListener
 import org.jetbrains.anko.toast
 import java.util.regex.Pattern
 
 class InfoNameActivity : BaseActivity() {
 
+    private var mOldName = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_name)
-        init_title("昵称", "保存")
+        init_title(intent.getStringExtra("title"), "保存")
     }
 
     override fun init_title() {
         super.init_title()
-        name_name.setText(getString("nickName"))
+        mOldName = intent.getStringExtra("name") ?: ""
+
+        name_name.setText(if (mOldName.isEmpty()) getString("nickName") else mOldName)
         name_name.setSelection(name_name.text.length)
 
         name_name.filters = arrayOf<InputFilter>(NameLengthFilter(16))
@@ -51,21 +57,56 @@ class InfoNameActivity : BaseActivity() {
                 name_name.text.trimString() == getString("nickName") -> toast("未做任何修改")
                 pageNum < 4 -> toast("昵称长度不少于4个字符（一个汉字两个字符）")
                 else -> {
-                    OkGo.post<String>(BaseHttp.update_userInfo)
-                        .tag(this@InfoNameActivity)
-                        .isMultipart(true)
-                        .headers("token", getString("token"))
-                        .params("nickName", name_name.text.trimString())
-                        .execute(object : StringDialogCallback(baseContext) {
+                    if (mOldName.isEmpty()) {
+                        OkGo.post<String>(BaseHttp.update_userInfo)
+                            .tag(this@InfoNameActivity)
+                            .isMultipart(true)
+                            .headers("token", getString("token"))
+                            .params("nickName", name_name.text.trimString())
+                            .execute(object : StringDialogCallback(baseContext) {
 
-                            override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                                override fun onSuccessResponse(
+                                    response: Response<String>,
+                                    msg: String,
+                                    msgCode: String
+                                ) {
 
-                                toast(msg)
-                                putString("nickName", name_name.text.trimString())
-                                ActivityStack.screenManager.popActivities(this@InfoNameActivity::class.java)
-                            }
+                                    toast(msg)
+                                    putString("nickName", name_name.text.trimString())
+                                    ActivityStack.screenManager.popActivities(this@InfoNameActivity::class.java)
+                                }
 
-                        })
+                            })
+                    } else {
+                        val friendId = intent.getStringExtra("friendId")
+
+                        OkGo.post<String>(BaseHttp.update_friend_nickanme)
+                            .tag(this@InfoNameActivity)
+                            .isMultipart(true)
+                            .headers("token", getString("token"))
+                            .params("friendId", friendId)
+                            .params("nickName", name_name.text.trimString())
+                            .execute(object : StringDialogCallback(baseContext) {
+
+                                override fun onSuccessResponse(
+                                    response: Response<String>,
+                                    msg: String,
+                                    msgCode: String
+                                ) {
+
+                                    toast(msg)
+                                    EventBus.getDefault().post(
+                                        RefreshMessageEvent(
+                                            "修改昵称",
+                                            friendId,
+                                            name_name.text.trimString()
+                                        )
+                                    )
+                                    ActivityStack.screenManager.popActivities(this@InfoNameActivity::class.java)
+                                }
+
+                            })
+                    }
                 }
             }
         }

@@ -10,6 +10,7 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.meida.base.*
 import com.meida.model.CommonData
+import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
 import com.meida.sort.CharacterParser
 import com.meida.sort.NormalDecoration
@@ -24,6 +25,8 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_contact.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import net.idik.lib.slimadapter.SlimAdapter
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
 import java.util.*
 
@@ -48,6 +51,8 @@ class ContactActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact)
         init_title("通讯录")
+
+        EventBus.getDefault().register(this@ContactActivity)
 
         getData()
     }
@@ -81,6 +86,7 @@ class ContactActivity : BaseActivity() {
                 val isLast = index == list.size - 1
 
                 injector.gone(R.id.item_contact_check)
+                    .visible(R.id.item_contact_modify)
                     .text(R.id.item_contact_name, data.nick_name)
 
                     .with<GlideImageView>(R.id.item_contact_img) {
@@ -91,6 +97,13 @@ class ContactActivity : BaseActivity() {
                         R.id.item_contact_divider1,
                         if ((!isLast && data.letter != list[index + 1].letter) || isLast) View.GONE else View.VISIBLE
                     )
+
+                    .clicked(R.id.item_contact_modify) {
+                        startActivity<InfoNameActivity>(
+                            "title" to "修改昵称",
+                            "name" to data.nick_name,
+                            "friendId" to data.friend_id)
+                    }
 
                     .clicked(R.id.item_contact) {
                         //融云刷新用户信息
@@ -168,6 +181,20 @@ class ContactActivity : BaseActivity() {
     override fun finish() {
         super.finish()
         RongIM.getInstance().removeUnReadMessageCountChangedObserver(observer)
+        EventBus.getDefault().unregister(this@ContactActivity)
+    }
+
+    @Subscribe
+    fun onMessageEvent(event: RefreshMessageEvent) {
+        when (event.type) {
+            "修改昵称" -> {
+                val index = list.indexOfFirst { it.friend_id == event.id }
+                list[index].nick_name = event.name
+
+                seperateLists()
+                mAdapter.updateData(list)
+            }
+        }
     }
 
 }
