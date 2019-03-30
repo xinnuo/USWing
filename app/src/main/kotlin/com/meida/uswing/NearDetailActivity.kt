@@ -62,7 +62,7 @@ class NearDetailActivity : BaseActivity() {
                         length == 0.0 -> near_length.text = "0m"
                         length < 1000 -> near_length.text =
                             "${DecimalFormat("0.00").format(length)}m"
-                        else -> near_length.text = "${DecimalFormat("0.00").format(length / 1000)}m"
+                        else -> near_length.text = "${DecimalFormat("0.00").format(length / 1000)}km"
                     }
 
                     Glide.with(baseContext)

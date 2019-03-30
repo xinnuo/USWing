@@ -46,6 +46,7 @@ class VideoDetailActivity : BaseActivity() {
     private var mSpeed = 0.5f
     private var mLayoutHeight = 0
     private var isSame = true
+    private var isRorated = false
     private var hasCollect = ""
 
     private var videoFirstId = ""
@@ -267,6 +268,16 @@ class VideoDetailActivity : BaseActivity() {
                     }
                 }
             }
+        }
+
+        compare_reverse.oneClick {
+            if (videoPositiveLocal.isEmpty()
+                || videoNegativeLocal.isEmpty()) {
+                toast("视频未准备好")
+            }
+
+            isRorated = !isRorated
+            reverseVideo()
         }
     }
 
@@ -499,12 +510,37 @@ class VideoDetailActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("CheckResult")
+    private fun reverseVideo() {
+        compare_first.onVideoPause()
+        compare_second.onVideoPause()
+
+        Completable.timer(300, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                compare_progress.progress = 0
+                compare_progress.secondaryProgress = 0
+
+                if (isRorated) {
+                    compare_first.loadCoverImage(videoNegativeImg)
+                    compare_first.setUp(videoNegativeLocal, true, "")
+                    compare_second.loadCoverImage(videoPositiveImg)
+                    compare_second.setUp(videoPositiveLocal, true, "")
+                } else {
+                    compare_first.loadCoverImage(videoPositiveImg)
+                    compare_first.setUp(videoPositiveLocal, true, "")
+                    compare_second.loadCoverImage(videoNegativeImg)
+                    compare_second.setUp(videoNegativeLocal, true, "")
+                }
+            }
+    }
+
     private fun initVideoFirst() {
         compare_first.apply {
             playTag = "compare"
             playPosition = 1
-            loadCoverImage(if (videoPositiveImg.isEmpty()) videoPositive else videoPositiveImg)
-            // setUp(videoPositive, true, "")
+            loadCoverImage(videoPositiveImg)
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
             setGone(true)
@@ -515,8 +551,7 @@ class VideoDetailActivity : BaseActivity() {
         compare_second.apply {
             playTag = "compare"
             playPosition = 2
-            loadCoverImage(if (videoNegativeImg.isEmpty()) videoNegative else videoNegativeImg)
-            // setUp(videoNegative, true, "")
+            loadCoverImage(videoNegativeImg)
             isReleaseWhenLossAudio = false
             setIsTouchWiget(false)
             setGone(true)

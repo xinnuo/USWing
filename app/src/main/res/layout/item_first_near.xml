@@ -1,85 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_near"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:transitionName="image">
+
+    <com.sunfusheng.GlideImageView
+        android:id="@+id/item_first_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_size_120"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_size_10">
 
-        <com.sunfusheng.GlideImageView
-            android:id="@+id/item_first_img"
+        <TextView
+            android:id="@+id/item_first_name"
+            style="@style/Font15_black"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_size_220"
-            android:scaleType="centerCrop" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_size_60" />
-
-    </LinearLayout>
-
-    <com.loopeer.shadow.ShadowView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="@dimen/dimen_size_15"
-        android:layout_marginEnd="@dimen/dimen_size_15"
-        android:layout_marginBottom="@dimen/dimen_size_10"
-        app:shadowMargin="@dimen/dimen_size_10"
-        app:shadowRadius="@dimen/dimen_size_5">
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="@dimen/dimen_size_5"
+            android:text="场地名称" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/dimen_size_15">
+            android:layout_marginTop="@dimen/dimen_size_10">
 
             <TextView
-                android:id="@+id/item_first_name"
-                style="@style/Font15_black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="@dimen/dimen_size_5"
-                android:text="场地名称" />
-
-            <TextView
-                android:id="@+id/item_first_adress"
+                android:id="@+id/item_first_tel"
                 style="@style/Font13_gray"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_size_10"
-                android:lineSpacingExtra="@dimen/dimen_size_3"
-                android:text="地址：" />
+                android:layout_weight="1"
+                android:text="电话：" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/item_first_length"
+                style="@style/Font13_black"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_size_5">
-
-                <TextView
-                    android:id="@+id/item_first_tel"
-                    style="@style/Font13_gray"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="电话：" />
-
-                <TextView
-                    android:id="@+id/item_first_length"
-                    style="@style/Font13_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0m" />
-
-            </LinearLayout>
+                android:text="0m" />
 
         </LinearLayout>
 
-    </com.loopeer.shadow.ShadowView>
+    </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

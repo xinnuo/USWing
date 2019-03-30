@@ -10,7 +10,7 @@
     app:sLeftTextMarginLeft="@dimen/dimen_size_15"
     app:sLeftTextSize="@dimen/sp_size_18"
     app:sLeftTextString="类型"
-    app:sLineShow="bottom"
+    app:sLineShow="none"
     app:sRightIconMarginRight="@dimen/dimen_size_15"
     app:sRightIconRes="@mipmap/index_icon04"
     app:sRightIconSize="@dimen/dimen_size_12"

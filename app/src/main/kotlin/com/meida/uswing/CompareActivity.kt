@@ -37,6 +37,7 @@ class CompareActivity : BaseActivity() {
     private var isFront = true
     private var isSame = true
     private var isEditable = true
+    private var isRorated = false
 
     private var videoFirstId = ""
     private var videoPositive = ""
@@ -154,17 +155,35 @@ class CompareActivity : BaseActivity() {
         compare_progress.onTouch { _, _ ->
             return@onTouch !compare_first.isPlaying && !compare_second.isPlaying
         }
+
+        compare_reverse.oneClick {
+            if (isFront) {
+                if (videoPositiveLocal.isEmpty()
+                    || videoPositiveCompareLocal.isEmpty()) {
+                    toast("视频未准备好")
+                }
+            } else {
+                if (videoNegativeLocal.isEmpty()
+                    || videoNegativeCompareLocal.isEmpty()) {
+                    toast("视频未准备好")
+                }
+            }
+
+            isRorated = !isRorated
+            reverseVideo()
+        }
     }
 
+    @SuppressLint("CheckResult")
     private fun initVideoFirst(isAdd: Boolean = false) {
         compare_top.invisible()
         compare_progress.progress = 0
         compare_progress.secondaryProgress = 0
 
+        compare_first.onCompletion()
         compare_first.apply {
             playTag = "compare"
             playPosition = 1
-            loadCoverImage(if (isFront) videoPositiveImg else videoNegativeImg)
             setUp(
                 if (isFront) videoPositive else videoNegative,
                 true,
@@ -183,17 +202,25 @@ class CompareActivity : BaseActivity() {
                 }
             }
         }
+
+        Completable.timer(300, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                compare_first.loadCoverImage(if (isFront) videoPositiveImg else videoNegativeImg)
+            }
     }
 
+    @SuppressLint("CheckResult")
     private fun initVideoSecond(isAdd: Boolean = false) {
         compare_bottom.invisible()
         compare_progress.progress = 0
         compare_progress.secondaryProgress = 0
 
+        compare_second.onCompletion()
         compare_second.apply {
             playTag = "compare"
             playPosition = 2
-            loadCoverImage(if (isFront) videoPositiveImgCompare else videoNegativeImgCompare)
             setUp(
                 if (isFront) videoPositiveCompare else videoNegativeCompare,
                 true,
@@ -212,6 +239,13 @@ class CompareActivity : BaseActivity() {
                 }
             }
         }
+
+        Completable.timer(300, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                compare_second.loadCoverImage(if (isFront) videoPositiveImgCompare else videoNegativeImgCompare)
+            }
     }
 
     private fun getDownloadFile(url: String, event: ((String) -> Unit)) {
@@ -416,6 +450,46 @@ class CompareActivity : BaseActivity() {
     }
 
     @SuppressLint("CheckResult")
+    private fun reverseVideo() {
+        compare_first.onVideoPause()
+        compare_second.onVideoPause()
+
+        Completable.timer(300, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                compare_progress.progress = 0
+                compare_progress.secondaryProgress = 0
+
+                if (isRorated) {
+                    if (isFront) {
+                        compare_first.loadCoverImage(videoPositiveImgCompare)
+                        compare_first.setUp(videoPositiveCompareLocal, true, "")
+                        compare_second.loadCoverImage(videoPositiveImg)
+                        compare_second.setUp(videoPositiveLocal, true, "")
+                    } else {
+                        compare_first.loadCoverImage(videoNegativeImgCompare)
+                        compare_first.setUp(videoNegativeCompareLocal, true, "")
+                        compare_second.loadCoverImage(videoNegativeImg)
+                        compare_second.setUp(videoNegativeLocal, true, "")
+                    }
+                } else {
+                    if (isFront) {
+                        compare_first.loadCoverImage(videoPositiveImg)
+                        compare_first.setUp(videoPositiveLocal, true, "")
+                        compare_second.loadCoverImage(videoPositiveImgCompare)
+                        compare_second.setUp(videoPositiveCompareLocal, true, "")
+                    } else {
+                        compare_first.loadCoverImage(videoNegativeImg)
+                        compare_first.setUp(videoNegativeLocal, true, "")
+                        compare_second.loadCoverImage(videoNegativeImgCompare)
+                        compare_second.setUp(videoNegativeCompareLocal, true, "")
+                    }
+                }
+            }
+    }
+
+    @SuppressLint("CheckResult")
     private fun switchVideoSource() {
         MultiVideoManager.onPauseAll()
 
@@ -423,6 +497,7 @@ class CompareActivity : BaseActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
+                isRorated = false
                 switchVideoFirst()
                 switchVideoSecond()
             }
@@ -542,6 +617,7 @@ class CompareActivity : BaseActivity() {
                     initVideoSecond(true)
                     compare_control.visible()
                     compare_progress.visible()
+                    isRorated = false
                 }
 
                 getDownloadFile(if (isFront) videoPositive else videoNegative) {
@@ -576,6 +652,7 @@ class CompareActivity : BaseActivity() {
                     initVideoFirst(isEditable)
                     compare_control.visible()
                     compare_progress.visible()
+                    isRorated = false
                 }
 
                 getDownloadFile(if (isFront) videoPositiveCompare else videoNegativeCompare) {

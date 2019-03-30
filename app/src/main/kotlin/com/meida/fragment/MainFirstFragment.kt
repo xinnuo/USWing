@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -29,6 +30,8 @@ import com.meida.model.*
 import com.meida.share.BaseHttp
 import com.meida.uswing.*
 import com.meida.utils.DialogHelper.showHintDialog
+import com.meida.utils.LandDecoration
+import com.meida.utils.MultiGapDecoration
 import com.meida.utils.toTextDouble
 import com.sunfusheng.GlideImageView
 import io.reactivex.Completable
@@ -93,7 +96,17 @@ class MainFirstFragment : BaseFragment() {
     override fun init_title() {
         super.init_title()
         swipe_refresh.refresh { getLocationData() }
-        recycle_list.load_Linear(activity!!, swipe_refresh)
+        recycle_list.load_Grid(swipe_refresh, null, {
+            layoutManager = GridLayoutManager(activity!!, 2).apply {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int = when {
+                    mAdapterEx.getItem(position) is NearData -> 1
+                    else -> 2
+                }
+            }
+            }
+            addItemDecoration(LandDecoration())
+        })
 
         val view = activity!!.inflate<View>(R.layout.header_first)
         banner = view.findViewById(R.id.first_banner)
@@ -173,8 +186,7 @@ class MainFirstFragment : BaseFragment() {
             }
             .register<NearData>(R.layout.item_first_near) { data, injector ->
                 injector.text(R.id.item_first_name, data.court_name)
-                    .text(R.id.item_first_adress, "地址：${data.court_adress}")
-                    .text(R.id.item_first_tel, "电话：${data.court_tel}")
+                    .text(R.id.item_first_tel, data.court_tel)
 
                     .with<TextView>(R.id.item_first_length) {
                         val length = data.distance.toTextDouble()

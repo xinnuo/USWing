@@ -64,11 +64,7 @@ public class MultiGapDecoration extends RecyclerView.ItemDecoration {
             //视图占满一行，不做偏移处理
             outRect.set(0, 0, 0, 0);
         } else {
-
-            int left = 0, top, right = 0, bottom;
-
-            bottom = gapSize;
-
+            int left = 0, top, right = 0, bottom = gapSize;
             int lastFullSpanCountPos = getLastFullSpanCountPostion(sizeLookup, spanCount, adapterPostion);
 
             //检查是否位于网格中的最后一列

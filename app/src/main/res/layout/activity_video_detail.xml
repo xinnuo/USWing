@@ -80,6 +80,17 @@
                 android:src="@mipmap/icon_video2"
                 tools:ignore="ContentDescription" />
 
+            <ImageView
+                android:id="@+id/compare_reverse"
+                android:layout_width="@dimen/dimen_size_35"
+                android:layout_height="@dimen/dimen_size_35"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/dimen_size_25"
+                android:onClick="doClick"
+                android:padding="@dimen/dimen_size_8"
+                android:src="@mipmap/icon_reverse"
+                tools:ignore="ContentDescription" />
+
         </LinearLayout>
 
     </LinearLayout>

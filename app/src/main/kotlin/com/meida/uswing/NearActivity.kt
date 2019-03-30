@@ -5,6 +5,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -17,6 +18,7 @@ import com.meida.base.*
 import com.meida.model.LocationMessageEvent
 import com.meida.model.NearData
 import com.meida.share.BaseHttp
+import com.meida.utils.MultiGapDecoration
 import com.meida.utils.hideSoftInput
 import com.meida.utils.toTextDouble
 import com.meida.utils.trimString
@@ -59,18 +61,20 @@ class NearActivity : BaseActivity() {
             if (mLat.isEmpty() && mLng.isEmpty()) getLocationData(1)
             else getData(1)
         }
-        recycle_list.load_Linear(baseContext, swipe_refresh) {
+        recycle_list.load_Grid(swipe_refresh, {
             if (!isLoadingMore) {
                 isLoadingMore = true
                 getData(pageNum)
             }
-        }
+        }, {
+            layoutManager = GridLayoutManager(baseContext, 2)
+            addItemDecoration(MultiGapDecoration().apply { isOffsetTopEnabled = true })
+        })
 
         mAdapter = SlimAdapter.create()
             .register<NearData>(R.layout.item_first_near) { data, injector ->
                 injector.text(R.id.item_first_name, data.court_name)
-                    .text(R.id.item_first_adress, "地址：${data.court_adress}")
-                    .text(R.id.item_first_tel, "电话：${data.court_tel}")
+                    .text(R.id.item_first_tel, data.court_tel)
 
                     .with<TextView>(R.id.item_first_length) {
                         val length = data.distance.toTextDouble()
