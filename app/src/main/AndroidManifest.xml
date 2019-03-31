@@ -155,6 +155,9 @@
             android:name=".ContactActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ContactMemberActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".MessageActivity"
             android:screenOrientation="portrait" />
         <activity

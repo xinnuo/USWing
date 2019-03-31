@@ -32,9 +32,11 @@ import io.rong.imlib.typingmessage.TypingStatus
 import io.rong.message.TextMessage
 import io.rong.message.VoiceMessage
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ConversationActivity : BaseActivity() {
 
@@ -42,6 +44,7 @@ class ConversationActivity : BaseActivity() {
     private var mTargetId = ""
     private var mTitle = ""
     private var mIntegral = 0
+    private val listMember = ArrayList<CommonData>()
 
     private val TextTypingTitle = "对方正在输入..."
     private val VoiceTypingTitle = "对方正在讲话..."
@@ -97,6 +100,10 @@ class ConversationActivity : BaseActivity() {
                 tvRight.visible()
                 tvRight.text = "打赏"
             }
+            Conversation.ConversationType.GROUP -> {
+                tvRight.visible()
+                tvRight.text = "查看成员"
+            }
             else -> tvRight.gone()
         }
 
@@ -137,32 +144,44 @@ class ConversationActivity : BaseActivity() {
         }*/
 
         tvRight.oneClick {
-            showRewardDialog(mIntegral) {
-                if (it.isEmpty() || it.toTextInt() <= 0) {
-                    toast("请输入打赏积分数")
-                    return@showRewardDialog
-                }
-
-                if (it.toTextInt() > mIntegral) {
-                    toast("当前积分不足")
-                    return@showRewardDialog
-                }
-
-                /* 打赏用户 */
-                OkGo.post<String>(BaseHttp.add_reward_user)
-                    .tag(this@ConversationActivity)
-                    .headers("token", getString("token"))
-                    .params("rewardSum", it)
-                    .params("rewardUser", mTargetId)
-                    .execute(object : StringDialogCallback(baseContext) {
-
-                        override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
-                            toast(msg)
-                            mIntegral -= it.toTextInt()
-                            hideSoftInput()
+            when (mConversationType) {
+                Conversation.ConversationType.PRIVATE -> {
+                    showRewardDialog(mIntegral) {
+                        if (it.isEmpty() || it.toTextInt() <= 0) {
+                            toast("请输入打赏积分数")
+                            return@showRewardDialog
                         }
 
-                    })
+                        if (it.toTextInt() > mIntegral) {
+                            toast("当前积分不足")
+                            return@showRewardDialog
+                        }
+
+                        /* 打赏用户 */
+                        OkGo.post<String>(BaseHttp.add_reward_user)
+                            .tag(this@ConversationActivity)
+                            .headers("token", getString("token"))
+                            .params("rewardSum", it)
+                            .params("rewardUser", mTargetId)
+                            .execute(object : StringDialogCallback(baseContext) {
+
+                                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                                    toast(msg)
+                                    mIntegral -= it.toTextInt()
+                                    hideSoftInput()
+                                }
+
+                            })
+                    }
+                }
+                Conversation.ConversationType.GROUP -> {
+                    if (listMember.isNotEmpty()) {
+                        startActivity<ContactMemberActivity>(
+                            "list" to listMember
+                        )
+                    }
+                }
+                else -> return@oneClick
             }
         }
     }
@@ -236,7 +255,11 @@ class ConversationActivity : BaseActivity() {
             .headers("token", getString("token"))
             .execute(object : StringDialogCallback(baseContext, false) {
 
-                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                override fun onSuccessResponse(
+                    response: Response<String>,
+                    msg: String,
+                    msgCode: String
+                ) {
 
                     val obj = JSONObject(response.body())
                         .optJSONObject("object") ?: JSONObject()
@@ -253,7 +276,8 @@ class ConversationActivity : BaseActivity() {
             .tag(this@ConversationActivity)
             .headers("token", getString("token"))
             .params("userInfoids", userId)
-            .execute(object : JacksonDialogCallback<BaseResponse<ArrayList<CommonData>>>(baseContext) {
+            .execute(object :
+                JacksonDialogCallback<BaseResponse<ArrayList<CommonData>>>(baseContext) {
 
                 override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
 
@@ -288,14 +312,13 @@ class ConversationActivity : BaseActivity() {
 
                 override fun onSuccess(response: Response<BaseResponse<GroupModel>>) {
 
-                    val items = ArrayList<CommonData>()
                     val imgs = ArrayList<String>()
                     val groupData = response.body().`object`.groupchat ?: CommonData()
                     mTitle = groupData.groupchatName
                     tvTitle.text = mTitle
 
-                    items.addItems(response.body().`object`.ls)
-                    items.mapTo(imgs) { BaseHttp.baseImg + it.user_head }
+                    listMember.addItems(response.body().`object`.ls)
+                    listMember.mapTo(imgs) { BaseHttp.baseImg + it.user_head }
 
                     RongIM.getInstance().refreshGroupInfoCache(
                         Group(
@@ -305,7 +328,7 @@ class ConversationActivity : BaseActivity() {
                         )
                     )
 
-                    items.forEach {
+                    listMember.forEach {
                         RongIM.getInstance().refreshGroupUserInfoCache(
                             GroupUserInfo(
                                 groupId,
