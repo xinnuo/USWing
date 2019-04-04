@@ -31,8 +31,8 @@ ext.versions = [
         jpushCoreVersion: '1.2.7',
 
         /*高德地图*/
-        amapLocationVersion: '4.5.0',
-        amapSearch: '6.5.0.1',
+        amapLocationVersion: '4.5.1',
+        amapSearch: '6.5.0',
         amap3DVersion: '6.7.0',
         amapNavi3DVersion: '6.6.0_3dmap6.7.0',
 
