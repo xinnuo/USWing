@@ -19,7 +19,7 @@ object FileSizeHelper {
      */
     fun getFileOrFilesSize(filePath: String, sizeType: String) = kotlin.run {
         val file = File(filePath)
-        FormetFileSize(if (file.isDirectory) getFileSizes(file) else getFileSize(file), sizeType)
+        formatFileSize(if (file.isDirectory) getFileSizes(file) else getFileSize(file), sizeType)
     }
 
     /**
@@ -29,7 +29,7 @@ object FileSizeHelper {
      */
     fun getAutoFileOrFilesSize(filePath: String) = kotlin.run {
         val file = File(filePath)
-        FormetFileSize(if (file.isDirectory) getFileSizes(file) else getFileSize(file))
+        formatFileSize(if (file.isDirectory) getFileSizes(file) else getFileSize(file))
     }
 
     /**
@@ -56,7 +56,7 @@ object FileSizeHelper {
     /**
      * 转换文件大小
      */
-    fun FormetFileSize(size: Long) = kotlin.run {
+    fun formatFileSize(size: Long) = kotlin.run {
         val format = DecimalFormat("#.00")
         when {
             size == 0L -> "0B"
@@ -70,7 +70,7 @@ object FileSizeHelper {
     /**
      * 转换文件大小,指定转换的类型
      */
-    fun FormetFileSize(size: Long, sizeType: String) = kotlin.run {
+    fun formatFileSize(size: Long, sizeType: String) = kotlin.run {
         val format = DecimalFormat("#.00")
         when (sizeType) {
             "B" -> format.format(size.toDouble()).toDouble()

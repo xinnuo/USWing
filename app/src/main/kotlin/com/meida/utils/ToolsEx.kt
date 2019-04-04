@@ -85,7 +85,7 @@ fun Context.isNetworkConnected() = kotlin.run {
 /**
  * 判断APP是否在前台运行
  */
-fun Context.isRunningForeground(): Boolean = kotlin.run {
+fun Context.isRunningForeground() = kotlin.run {
     val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
     val appProcessInfos = activityManager.runningAppProcesses
     appProcessInfos.any {
@@ -98,7 +98,7 @@ fun Context.isRunningForeground(): Boolean = kotlin.run {
  * 判断某个服务是否正在运行
  */
 @Suppress("DEPRECATION")
-fun Context.isServiceWork(serviceName: String): Boolean = kotlin.run {
+fun Context.isServiceWork(serviceName: String) = kotlin.run {
     val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
     val serviceInfos = activityManager.getRunningServices(40)
     serviceInfos.any { it.service.className == serviceName }
