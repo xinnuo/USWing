@@ -37,6 +37,7 @@ class CollectActivity : BaseActivity() {
     private lateinit var mAdapterCoach: SlimAdapter
     private lateinit var mAdapterNews: SlimAdapter
     private val list = ArrayList<Any>()
+    private val decor by lazy { MultiGapDecoration().apply { isOffsetTopEnabled = true } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,9 +79,8 @@ class CollectActivity : BaseActivity() {
                             }
                         }, {
                             layoutManager = GridLayoutManager(baseContext, 3)
-                            addItemDecoration(MultiGapDecoration().apply {
-                                isOffsetTopEnabled = true
-                            })
+                            removeItemDecoration(decor)
+                            addItemDecoration(decor)
                         })
                     } else {
                         recycle_list.load_Linear(baseContext, swipe_refresh) {
