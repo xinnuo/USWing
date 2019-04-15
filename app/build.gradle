@@ -41,7 +41,7 @@ android {
 
         //高德地图的apikey，融云的pkgname、key，极光推送的pkgname、key、channel，友盟分享QQ的appid
         manifestPlaceholders = [
-                amap_apikey  : "2de5633cf3ebd2fddd17bd122a75ef6b",
+                amap_apikey  : "9067330a5a0c6424fcf0dbe9211a56cc",
                 RONG_PKGNAME : applicationId,
                 RONG_APPKEY  : "0vnjpoad03goz",
                 JPUSH_PKGNAME: applicationId,
