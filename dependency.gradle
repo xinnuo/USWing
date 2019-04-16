@@ -3,19 +3,19 @@ ext.versions = [
         gradlePlugin: '3.3.2',
 
         compileSdkVersion: 28,
-        minSdkVersion: 17,
-        targetSdkVersion: 28,
+        minSdkVersion    : 17,
+        targetSdkVersion : 28,
 
-        supportLibraryVersion: '28.0.0',
+        supportLibraryVersion  : '28.0.0',
         constraintLayoutVersion: '1.1.3',
-        multidexVersion: '1.0.3',
-        glideVersion: '4.8.0',
+        multidexVersion        : '1.0.3',
+        glideVersion           : '4.8.0',
 
         /*AndroidX*/
         XappcompatVersion: '1.1.0-alpha01',
-        XcoreVersion: '1.1.0-alpha03',
-        XmultidexVersion: '2.0.1',
-        XmaterialVersion: '1.0.0',
+        XcoreVersion     : '1.1.0-alpha03',
+        XmultidexVersion : '2.0.1',
+        XmaterialVersion : '1.0.0',
 
         /*Anko*/
         ankoVersion: '0.10.8',
@@ -27,14 +27,14 @@ ext.versions = [
         umengSocialVersion: '6.9.1',
 
         /*极光推送*/
-        jpushSdkVersion: '3.1.8',
+        jpushSdkVersion : '3.1.8',
         jpushCoreVersion: '1.2.7',
 
         /*高德地图*/
         amapLocationVersion: '4.5.1',
-        amapSearch: '6.5.0',
-        amap3DVersion: '6.7.0',
-        amapNavi3DVersion: '6.6.0_3dmap6.7.0',
+        amapSearch         : '6.5.0',
+        amap3DVersion      : '6.7.0',
+        amapNavi3DVersion  : '6.6.0_3dmap6.7.0',
 
         /*ijkplayer*/
         ijkplayerVersion: '0.8.8',
