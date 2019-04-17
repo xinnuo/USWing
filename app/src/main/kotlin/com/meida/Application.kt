@@ -43,6 +43,7 @@ import com.umeng.socialize.Config
 import com.umeng.socialize.PlatformConfig
 import io.rong.common.SystemUtils.getCurrentProcessName
 import io.rong.imkit.RongIM
+import me.jessyan.autosize.AutoSizeConfig
 import okhttp3.OkHttpClient
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.player.PlayerFactory
@@ -61,6 +62,8 @@ class Application : MultiDexApplication() {
         super.onCreate()
 
         initOkGo()
+
+        AutoSizeConfig.getInstance().isCustomFragment = true
 
         VideoType.enableMediaCodec()
         VideoType.enableMediaCodecTexture()

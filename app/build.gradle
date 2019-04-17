@@ -169,6 +169,7 @@ dependencies {
     implementation 'com.sunfusheng:GlideImageView:2.0.0'
     implementation 'com.yanzhenjie:permission:2.0.0-rc12'
     implementation 'com.weigan:loopView:0.1.2'
+    implementation 'me.jessyan:autosize:1.1.2'
     implementation 'net.idik:slimadapter:2.1.2'
     implementation 'org.greenrobot:eventbus:3.1.1'
 }
