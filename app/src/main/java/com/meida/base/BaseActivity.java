@@ -2,7 +2,6 @@ package com.meida.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -26,10 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.meida.uswing.R;
 import com.meida.utils.ActivityStack;
-import com.meida.utils.StatusUtil;
 
 import net.idik.lib.slimadapter.SlimAdapter;
 import net.idik.lib.slimadapter.SlimAdapterEx;
@@ -74,8 +72,7 @@ public class BaseActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base);
 
-        //第二个参数是是否沉浸,第三个参数是状态栏字体是否为黑色
-        StatusUtil.setSystemStatus(this, false, true);
+        transparentStatusBar(true, true);
 
         initToolbar();
         baseContext = this;
@@ -86,18 +83,62 @@ public class BaseActivity extends AppCompatActivity implements
         super.setContentView(layoutId);
     }
 
-    // 沉浸状态栏
-    public void transparentStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+    /**
+     * 设置沉浸状态栏和状态栏字体颜色
+     *
+     * @param isFit      是否沉浸，true不沉浸，false沉浸
+     * @param isDarkFont 状态栏字体是否深色，true深色，false亮色
+     */
+    public void transparentStatusBar(boolean isFit, boolean isDarkFont) {
+        if (isFit) {
+            ImmersionBar.with(this)
+                    .fitsSystemWindows(true)                               //是否沉浸
+                    .statusBarColor(R.color.colorPrimaryDark)              //状态栏颜色
+                    .statusBarDarkFont(isDarkFont, isDarkFont ? 0.2f : 0f) //状态栏字体是否深色
+                    .init();
+        } else {
+            ImmersionBar.with(this)
+                    .fitsSystemWindows(false)                              //是否沉浸
+                    .transparentStatusBar()                                //透明状态栏
+                    .statusBarDarkFont(isDarkFont, isDarkFont ? 0.2f : 0f) //状态栏字体是否深色
+                    .init();
         }
     }
 
-    // 沉浸状态栏，设置Toolbar是否可见
-    public void transparentStatusBar(boolean isToolbarVisible) {
-        transparentStatusBar();
-        setToolbarVisibility(isToolbarVisible);
+    /**
+     * 设置沉浸状态栏，状态栏字体颜色
+     *
+     * @param isDarkFont 状态栏字体是否深色，true深色，false亮色
+     */
+    public void transparentStatusBar(boolean isDarkFont) {
+        transparentStatusBar(false, isDarkFont);
+    }
+
+    /**
+     * 设置沉浸状态栏，状态栏字体为亮色
+     */
+    public void transparentStatusBar() {
+        transparentStatusBar(false);
+    }
+
+    /**
+     * 沉浸状态栏（字体为亮色），设置Toolbar是否可见
+     *
+     * @param isVisible Toolbar是否可见，true可见，false不可见
+     */
+    public void setTransparentAndToobar(boolean isVisible) {
+        setTransparentAndToobar(false, isVisible);
+    }
+
+    /**
+     * 沉浸状态栏，设置状态栏字体颜色和Toolbar是否可见
+     *
+     * @param isDarkFont 状态栏字体是否深色，true深色，false亮色
+     * @param isVisible  Toolbar是否可见，true可见，false不可见
+     */
+    public void setTransparentAndToobar(boolean isDarkFont, boolean isVisible) {
+        transparentStatusBar(isDarkFont);
+        setToolbarVisibility(isVisible);
     }
 
     private void initToolbar() {
@@ -182,14 +223,11 @@ public class BaseActivity extends AppCompatActivity implements
     }
 
     //网络数据请求方法
-    public void getData() {
-    }
+    public void getData() { }
 
-    public void getData(int pindex) {
-    }
+    public void getData(int pindex) { }
 
-    public void getData(int pindex, boolean isLoading) {
-    }
+    public void getData(int pindex, boolean isLoading) { }
 
     //隐藏键盘
     @Override
@@ -234,30 +272,24 @@ public class BaseActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         OkGo.getInstance().cancelTag(this);
-        super.onDestroy();
-    }
+        super.onDestroy(); }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
+    public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
     @Override
-    public void afterTextChanged(Editable s) {
-    }
+    public void afterTextChanged(Editable s) { }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    }
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) { }
 
     @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-    }
+    public void onCheckedChanged(RadioGroup group, int checkedId) { }
 
     @Override
-    public void onClick(View v) {
-    }
+    public void onClick(View v) { }
+
 }

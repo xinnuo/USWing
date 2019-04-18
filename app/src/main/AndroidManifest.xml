@@ -22,7 +22,8 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
         <activity
             android:name=".GuideActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/GuideTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -220,11 +221,11 @@
         <!-- AndroidAutoSize start -->
         <meta-data
             android:name="design_width_in_dp"
-            android:value="360"/>
+            android:value="360" />
 
         <meta-data
             android:name="design_height_in_dp"
-            android:value="640"/>
+            android:value="640" />
         <!-- AndroidAutoSize end -->
 
         <!-- 支付宝 start -->

@@ -23,6 +23,15 @@
         <item name="contentInsetEnd">0dp</item>
     </style>
 
+    <!-- 解决启动时出现白屏问题 -->
+    <style name="GuideTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/guide</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <!-- BottomSheetDialog 透明背景色 -->
     <style name="BottomSheetDialogStyle" parent="Theme.Design.BottomSheetDialog">
         <item name="android:colorBackground">@color/transparent</item>

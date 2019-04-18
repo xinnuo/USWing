@@ -14,8 +14,8 @@ android {
         applicationId "com.meida.uswing"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
-        versionCode 102
-        versionName "1.0.2"
+        versionCode 103
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -158,6 +158,9 @@ dependencies {
     //友盟分享
     implementation 'com.umeng.sdk:share-core:' + versions.umengSocialVersion
     implementation 'com.umeng.sdk:shareboard-widget:' + versions.umengSocialVersion
+
+    //状态栏管理
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta01'
 
     implementation 'com.github.santalu:mask-edittext:1.0.1'
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'

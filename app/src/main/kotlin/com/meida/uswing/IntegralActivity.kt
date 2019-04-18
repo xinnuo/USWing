@@ -12,7 +12,6 @@ import com.meida.base.*
 import com.meida.model.CommonData
 import com.meida.model.RefreshMessageEvent
 import com.meida.share.BaseHttp
-import com.meida.utils.StatusUtil
 import com.meida.utils.TimeHelper
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,7 +25,7 @@ import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONObject
-import java.util.ArrayList
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class IntegralActivity : BaseActivity() {
@@ -37,8 +36,7 @@ class IntegralActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_integral)
-        StatusUtil.setSystemStatus(this, false, false)
-        transparentStatusBar(false)
+        setTransparentAndToobar(false)
         init_title()
 
         EventBus.getDefault().register(this@IntegralActivity)

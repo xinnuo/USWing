@@ -46,7 +46,7 @@ class GuideActivity : AppCompatActivity() {
 
         frameLayout {
             ivImg = imageView {
-                backgroundResource = R.drawable.guide
+                imageResource = R.drawable.guide
                 scaleType = ImageView.ScaleType.FIT_XY
             }.lparams(width = matchParent, height = matchParent)
         }

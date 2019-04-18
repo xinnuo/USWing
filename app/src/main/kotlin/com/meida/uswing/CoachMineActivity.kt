@@ -24,7 +24,7 @@ class CoachMineActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coach_mine)
-        transparentStatusBar(false)
+        setTransparentAndToobar(false)
         init_title()
 
         EventBus.getDefault().register(this@CoachMineActivity)

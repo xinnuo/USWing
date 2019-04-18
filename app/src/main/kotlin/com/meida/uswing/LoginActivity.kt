@@ -22,7 +22,7 @@ class LoginActivity : BaseActivity(), OnFragmentListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        transparentStatusBar(false)
+        setTransparentAndToobar(true, false)
         init_title()
     }
 
