@@ -94,7 +94,6 @@
                 style="@style/Font15_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+5"
                 android:textColor="@color/colorControlNormal" />
 
             <TextView
@@ -102,7 +101,6 @@
                 style="@style/Font13_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="02/14"
                 android:textColor="@color/colorControlNormal" />
 
         </LinearLayout>
@@ -124,7 +122,6 @@
                 style="@style/Font15_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+5"
                 android:textColor="@color/colorControlNormal" />
 
             <TextView
@@ -132,7 +129,6 @@
                 style="@style/Font13_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="02/14"
                 android:textColor="@color/colorControlNormal" />
 
         </LinearLayout>
@@ -154,7 +150,6 @@
                 style="@style/Font15_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+5"
                 android:textColor="@color/colorControlNormal" />
 
             <TextView
@@ -162,7 +157,6 @@
                 style="@style/Font13_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="02/14"
                 android:textColor="@color/colorControlNormal" />
 
         </LinearLayout>
@@ -184,7 +178,6 @@
                 style="@style/Font15_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+5"
                 android:textColor="@color/colorControlNormal" />
 
             <TextView
@@ -192,7 +185,6 @@
                 style="@style/Font13_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="02/14"
                 android:textColor="@color/colorControlNormal" />
 
         </LinearLayout>
@@ -214,7 +206,6 @@
                 style="@style/Font15_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+5"
                 android:textColor="@color/colorControlNormal" />
 
             <TextView
@@ -222,7 +213,6 @@
                 style="@style/Font13_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="02/14"
                 android:textColor="@color/colorControlNormal" />
 
         </LinearLayout>
@@ -244,7 +234,6 @@
                 style="@style/Font15_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+5"
                 android:textColor="@color/colorControlNormal" />
 
             <TextView
@@ -252,7 +241,6 @@
                 style="@style/Font13_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="02/14"
                 android:textColor="@color/colorControlNormal" />
 
         </LinearLayout>
@@ -274,7 +262,6 @@
                 style="@style/Font15_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+5"
                 android:textColor="@color/colorControlNormal" />
 
             <TextView
@@ -282,7 +269,6 @@
                 style="@style/Font13_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="02/14"
                 android:textColor="@color/colorControlNormal" />
 
         </LinearLayout>

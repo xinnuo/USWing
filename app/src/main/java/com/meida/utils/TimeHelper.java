@@ -632,18 +632,23 @@ public class TimeHelper {
 
     /**
      * 返回当天和本周星期一相差的天数
+     * 日：1，一：0，二：-1，三：-2，四：-3，五：-4，六：-5
      */
     private int getMondayPlus() {
         Calendar cd = Calendar.getInstance();
-        // 获得今天是一周的第几天，星期日是第一天，星期二是第二天......
+        // 获得今天是一周的第几天，星期日是第一天，星期一是第二天......
         // 因为按中国礼拜一作为第一天所以这里减1
         int dayOfWeek = cd.get(Calendar.DAY_OF_WEEK) - 1;
         return dayOfWeek == 1 ? 0 : 1 - dayOfWeek;
     }
 
+    /**
+     * 获得当天是本周的第几天
+     * 0：日，1：一，2：二，3：三，4：四，5：五，6：六
+     */
     public int getDayOfWeek() {
         Calendar cd = Calendar.getInstance();
-        // 获得今天是一周的第几天，星期日是第一天，星期二是第二天......
+        // 获得今天是一周的第几天，星期日是第一天，星期一是第二天......
         // 因为按中国礼拜一作为第一天所以这里减1
         return cd.get(Calendar.DAY_OF_WEEK) - 1;
     }
@@ -721,7 +726,7 @@ public class TimeHelper {
     }
 
     /**
-     * 返回本周日的日期
+     * 返回本周日的日期（中国日历）
      */
     public String getSundayOFWeek() {
         int mondayPlus = this.getMondayPlus();
@@ -805,7 +810,7 @@ public class TimeHelper {
     }
 
     /**
-     * 返回几周前（后）星期日的日期
+     * 返回几周前（后）星期日的日期（中国日历）
      */
     public String getAnyWeekSunday(int weeks) {
         int mondayPlus = this.getMondayPlus();
@@ -817,7 +822,7 @@ public class TimeHelper {
     }
 
     /**
-     * 返回几周前（后）星期几的日期（0一~6日）
+     * 返回几周前（后）星期几的日期（0一~6日）（中国日历）
      */
     public String getAnyWeekDay(int weeks, int day) {
         int mondayPlus = this.getMondayPlus();

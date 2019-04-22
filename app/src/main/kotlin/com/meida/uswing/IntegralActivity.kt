@@ -179,40 +179,52 @@ class IntegralActivity : BaseActivity() {
                     val items = ArrayList<String>()
                     val itemMonth = ArrayList<String>()
                     val nowDate = timer.stringDateShort
+                    val nowDay = timer.dayOfWeek
 
-                    items.add(timer.stringToString("yyyy年MM月dd日", timer.mondayOFWeek))
-                    items.add(timer.stringToString("yyyy年MM月dd日", timer.tuesdayOFWeek))
-                    items.add(timer.stringToString("yyyy年MM月dd日", timer.wednesdayOFWeek))
-                    items.add(timer.stringToString("yyyy年MM月dd日", timer.thursdayOFWeek))
-                    items.add(timer.stringToString("yyyy年MM月dd日", timer.fridayOFWeek))
-                    items.add(timer.stringToString("yyyy年MM月dd日", timer.saturdayOFWeek))
-                    items.add(timer.stringToString("yyyy年MM月dd日", timer.sundayOFWeek))
+                    items.add(
+                        timer.stringToString(
+                            "yyyy年MM月dd日",
+                            timer.getAnyWeekDay(if (nowDay == 0) -1 else 0, 0)
+                        )
+                    )
+                    items.add(
+                        timer.stringToString(
+                            "yyyy年MM月dd日",
+                            timer.getAnyWeekDay(if (nowDay == 0) -1 else 0, 1)
+                        )
+                    )
+                    items.add(
+                        timer.stringToString(
+                            "yyyy年MM月dd日",
+                            timer.getAnyWeekDay(if (nowDay == 0) -1 else 0, 2)
+                        )
+                    )
+                    items.add(
+                        timer.stringToString(
+                            "yyyy年MM月dd日",
+                            timer.getAnyWeekDay(if (nowDay == 0) -1 else 0, 3)
+                        )
+                    )
+                    items.add(
+                        timer.stringToString(
+                            "yyyy年MM月dd日",
+                            timer.getAnyWeekDay(if (nowDay == 0) -1 else 0, 4)
+                        )
+                    )
+                    items.add(
+                        timer.stringToString(
+                            "yyyy年MM月dd日",
+                            timer.getAnyWeekDay(if (nowDay == 0) -1 else 0, 5)
+                        )
+                    )
+                    items.add(
+                        timer.stringToString(
+                            "yyyy年MM月dd日",
+                            timer.getAnyWeekDay(if (nowDay == 0) -1 else 0, 6)
+                        )
+                    )
 
-                    itemMonth.add(timer.stringToString("yyyy年MM月dd日", "MM/dd", timer.mondayOFWeek))
-                    itemMonth.add(timer.stringToString("yyyy年MM月dd日", "MM/dd", timer.tuesdayOFWeek))
-                    itemMonth.add(
-                        timer.stringToString(
-                            "yyyy年MM月dd日",
-                            "MM/dd",
-                            timer.wednesdayOFWeek
-                        )
-                    )
-                    itemMonth.add(
-                        timer.stringToString(
-                            "yyyy年MM月dd日",
-                            "MM/dd",
-                            timer.thursdayOFWeek
-                        )
-                    )
-                    itemMonth.add(timer.stringToString("yyyy年MM月dd日", "MM/dd", timer.fridayOFWeek))
-                    itemMonth.add(
-                        timer.stringToString(
-                            "yyyy年MM月dd日",
-                            "MM/dd",
-                            timer.saturdayOFWeek
-                        )
-                    )
-                    itemMonth.add(timer.stringToString("yyyy年MM月dd日", "MM/dd", timer.sundayOFWeek))
+                    items.mapTo(itemMonth) { timer.stringToString("yyyy-MM-dd", "MM/dd", it) }
 
                     items.forEachWithIndex { index, str ->
                         var signSum = "0"
