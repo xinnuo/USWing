@@ -50,8 +50,8 @@ class _UMAuthListener : UMAuthListener {
     /**
      * @desc 授权成功的回调
      * @param platform 平台名称
-     * @param action 行为序号，开发者用不上
-     * @param data 用户资料返回
+     * @param action   行为序号，开发者用不上
+     * @param data     用户资料返回
      */
     override fun onComplete(platform: SHARE_MEDIA, action: Int, data: MutableMap<String, String>) {
         _onComplete?.invoke(platform, action, data)
@@ -66,7 +66,7 @@ class _UMAuthListener : UMAuthListener {
     /**
      * @desc 授权取消的回调
      * @param platform 平台名称
-     * @param action 行为序号，开发者用不上
+     * @param action   行为序号，开发者用不上
      */
     override fun onCancel(platform: SHARE_MEDIA, action: Int) {
         _onCancel?.invoke(platform, action)
@@ -80,9 +80,9 @@ class _UMAuthListener : UMAuthListener {
 
     /**
      * @desc 授权失败的回调
-     * @param platform 平台名称
-     * @param action 行为序号，开发者用不上
-     * @param t 错误原因
+     * @param platform  平台名称
+     * @param action    行为序号，开发者用不上
+     * @param throwable 错误原因
      */
     override fun onError(platform: SHARE_MEDIA, action: Int, throwable: Throwable) {
         _onError?.invoke(platform, action, throwable)
