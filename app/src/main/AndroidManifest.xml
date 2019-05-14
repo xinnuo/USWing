@@ -23,7 +23,6 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
         <activity
             android:name=".GuideActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/GuideTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
