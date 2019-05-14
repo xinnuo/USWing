@@ -68,13 +68,16 @@ public class JsonConvert<T> implements Converter<T> {
         JsonReader jsonReader = new JsonReader(body.charStream());
 
         if (rawType == String.class) {
+            //noinspection unchecked
             return (T) body.string();
         } else if (rawType == JSONObject.class) {
+            //noinspection unchecked
             return (T) new JSONObject(body.string());
         } else if (rawType == JSONArray.class) {
+            //noinspection unchecked
             return (T) new JSONArray(body.string());
         } else {
-            T t = new Gson().fromJson(jsonReader, rawType);
+            T t = Convert.fromJson(jsonReader, rawType);
             response.close();
             return t;
         }
@@ -87,7 +90,7 @@ public class JsonConvert<T> implements Converter<T> {
         JsonReader jsonReader = new JsonReader(body.charStream());
 
         // 泛型格式如下： new JsonCallback<任意JavaBean>(this)
-        T t = new Gson().fromJson(jsonReader, type);
+        T t = Convert.fromJson(jsonReader, type);
         response.close();
         return t;
     }
@@ -98,8 +101,8 @@ public class JsonConvert<T> implements Converter<T> {
         if (body == null) return null;
         JsonReader jsonReader = new JsonReader(body.charStream());
 
-        Type rawType = type.getRawType();                     // 泛型的实际类型
-        Type typeArgument = type.getActualTypeArguments()[0]; // 泛型的参数
+        Type rawType = type.getRawType();                     //泛型的实际类型
+        Type typeArgument = type.getActualTypeArguments()[0]; //泛型的参数
         if (rawType != BaseResponse.class) {
             // 泛型格式如下： new JsonCallback<外层BaseBean<内层JavaBean>>(this)
             T t = new Gson().fromJson(jsonReader, type);
@@ -110,6 +113,7 @@ public class JsonConvert<T> implements Converter<T> {
                 // 泛型格式如下： new JsonCallback<LzyResponse<Void>>(this)
                 SimpleBaseResponse simpleResponse = new Gson().fromJson(jsonReader, SimpleBaseResponse.class);
                 response.close();
+                //noinspection unchecked
                 return (T) simpleResponse.toBaseResponse();
             } else {
                 // 泛型格式如下： new JsonCallback<BaseResponse<内层JavaBean>>(this)
@@ -119,6 +123,7 @@ public class JsonConvert<T> implements Converter<T> {
                 //这里的100是以下意思
                 //一般来说服务器会和客户端约定一个数表示成功，其余的表示失败，这里根据实际情况修改
                 if (code == 100) {
+                    //noinspection unchecked
                     return (T) baseResponse;
                 } else if (code == 104) {
                     throw new IllegalStateException("用户授权信息无效");
