@@ -18,7 +18,6 @@ import android.view.View;
 import com.meida.model.RefreshMessageEvent;
 import com.meida.share.BaseHttp;
 import com.meida.uswing.ConversationVideoActivity;
-import com.meida.uswing.ConversationWebActivity;
 import com.meida.uswing.LoginActivity;
 import com.meida.uswing.R;
 import com.meida.utils.PreferencesUtils;
