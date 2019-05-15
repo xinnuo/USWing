@@ -27,6 +27,8 @@
  */
 package com.meida.utils
 
+import android.app.ActivityManager
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -34,10 +36,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Environment
+import android.support.annotation.DrawableRes
+import android.support.annotation.RawRes
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import android.widget.ImageView
-import android.app.ActivityManager
 import java.util.*
 
 /**
@@ -49,7 +52,7 @@ fun hasSdcard() = Environment.getExternalStorageState() == Environment.MEDIA_MOU
  * 以数据流的方式将Resources下的图片显示，防止内存溢出
  */
 @Suppress("DEPRECATION")
-fun Context.getImgFromSD(iv: ImageView, resID: Int) = kotlin.run {
+fun Context.getImgFromSD(iv: ImageView, @RawRes resID: Int) = kotlin.run {
     iv.background = BitmapDrawable(
         resources,
         BitmapFactory.decodeStream(
@@ -62,6 +65,15 @@ fun Context.getImgFromSD(iv: ImageView, resID: Int) = kotlin.run {
             })
     )
 }
+
+/**
+ * 获取资源图片下的Uri路径
+ */
+fun Context.getResourcesUri(@DrawableRes resID: Int) =
+    ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+            resources.getResourcePackageName(resID) + "/" +
+            resources.getResourceTypeName(resID) + "/" +
+            resources.getResourceEntryName(resID)
 
 /**
  * 获取当前进程名
