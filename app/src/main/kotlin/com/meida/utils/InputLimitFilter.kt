@@ -5,7 +5,7 @@ import android.text.Spanned
 import java.util.regex.Pattern
 
 /**
- * 限制中文、英文、数字包括下划线
+ * 限制只输入中文、英文、数字包括下划线
  */
 class InputLimitFilter : InputFilter {
 
@@ -21,7 +21,7 @@ class InputLimitFilter : InputFilter {
         dend: Int
     ): CharSequence {
         val matcher = Pattern.compile(regEx).matcher(source)
-        return if (matcher.find()) "" else source
+        return if (matcher.find()) source else ""
     }
 
 }
