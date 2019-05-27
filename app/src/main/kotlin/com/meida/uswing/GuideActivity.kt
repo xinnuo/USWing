@@ -78,8 +78,13 @@ class GuideActivity : AppCompatActivity() {
     private fun getData() {
         OkGo.post<String>(BaseHttp.find_startimg)
             .tag(this@GuideActivity)
+            .cacheKey(BaseHttp.find_startimg)
             .execute(object : StringDialogCallback(this, false) {
-                override fun onSuccessResponse(response: Response<String>, msg: String, msgCode: String) {
+                override fun onSuccessResponse(
+                    response: Response<String>,
+                    msg: String,
+                    msgCode: String
+                ) {
                     val url = JSONObject(response.body()).optString("object")
                     ivImg.setImageURL(BaseHttp.baseImg + url, R.drawable.guide)
                 }
