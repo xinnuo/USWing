@@ -255,8 +255,8 @@ class CoachDetailActivity : BaseActivity() {
 
                 override fun onSuccess(response: Response<BaseResponse<CommonData>>) {
 
-                    if (response.body().`object` != null) {
-                        val data = response.body().`object`
+                    if (response.body().data != null) {
+                        val data = response.body().data
 
                         hasCollect = data.collection
                         hasFollow = data.follows
@@ -319,8 +319,8 @@ class CoachDetailActivity : BaseActivity() {
                             clear()
                             pageNum = pindex
                         }
-                        addItems(response.body().`object`)
-                        if (count(response.body().`object`) > 0) pageNum++
+                        addItems(response.body().data)
+                        if (count(response.body().data) > 0) pageNum++
                     }
 
                     mAdapterEx.updateData(list)

@@ -152,7 +152,7 @@ class ContactActivity : BaseActivity() {
 
                     list.apply {
                         clear()
-                        addItems(response.body().`object`)
+                        addItems(response.body().data)
                     }
 
                     seperateLists()

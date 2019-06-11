@@ -73,7 +73,7 @@ class VideoEditAddActivity : BaseActivity() {
 
                 override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
 
-                    list.addItems(response.body().`object`)
+                    list.addItems(response.body().data)
 
                     val ids = intent.getStringExtra("ids")
                     if (ids.isNotEmpty()) {

@@ -31,7 +31,6 @@ import com.meida.share.BaseHttp
 import com.meida.uswing.*
 import com.meida.utils.DialogHelper.showHintDialog
 import com.meida.utils.LandDecoration
-import com.meida.utils.MultiGapDecoration
 import com.meida.utils.toTextDouble
 import com.sunfusheng.GlideImageView
 import io.reactivex.Completable
@@ -365,7 +364,7 @@ class MainFirstFragment : BaseFragment() {
 
                 override fun onSuccess(response: Response<BaseResponse<CommonModel>>) {
 
-                    val data = response.body().`object`
+                    val data = response.body().data
 
                     list.clear()
                     listCoach.clear()
@@ -429,7 +428,7 @@ class MainFirstFragment : BaseFragment() {
 
                     listNews.apply {
                         clear()
-                        addItems(response.body().`object`)
+                        addItems(response.body().data)
                     }
 
                     list.removeAll { it is NewsData }

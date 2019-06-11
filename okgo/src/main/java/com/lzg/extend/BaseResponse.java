@@ -15,25 +15,26 @@
  */
 package com.lzg.extend;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class BaseResponse<T> implements Serializable {
 
     private static final long serialVersionUID = 5213230387175987834L;
 
+    @SerializedName(value = "code", alternate = {"msgcode", "msgCode"})
     public int code;
-    public String info;
-    public int msgcode;
+    @SerializedName(value = "msg", alternate = {"info"})
     public String msg;
-    public T object;
+    @SerializedName(value = "data", alternate = {"object"})
+    public T data;
 
     @Override
     public String toString() {
         return "BaseResponse{\n"
                 + "\tcode=" + code + "\n"
-                + "\tinfo='" + info + "\'\n"
-                + "\tmsgcode='" + msgcode + "\'\n"
                 + "\tmsg='" + msg + "\'\n"
-                + "\tobject=" + object + "\n" + '}';
+                + "\tdata=" + data + "\n" + '}';
     }
 }

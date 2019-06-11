@@ -72,8 +72,8 @@ class CoachMineActivity : BaseActivity() {
 
                 override fun onSuccess(response: Response<BaseResponse<CommonData>>) {
 
-                    if (response.body().`object` != null) {
-                        val data = response.body().`object`
+                    if (response.body().data != null) {
+                        val data = response.body().data
 
                         mInfo = data.introduction
                         listHonor.addItems(data.honors)

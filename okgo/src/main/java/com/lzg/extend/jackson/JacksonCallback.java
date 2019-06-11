@@ -82,7 +82,7 @@ public abstract class JacksonCallback<T> extends AbsCallback<T> {
 
                             BaseResponse baseResponse = new BaseResponse();
                             JSONArray jsonArray = new JSONObject(json).optJSONArray("object");
-                            baseResponse.object = JsonUtil.toList(jsonArray == null ? "[]" : jsonArray.toString(), clazzArgument);
+                            baseResponse.data = JsonUtil.toList(jsonArray == null ? "[]" : jsonArray.toString(), clazzArgument);
 
                             response.close();
                             return (T) baseResponse;
@@ -97,7 +97,7 @@ public abstract class JacksonCallback<T> extends AbsCallback<T> {
 
                         BaseResponse baseResponse = new BaseResponse();
                         JSONObject jsonObject = new JSONObject(json).optJSONObject("object");
-                        baseResponse.object = JsonUtil.jsonToBean(jsonObject == null ? "{}" : jsonObject.toString(), clazzArgument);
+                        baseResponse.data = JsonUtil.jsonToBean(jsonObject == null ? "{}" : jsonObject.toString(), clazzArgument);
 
                         response.close();
                         return (T) baseResponse;

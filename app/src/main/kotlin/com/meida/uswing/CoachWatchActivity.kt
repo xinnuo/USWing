@@ -77,8 +77,8 @@ class CoachWatchActivity : BaseActivity() {
                             clear()
                             pageNum = pindex
                         }
-                        addItems(response.body().`object`)
-                        if (count(response.body().`object`) > 0) pageNum++
+                        addItems(response.body().data)
+                        if (count(response.body().data) > 0) pageNum++
                     }
 
                     mAdapter.updateData(list)

@@ -163,7 +163,7 @@ class MainActivity : BaseActivity() {
                 override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
 
                     val items = ArrayList<CommonData>()
-                    items.addItems(response.body().`object`)
+                    items.addItems(response.body().data)
 
                     items.forEach {
                         if (groupId.isEmpty()) {
@@ -202,9 +202,9 @@ class MainActivity : BaseActivity() {
 
                     val items = ArrayList<CommonData>()
                     val imgs = ArrayList<String>()
-                    val groupData = response.body().`object`.groupchat ?: CommonData()
+                    val groupData = response.body().data.groupchat ?: CommonData()
 
-                    items.addItems(response.body().`object`.ls)
+                    items.addItems(response.body().data.ls)
 
                     items.mapTo(imgs) { BaseHttp.baseImg + it.user_head }
                     RongIM.getInstance().refreshGroupInfoCache(

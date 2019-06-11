@@ -15,22 +15,22 @@
  */
 package com.lzg.extend;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class SimpleBaseResponse implements Serializable {
 
     private static final long serialVersionUID = -1477609349345966116L;
 
+    @SerializedName(value = "code", alternate = {"msgcode", "msgCode"})
     public int code;
-    public String info;
-    public int msgcode;
+    @SerializedName(value = "msg", alternate = {"info"})
     public String msg;
 
     public BaseResponse toBaseResponse() {
         BaseResponse lzyResponse = new BaseResponse();
         lzyResponse.code = code;
-        lzyResponse.info = info;
-        lzyResponse.msgcode = msgcode;
         lzyResponse.msg = msg;
         return lzyResponse;
     }

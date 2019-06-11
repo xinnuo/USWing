@@ -152,7 +152,7 @@ class ContactGroupActivity : BaseActivity() {
                 override fun onSuccess(response: Response<BaseResponse<GroupModel>>) {
 
                     val items = ArrayList<CommonData>()
-                    items.addItems(response.body().`object`.ls)
+                    items.addItems(response.body().data.ls)
 
                     val imgs = ArrayList<String>()
                     items.mapTo(imgs) { BaseHttp.baseImg + it.user_head }
@@ -191,7 +191,7 @@ class ContactGroupActivity : BaseActivity() {
 
                     list.apply {
                         clear()
-                        addItems(response.body().`object`)
+                        addItems(response.body().data)
                     }
 
                     seperateLists()

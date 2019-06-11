@@ -75,7 +75,7 @@ class NearCityActivity : BaseActivity(), OnFragmentCityListener {
                 override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
                     listProvince.apply {
                         clear()
-                        addItems(response.body().`object`)
+                        addItems(response.body().data)
                     }
 
                     if (listProvince.isNotEmpty()) {
@@ -106,7 +106,7 @@ class NearCityActivity : BaseActivity(), OnFragmentCityListener {
                 override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
                     listCity.apply {
                         clear()
-                        addItems(response.body().`object`)
+                        addItems(response.body().data)
                     }
 
                     if (listCity.isNotEmpty()) {

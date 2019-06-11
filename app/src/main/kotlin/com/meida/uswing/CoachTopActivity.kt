@@ -140,7 +140,7 @@ class CoachTopActivity : BaseActivity() {
 
                     list.apply {
                         clear()
-                        addItems(response.body().`object`)
+                        addItems(response.body().data)
                     }
 
                     (top_list1.adapter as SlimAdapter).updateData(list)
@@ -165,7 +165,7 @@ class CoachTopActivity : BaseActivity() {
 
                     listTop.apply {
                         clear()
-                        addItems(response.body().`object`)
+                        addItems(response.body().data)
                     }
 
                     (top_list2.adapter as SlimAdapter).updateData(listTop)

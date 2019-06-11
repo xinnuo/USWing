@@ -133,7 +133,7 @@ class ReportActivity : BaseActivity() {
 
                     list.apply {
                         clear()
-                        addItems(response.body().`object`)
+                        addItems(response.body().data)
                     }
 
                     mAdapter.updateData(list)

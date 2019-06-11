@@ -560,7 +560,7 @@ class StateDetailActivity : BaseActivity() {
                 @SuppressLint("SetTextI18n")
                 override fun onSuccess(response: Response<BaseResponse<CommonData>>) {
 
-                    mData = response.body().`object`
+                    mData = response.body().data
 
                     if (mData != null) {
                         val data = mData!!

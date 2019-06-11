@@ -164,14 +164,14 @@ class MessageActivity : BaseActivity() {
                 override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
 
                     val items = ArrayList<CommonData>()
-                    items.addItems(response.body().`object`)
+                    items.addItems(response.body().data)
 
                     list.apply {
                         if (pindex == 1) {
                             clear()
                             pageNum = pindex
                         }
-                        if (count(response.body().`object`) > 0) pageNum++
+                        if (count(response.body().data) > 0) pageNum++
                     }
 
                     items.forEach {

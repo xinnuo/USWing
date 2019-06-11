@@ -282,7 +282,7 @@ class ConversationActivity : BaseActivity() {
                 override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
 
                     val items = ArrayList<CommonData>()
-                    items.addItems(response.body().`object`)
+                    items.addItems(response.body().data)
 
                     if (items.isNotEmpty()) {
                         mTitle = items[0].nick_name
@@ -313,11 +313,11 @@ class ConversationActivity : BaseActivity() {
                 override fun onSuccess(response: Response<BaseResponse<GroupModel>>) {
 
                     val imgs = ArrayList<String>()
-                    val groupData = response.body().`object`.groupchat ?: CommonData()
+                    val groupData = response.body().data.groupchat ?: CommonData()
                     mTitle = groupData.groupchatName
                     tvTitle.text = mTitle
 
-                    listMember.addItems(response.body().`object`.ls)
+                    listMember.addItems(response.body().data.ls)
                     listMember.mapTo(imgs) { BaseHttp.baseImg + it.user_head }
 
                     RongIM.getInstance().refreshGroupInfoCache(

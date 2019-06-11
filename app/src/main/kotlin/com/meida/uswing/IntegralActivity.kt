@@ -173,7 +173,7 @@ class IntegralActivity : BaseActivity() {
                 override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
 
                     val listSigned = ArrayList<CommonData>()
-                    listSigned.addItems(response.body().`object`)
+                    listSigned.addItems(response.body().data)
 
                     val timer = TimeHelper.getInstance()
                     val items = ArrayList<String>()
@@ -313,8 +313,8 @@ class IntegralActivity : BaseActivity() {
                             clear()
                             pageNum = pindex
                         }
-                        addItems(response.body().`object`)
-                        if (count(response.body().`object`) > 0) pageNum++
+                        addItems(response.body().data)
+                        if (count(response.body().data) > 0) pageNum++
                     }
 
                     mAdapter.updateData(list)
