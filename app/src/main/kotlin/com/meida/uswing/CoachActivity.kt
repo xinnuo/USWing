@@ -35,12 +35,12 @@ class CoachActivity : BaseActivity() {
     private val list = ArrayList<Any>()
     private val items by lazy {
         listOf(
-            CommonData("教龄由高到底"),
-            CommonData("年龄由高到底"),
-            CommonData("男"),
-            CommonData("女"),
-            CommonData("木杆"),
-            CommonData("铁杆")
+                CommonData("教龄由高到底"),
+                CommonData("年龄由高到底"),
+                CommonData("男"),
+                CommonData("女"),
+                CommonData("木杆"),
+                CommonData("铁杆")
         )
     }
     private lateinit var dropFilter: DropPopWindow
@@ -74,34 +74,34 @@ class CoachActivity : BaseActivity() {
             }
         }, {
             layoutManager = GridLayoutManager(baseContext, 3)
-            addItemDecoration(MultiGapDecoration().apply { isOffsetTopEnabled = true })
+            addItemDecoration(MultiGapDecoration(10, true))
         })
 
         mAdapter = SlimAdapter.create()
-            .register<CommonData>(R.layout.item_coach_grid) { data, injector ->
-                injector.text(R.id.item_coach_name, data.nick_name)
-                    .text(R.id.item_coach_year, "教龄：${data.teach_age}年")
-                    .text(R.id.item_coach_adress, "地区：${data.ucity}")
-                    .image(
-                        R.id.item_coach_gender,
-                        if (data.gender == "0") R.mipmap.video_icon08 else R.mipmap.video_icon07
-                    )
-                    .visibility(
-                        R.id.item_coach_jian,
-                        if (data.recommend == "1") View.VISIBLE else View.INVISIBLE
-                    )
+                .register<CommonData>(R.layout.item_coach_grid) { data, injector ->
+                    injector.text(R.id.item_coach_name, data.nick_name)
+                            .text(R.id.item_coach_year, "教龄：${data.teach_age}年")
+                            .text(R.id.item_coach_adress, "地区：${data.ucity}")
+                            .image(
+                                    R.id.item_coach_gender,
+                                    if (data.gender == "0") R.mipmap.video_icon08 else R.mipmap.video_icon07
+                            )
+                            .visibility(
+                                    R.id.item_coach_jian,
+                                    if (data.recommend == "1") View.VISIBLE else View.INVISIBLE
+                            )
 
-                    .with<GlideImageView>(R.id.item_coach_img) {
-                        it.loadRectImage(BaseHttp.baseImg + data.user_head)
-                    }
+                            .with<GlideImageView>(R.id.item_coach_img) {
+                                it.loadRectImage(BaseHttp.baseImg + data.user_head)
+                            }
 
-                    .clicked(R.id.item_coach) {
-                        startActivity<CoachDetailActivity>(
-                            "certificationId" to data.certification_id
-                        )
-                    }
-            }
-            .attachTo(recycle_list)
+                            .clicked(R.id.item_coach) {
+                                startActivity<CoachDetailActivity>(
+                                        "certificationId" to data.certification_id
+                                )
+                            }
+                }
+                .attachTo(recycle_list)
 
         search_edit.addTextChangedListener(this@CoachActivity)
         search_edit.setOnEditorActionListener { _, actionId, _ ->
@@ -130,48 +130,48 @@ class CoachActivity : BaseActivity() {
 
     override fun getData(pindex: Int) {
         OkGo.post<BaseResponse<ArrayList<CommonData>>>(
-            if (isNear) BaseHttp.certification_near_list else BaseHttp.certification_list
+                if (isNear) BaseHttp.certification_near_list else BaseHttp.certification_list
         )
-            .tag(this@CoachActivity)
-            .isMultipart(true)
-            .params("teachAge", mTeachAge)
-            .params("age", mAge)
-            .params("gender", mGender)
-            .params("specialty", mSpecial)
-            .params("keyword", mKey)
-            .params("page", pindex)
-            .apply {
-                if (isNear) {
-                    params("lat", intent.getStringExtra("lat") ?: "")
-                    params("lng", intent.getStringExtra("lng") ?: "")
+                .tag(this@CoachActivity)
+                .isMultipart(true)
+                .params("teachAge", mTeachAge)
+                .params("age", mAge)
+                .params("gender", mGender)
+                .params("specialty", mSpecial)
+                .params("keyword", mKey)
+                .params("page", pindex)
+                .apply {
+                    if (isNear) {
+                        params("lat", intent.getStringExtra("lat") ?: "")
+                        params("lng", intent.getStringExtra("lng") ?: "")
+                    }
                 }
-            }
-            .execute(object :
-                JacksonDialogCallback<BaseResponse<ArrayList<CommonData>>>(baseContext) {
+                .execute(object :
+                        JacksonDialogCallback<BaseResponse<ArrayList<CommonData>>>(baseContext) {
 
-                override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
+                    override fun onSuccess(response: Response<BaseResponse<ArrayList<CommonData>>>) {
 
-                    list.apply {
-                        if (pindex == 1) {
-                            clear()
-                            pageNum = pindex
+                        list.apply {
+                            if (pindex == 1) {
+                                clear()
+                                pageNum = pindex
+                            }
+                            addItems(response.body().data)
+                            if (count(response.body().data) > 0) pageNum++
                         }
-                        addItems(response.body().data)
-                        if (count(response.body().data) > 0) pageNum++
+
+                        mAdapter.updateData(list)
                     }
 
-                    mAdapter.updateData(list)
-                }
+                    override fun onFinish() {
+                        super.onFinish()
+                        swipe_refresh.isRefreshing = false
+                        isLoadingMore = false
 
-                override fun onFinish() {
-                    super.onFinish()
-                    swipe_refresh.isRefreshing = false
-                    isLoadingMore = false
+                        empty_view.apply { if (list.isEmpty()) visible() else gone() }
+                    }
 
-                    empty_view.apply { if (list.isEmpty()) visible() else gone() }
-                }
-
-            })
+                })
     }
 
     private fun showDropFilter() {
@@ -182,82 +182,82 @@ class CoachActivity : BaseActivity() {
                 recyclerView.apply {
                     load_Linear(baseContext)
                     adapter = SlimAdapter.create()
-                        .register<CommonData>(R.layout.item_report_list) { data, injector ->
+                            .register<CommonData>(R.layout.item_report_list) { data, injector ->
 
-                            val index = items.indexOf(data)
-                            val isLast = index == items.size - 1
+                                val index = items.indexOf(data)
+                                val isLast = index == items.size - 1
 
-                            @Suppress("DEPRECATION")
-                            injector.text(R.id.item_report_title, data.letter)
-                                .textColor(
-                                    R.id.item_report_title,
-                                    resources.getColor(if (data.isChecked) R.color.black else R.color.light)
-                                )
-                                .visibility(
-                                    R.id.item_report_arrow,
-                                    if (data.isChecked) View.VISIBLE else View.GONE
-                                )
-                                .visibility(
-                                    R.id.item_report_divider1,
-                                    if (isLast) View.GONE else View.VISIBLE
-                                )
-                                .visibility(
-                                    R.id.item_report_divider2,
-                                    if (!isLast) View.GONE else View.VISIBLE
-                                )
-                                .clicked(R.id.item_report) {
-                                    items.filter { it.isChecked }.forEach { it.isChecked = false }
-                                    data.isChecked = true
-                                    (adapter as SlimAdapter).notifyDataSetChanged()
+                                @Suppress("DEPRECATION")
+                                injector.text(R.id.item_report_title, data.letter)
+                                        .textColor(
+                                                R.id.item_report_title,
+                                                resources.getColor(if (data.isChecked) R.color.black else R.color.light)
+                                        )
+                                        .visibility(
+                                                R.id.item_report_arrow,
+                                                if (data.isChecked) View.VISIBLE else View.GONE
+                                        )
+                                        .visibility(
+                                                R.id.item_report_divider1,
+                                                if (isLast) View.GONE else View.VISIBLE
+                                        )
+                                        .visibility(
+                                                R.id.item_report_divider2,
+                                                if (!isLast) View.GONE else View.VISIBLE
+                                        )
+                                        .clicked(R.id.item_report) {
+                                            items.filter { it.isChecked }.forEach { it.isChecked = false }
+                                            data.isChecked = true
+                                            (adapter as SlimAdapter).notifyDataSetChanged()
 
-                                    when (index) {
-                                        0 -> {
-                                            mTeachAge = "1"
-                                            mAge = ""
-                                            mGender = ""
-                                            mSpecial = ""
-                                        }
-                                        1 -> {
-                                            mTeachAge = ""
-                                            mAge = "1"
-                                            mGender = ""
-                                            mSpecial = ""
-                                        }
-                                        2 -> {
-                                            mTeachAge = ""
-                                            mAge = ""
-                                            mGender = "1"
-                                            mSpecial = ""
-                                        }
-                                        3 -> {
-                                            mTeachAge = ""
-                                            mAge = ""
-                                            mGender = "0"
-                                            mSpecial = ""
-                                        }
-                                        4 -> {
-                                            mTeachAge = ""
-                                            mAge = ""
-                                            mGender = ""
-                                            mSpecial = "木杆"
-                                        }
-                                        5 -> {
-                                            mTeachAge = ""
-                                            mAge = ""
-                                            mGender = ""
-                                            mSpecial = "铁杆"
-                                        }
-                                    }
+                                            when (index) {
+                                                0 -> {
+                                                    mTeachAge = "1"
+                                                    mAge = ""
+                                                    mGender = ""
+                                                    mSpecial = ""
+                                                }
+                                                1 -> {
+                                                    mTeachAge = ""
+                                                    mAge = "1"
+                                                    mGender = ""
+                                                    mSpecial = ""
+                                                }
+                                                2 -> {
+                                                    mTeachAge = ""
+                                                    mAge = ""
+                                                    mGender = "1"
+                                                    mSpecial = ""
+                                                }
+                                                3 -> {
+                                                    mTeachAge = ""
+                                                    mAge = ""
+                                                    mGender = "0"
+                                                    mSpecial = ""
+                                                }
+                                                4 -> {
+                                                    mTeachAge = ""
+                                                    mAge = ""
+                                                    mGender = ""
+                                                    mSpecial = "木杆"
+                                                }
+                                                5 -> {
+                                                    mTeachAge = ""
+                                                    mAge = ""
+                                                    mGender = ""
+                                                    mSpecial = "铁杆"
+                                                }
+                                            }
 
-                                    dropFilter.dismiss()
+                                            dropFilter.dismiss()
 
-                                    Completable.timer(350, TimeUnit.MILLISECONDS)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe { updateList() }
-                                }
-                        }
-                        .attachTo(this)
+                                            Completable.timer(350, TimeUnit.MILLISECONDS)
+                                                    .subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe { updateList() }
+                                        }
+                            }
+                            .attachTo(this)
 
                     (adapter as SlimAdapter).updateData(items)
                 }

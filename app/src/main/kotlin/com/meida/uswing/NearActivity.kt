@@ -68,7 +68,7 @@ class NearActivity : BaseActivity() {
             }
         }, {
             layoutManager = GridLayoutManager(baseContext, 2)
-            addItemDecoration(MultiGapDecoration().apply { isOffsetTopEnabled = true })
+            addItemDecoration(MultiGapDecoration(10, true))
         })
 
         mAdapter = SlimAdapter.create()

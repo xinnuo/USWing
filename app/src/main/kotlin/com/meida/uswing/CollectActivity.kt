@@ -37,7 +37,7 @@ class CollectActivity : BaseActivity() {
     private lateinit var mAdapterCoach: SlimAdapter
     private lateinit var mAdapterNews: SlimAdapter
     private val list = ArrayList<Any>()
-    private val decor by lazy { MultiGapDecoration().apply { isOffsetTopEnabled = true } }
+    private val decor by lazy { MultiGapDecoration(10, true) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
