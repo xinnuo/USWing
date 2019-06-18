@@ -1,5 +1,6 @@
 <resources>
 
+    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!-- Actionbar color Actionbar的背景色 -->
@@ -11,7 +12,7 @@
         <!-- Window color App的背景色 -->
         <item name="android:colorBackground">@color/background</item>
         <!--App bar 上的标题与更多菜单中的文字颜色-->
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <!-- 各控制元件(如：check box、switch 或是 radiobutton) 默认状态的颜色 -->
         <item name="android:colorControlNormal">@color/colorControlNormal</item>
         <!-- 底部导航栏上的背景颜色 -->
@@ -24,11 +25,6 @@
         <!-- 设置该属性解决空白部分-->
         <item name="contentInsetStart">0dp</item>
         <item name="contentInsetEnd">0dp</item>
-    </style>
-
-    <!-- BottomSheetDialog 透明背景色 -->
-    <style name="BottomSheetDialogStyle" parent="Theme.Design.BottomSheetDialog">
-        <item name="android:colorBackground">@color/transparent</item>
     </style>
 
 </resources>
