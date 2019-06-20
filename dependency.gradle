@@ -1,5 +1,5 @@
 ext.versions = [
-        kotlinPlugin: '1.3.31',
+        kotlinPlugin: '1.3.40',
         gradlePlugin: '3.4.0',
 
         compileSdkVersion: 28,
