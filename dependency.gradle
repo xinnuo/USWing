@@ -12,8 +12,8 @@ ext.versions = [
         glideVersion           : '4.8.0',
 
         /*AndroidX*/
-        XappcompatVersion: '1.1.0-alpha01',
-        XcoreVersion     : '1.1.0-alpha03',
+        XappcompatVersion: '1.0.2',
+        XcoreVersion     : '1.0.2',
         XmultidexVersion : '2.0.1',
         XmaterialVersion : '1.0.0',
 
