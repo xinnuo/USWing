@@ -3,9 +3,9 @@
 buildscript {
     apply from: './dependency.gradle'
     repositories {
-        google()
-        jcenter()
-        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/jcenter' } //google()
+        maven { url 'https://maven.aliyun.com/repository/central' } //jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }  //mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:' + versions.gradlePlugin
@@ -18,10 +18,10 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://jitpack.io' }
     }
     tasks.withType(Javadoc) {
         options.addStringOption('Xdoclint:none', '-quiet')
