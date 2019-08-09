@@ -38,6 +38,7 @@ import com.lzy.okgo.https.HttpsUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
 import com.lzy.okgo.utils.OkLogger
 import com.meida.uswing.BuildConfig
+import com.meida.utils.initX5WebView
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.socialize.Config
 import com.umeng.socialize.PlatformConfig
@@ -62,6 +63,11 @@ class Application : MultiDexApplication() {
         super.onCreate()
 
         initOkGo()
+        initX5WebView {
+            onViewInitFinished {
+                OkLogger.e("onViewInitFinished is $it")
+            }
+        }
 
         AutoSizeConfig.getInstance().isCustomFragment = true
 
