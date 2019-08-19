@@ -94,21 +94,16 @@ public class JsonUtil {
             module.addSerializer(String.class, new StringUnicodeSerializer()); //使Jackson支持Unicode编码非ASCII字符
             mapper.registerModule(module);
 
-            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false); //当找不到对应的序列化器时 忽略此字段
-            mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
-            mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-            mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);           //当找不到对应的序列化器时 忽略此字段
+            mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);     //决定parser是否允许JSON字符串包含非引号控制字符
+            mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);              //决定parser是否允许单引号来包住属性名称和字符串值
+            mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);      //决定map是否排序
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);  //忽略不存在的属性
             mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true); //允许空字符串转换为空数组
             mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);          //允许空字符串转换为空对象
             mapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);           //允许空数组转换为空对象
             mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));                  //所有日期格式都统一为以下样式
             mapper.setSerializationInclusion(Include.ALWAYS);                                  //设置null值不参与序列化(字段不被显示)
-            // 设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
-            // mapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            // 禁止使用int代表Enum的order()來反序列化Enum,非常危险
-            // mapper.configure(Feature.FAIL_ON_NUMBERS_FOR_ENUMS, true);
-            // 设置输出时包含属性的风格
         }
         return mapper;
     }
