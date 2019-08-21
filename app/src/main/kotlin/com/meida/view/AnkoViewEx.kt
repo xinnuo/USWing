@@ -31,6 +31,7 @@ import android.view.ViewManager
 import com.tencent.smtt.sdk.WebView
 import org.jetbrains.anko.custom.ankoView
 
+@Suppress("NOTHING_TO_INLINE")
 inline fun ViewManager.webViewX5(theme: Int = 0) = webViewX5(theme) {}
 
 inline fun ViewManager.webViewX5(theme: Int = 0, init: WebView.() -> Unit) = ankoView({ WebView(it) }, theme, init)

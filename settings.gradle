@@ -1,1 +1,2 @@
 include ':app', ':okgo', ':AMap', ':RongCloudIMkit', ':ijkplayer'
+rootProject.name='USWing'
