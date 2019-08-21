@@ -15,7 +15,7 @@ import com.meida.base.setImageURL
 import com.meida.share.BaseHttp
 import com.meida.utils.ActivityStack
 import com.yanzhenjie.permission.AndPermission
-import com.yanzhenjie.permission.Permission
+import com.yanzhenjie.permission.runtime.Permission
 import org.jetbrains.anko.*
 import org.json.JSONObject
 

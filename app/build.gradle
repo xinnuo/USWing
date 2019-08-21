@@ -170,7 +170,7 @@ dependencies {
     implementation 'com.lqr.ninegridimageview:library:1.0.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.sunfusheng:GlideImageView:2.0.0'
-    implementation 'com.yanzhenjie:permission:2.0.0-rc12'
+    implementation 'com.yanzhenjie.permission:support:2.0.1'
     implementation 'com.weigan:loopView:0.1.2'
     implementation 'me.jessyan:autosize:1.1.2'
     implementation 'net.idik:slimadapter:2.1.2'
