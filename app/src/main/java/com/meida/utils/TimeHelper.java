@@ -16,10 +16,6 @@ import static java.util.TimeZone.getDefault;
 
 public class TimeHelper {
 
-    private int weeks = 0; //用来全局控制 上一周，本周，下一周的周数变化
-    private int MaxDate;   //一月最大天数
-    private int MaxYear;   //一年最大天数
-
     /**
      * 1s==1000ms
      */
@@ -41,16 +37,15 @@ public class TimeHelper {
      * 毫秒转化时分秒毫秒
      */
     public static String formatSecondTime(Long ms) {
-        Integer ss = 1000;
-        Integer mi = ss * 60;
-        Integer hh = mi * 60;
-        Integer dd = hh * 24;
+        Integer mi = TIME_MILLISECONDS * TIME_NUMBERS;
+        Integer hh = TIME_MILLISECONDS * TIME_NUMBERS;
+        Integer dd = TIME_MILLISECONDS * TIME_HOURSES;
 
         Long day = ms / dd;
         Long hour = (ms - day * dd) / hh;
         Long minute = (ms - day * dd - hour * hh) / mi;
-        Long second = (ms - day * dd - hour * hh - minute * mi) / ss;
-        Long milliSecond = ms - day * dd - hour * hh - minute * mi - second * ss;
+        Long second = (ms - day * dd - hour * hh - minute * mi) / TIME_MILLISECONDS;
+        Long milliSecond = ms - day * dd - hour * hh - minute * mi - second * TIME_MILLISECONDS;
 
         StringBuilder sb = new StringBuilder();
         if (day > 0) {
@@ -418,7 +413,7 @@ public class TimeHelper {
         long time;
         try {
             Date date = sdf.parse(nowtime);
-            time = date.getTime() / 1000;
+            time = date.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
             return -1;
@@ -434,6 +429,47 @@ public class TimeHelper {
      * @return long   返回类型
      */
     public long stringToLong(String format, String nowtime) {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        long time;
+        try {
+            Date date = sdf.parse(nowtime);
+            time = date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return time;
+    }
+
+    /**
+     * 根据用户传入的时间，返回指定时间的秒值
+     *
+     * @param nowtime 指定时间
+     * @return long   返回类型
+     */
+    public long stringToLongSecond(String nowtime) {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long time;
+        try {
+            Date date = sdf.parse(nowtime);
+            time = date.getTime() / 1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return time;
+    }
+
+    /**
+     * 根据用户传入的时间和格式，返回指定时间的秒值
+     *
+     * @param format  格式
+     * @param nowtime 指定时间
+     * @return long   返回类型
+     */
+    public long stringToLongSecond(String format, String nowtime) {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         long time;
